@@ -1,0 +1,47 @@
+\documentclass[12pt]{report}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{multicol}
+\usepackage{enumerate}
+\usepackage{graphicx}
+\usepackage{empheq}
+\usepackage{hyperref}
+\usepackage{quiver}
+\usepackage[normalem]{ulem}
+
+\usepackage{../mathmacros}
+
+\usepackage[backend=biber,style=alphabetic]{biblatex}
+\addbibresource{../sources/sources.bib}
+
+
+\title{Thesis Notes}
+\author{Nathaniel Kenschaft}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\newpage
+\tableofcontents
+
+\include{todo}
+\include{notation}
+
+\chapter{Background}
+\include{farber-motion-planning}
+\include{colman-grant-equivariant-tc}
+\include{dym-equivariant-frames-continuous-canonicalization}
+
+\chapter{New Work}
+\include{secat-and-canonicalization}
+\include{canonicalizing-matrices}
+
+\newpage
+\printbibliography
+
+\end{document}

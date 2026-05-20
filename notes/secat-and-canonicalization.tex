@@ -1,0 +1,101 @@
+\section{Sectional Category and Canonicalization}
+\begin{proposition}
+    If there exists an orbit canonicalization $f : X \to X$, then $\secat(q) = 1$ where $q : X \to X/G$ is the quotient map.
+    \begin{proof}
+        By proposition \ref{prop:canon-is-section} we know that $f$ induces a section $\Hat{f} : X/G \to X$ of $q$, so we conclude that $\secat(q) = 1$.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    If $\secat(q) > 1$, there is no orbit canonicalization $f : X \to X$.
+\end{corollary}
+
+With this in mind, we now wish to study the sectional category of the quotient map $q : X \to X/G$.
+
+\begin{definition}
+    For spaces $E$ and $B$, a map $p : E \to B$ has the \emph{homotopy lifting property up to homotopy (HLPH)} for a space $X$ if for every homotopy $h_t : X \to B$ and every homotopy lift $\Tilde{h_0} : X \to E$ of $h_0$ ($h_0 \simeq p \circ \Tilde{h_0}$), there exists a homotopy $\Tilde{h_t} : X \to E$ that lifts $h_t$ up to homotopy ($h_t \simeq p \circ \Tilde{h_t}$).
+\end{definition}
+
+\begin{proposition}
+    For any spaces $E$ and $B$ and a surjective map $p : E \to B$, $\secat(p) \leq \cat(B)$ as in definitions \ref{def:secat1} and \ref{def:LScat1}.
+    \begin{proof}
+        Take $\cat(B)$-many open sets $U_j$ such that $B = \cup_j U_j$ and each inclusion $i_j : U_j \ito B$ is homotopic to a constant map $c_j : U_j \to B$.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    For spaces $E$ and $B$, a map $p : E \to B$ is a \emph{fibration up to homotopy} if $p$ satisfies the HLPH for all topological spaces.
+\end{definition}
+
+\begin{remark}
+    Clearly $HLP$ implies $HLPH$ and any fibration is a fibration up to homotopy.
+\end{remark}
+
+
+\begin{lemma}\label{lem:Gcategorical-implies-contractible}
+    Let $X$ be a $G$-space and let $q : X \to X/G$ be the quotient map.
+    Then if $U \sub X$ is $G$-categorical, the set $q[U] \sub X/G$ is contractible.
+    \begin{proof}
+        First, let $U \sub X$ be $G$-categorical, i.e. the inclusion $i : U \ito X$ is $G$-homotopic to a fixed orbit map $c : U \to X$.
+        This clearly induces a homotopy from the inclusion $q \circ i : q[U] \ito X$ to $q \circ c : q[U] \to X/G$, and since $c$ is a fixed orbit map $q \circ c$ must be a constant map.
+        Thus $q[U]$ is contractible.
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}\label{contractible-implies-Gcategorical}
+    Let $X$ be a $G$ space such that the quotient map $q : X \to X/G$ is a fibration.
+    Then if $U \sub X/G$ is open and contractible, the set $\inv{q}[U] \sub X$ is $G$-categorical.
+    \begin{proof}
+        Let $h_t : U \to X/G$ be a homotopy witnessing that $U$ is contractible, with $h_0$ being the inclusion $i : U \ito X/G$ and $h_1$ being a constant map $c : U \to X/G$.
+        Set $V = \inv{q}[U]$, noting that $V$ is open and invariant, and let $\Tilde{h_0} : V \to X$ be the inclusion $\Tilde{i} : V \ito X$.
+        Then clearly $q \circ \Tilde{h_0} = i$, so by the homotopy lifting property we have a homotopy $\Tilde{h_t} : V \to X$ such that $q \circ \Tilde{h_t} = h_t$.
+        Specifically this means $q \circ \Tilde{h_1} = c$, i.e. $\Tilde{h_1} : V \to X$ is a fixed orbit map, so we conclude that $V$ is $G$-categorical.
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}
+    If $X$ is a $G$-space such that the quotient map $q : X \to X/G$ is a fibration up to homotopy, then $\secat(q) \leq \cat_G(X)$.
+    \begin{proof}
+        Take $\cat_G(X)$-many $G$-categorical sets $U_j \sub X$ such that $X = \cup_j U_j$.
+        Define $V_j = q[U_j]$, and note that by lemma \ref{lem:Gcategorical-implies-contractible} each $V_j$ is contractible.
+        Fix some $j$ and let $h_t : V_j \to X/G$ be a homotopy witnessing the contractibility of $V_j$, with $h_0$ being a constant map $c_j : V_j \to X/G$ and $h_1$ being the inclusion $i_j : V_j \ito X/G$.
+        Then fix some $x_0 \in \inv{q}[c_j[V_j]]$ and define $\Tilde{h_0} : V_j \to X$ by $\Tilde{h_0} = c_{x_0}$.
+        Clearly $q \circ \Tilde{h_0} = c_j$, so the HLPH gives us a homotopy $\Tilde{h_t} : V_j \to X$ such that $q \circ \Tilde{h_t} \simeq h_t$.
+        In particular, this means $q \circ \Tilde{h_1} \simeq i_j$ so $\Tilde{h_1}$ is a homotopy section of $q$.
+        Repeating this for all $j$, we conclude that $\secat(q) \leq \cat_G(X)$.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}\label{def:consecat}
+    The \emph{contractible sectional category} of a map $p : E \to B$, denoted by $\consecat(p)$, is the least integer $k$ such that $B$ may be covered by $k$ contractible open sets $U_j$ that each admit a map $s_j : U_j \to E$ where $p \circ s_j$ is homotopic to the inclusion $i_j : U_j \ito B$.
+\end{definition}
+
+\begin{remark}
+    Trivially, $\consecat(p) \geq \secat(p)$ for any map $p$.
+\end{remark}
+
+\begin{proposition}
+    If $X$ is a $G$-space such that the quotient map $q : X \to X/G$ is a fibration up to homotopy, then $\cat_G(X) \leq \consecat(q)$.
+    \begin{proof}
+        Take $\consecat(q)$-many contractible open sets $U_j \sub X/G$ with $X/G = \cup_j U_j$ that each admit a homotopy section $s_j : U_j \to X$ of $q$.
+        Define $V_j = \inv{q}[U_j]$, and note that by lemma \ref{contractible-implies-Gcategorical} that each $V_j$ is $G$-categorical.
+        Clearly $X = \cup_j V_j$, so we conclude that $\cat_G(X) \leq \consecat(q)$.
+    \end{proof}
+\end{proposition}
+
+\begin{question}
+    The homotopy sections in the proof above are completely unused.
+    Can something stronger be proven?
+\end{question}
+
+\begin{question}
+    When do we have $\consecat(p) = \secat(p)$?
+    Or are there any other bounds we can put on $\secat(p)$ via $\consecat(p)$?
+\end{question}
+
+Recall that when $p : E \to B$ is a fibration we have that definitions \ref{def:secat1} and \ref{def:secat} coincide (i.e. homotopy sections induce sections), so we stand to learn a lot about orbit canonicalizations if we can discern when $q : X \to X/G$ is a fibration.
+
+\begin{theorem}
+    This is part of theorem 1.8 in \cite{rainer2006orbitprojectionsfibrations}.
+    A fiber bundle $p : E \to B$ over paracompact space $B$ is a fibration.
+\end{theorem}

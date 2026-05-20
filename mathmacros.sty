@@ -1,0 +1,285 @@
+\ProvidesPackage{mathmacros}
+
+% override enumerate labels %
+% TODO: make this useful?
+%\renewcommand{\labelenumi}{Problem \arabic{enumi}}
+%\renewcommand{\labelenumii}{Problem \arabic{enumi}.\arabic{enumii}}
+\newcommand{\problem}[1]{\item[Problem #1.]}
+\newcommand{\exercise}[1]{\item[Exercise #1.]}
+%\newcommand{\question}[1]{\item[Question #1.]}
+\newcommand{\step}[1]{\item[Step #1.]}
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{corollary}{Corollary}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{fact}{Fact}[chapter]
+\newtheorem{remark}{Remark}[chapter]
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{example}{Example}[chapter]
+\newtheorem{question}{Question}[chapter]
+
+% acronyms %
+% \newcommand{\wlog}{without loss of generality}
+
+% currencies %
+\newcommand{\usd}{\text{\$}}
+\newcommand{\aud}{\text{A\$}}
+\newcommand{\cad}{\text{C\$}}
+\newcommand{\gbp}{\text{£}}
+\newcommand{\euro}{\text{€}}
+
+% useful shorthand %
+\newcommand{\fancy}[1]{\mathcal{#1}}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\f}[2]{\frac{#1}{#2}}
+
+\newcommand{\inv}[1]{#1^{\text{-}1}}
+\newcommand{\pinv}[1]{\inv{\bigp{#1}}}
+\newcommand{\linv}[1]{#1^{-1_L}}
+\newcommand{\rinv}[1]{#1^{-1_R}}
+
+\newcommand{\rec}[1]{\f{1}{#1}}
+
+\newcommand{\ub}[1]{\underbrace{#1}}
+\newcommand{\cbrt}[1]{\sqrt[3]{#1}}
+
+\newcommand{\afsoc}{assume for the sake of contradiction }
+\newcommand{\Afsoc}{Assume for the sake of contradiction }
+\newcommand{\Wlogafsoc}{Without loss of generality \afsoc}
+\newcommand{\wlogafsoc}{without loss of generality \afsoc}
+
+\renewcommand{\Tilde}{\widetilde}
+\renewcommand{\Hat}{\widehat}
+\renewcommand{\Bar}{\overline}
+
+%%%%%%%%%%%%%%%%
+% math symbols %
+%%%%%%%%%%%%%%%%
+
+% basic/numbers %
+\newcommand{\eps}{\varepsilon}
+
+\DeclareMathOperator{\lcm}{lcm}
+
+\renewcommand{\Re}{\text{Re}} % don't change these!
+\renewcommand{\Im}{\text{Im}}
+
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\ev}{ev}
+
+\newcommand{\ot}{\leftarrow}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+% logic %
+\newcommand{\bimplies}{\Longleftrightarrow}
+\newcommand{\timplies}{$\implies$\;}
+\newcommand{\tbimplies}{$\bimplies$\;}
+\newcommand{\tor}{\text{ or }}
+\newcommand{\tand}{\text{ and }}
+\newcommand{\st}{\text{ s.t. }}
+
+
+% set theory %
+\newcommand{\emp}{\varnothing}
+\newcommand{\sub}{\subseteq}
+% \newcommand{\ssub}{\subset}
+\newcommand{\ssub}{\subsetneq}
+\newcommand{\sups}{\supseteq}
+% \newcommand{\ssups}{\supset}
+\newcommand{\ssups}{\supsetneq}
+\newcommand{\sminus}{\smallsetminus}
+
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\graph}{graph}
+\DeclareMathOperator{\supp}{supp}
+
+\newcommand{\card}[1]{\text{card}\bigp{#1}}
+
+
+% category theory %
+\DeclareMathOperator{\Hom}{\text{Hom}}
+\newcommand{\op}[1]{#1^{\text{op}}}
+\newcommand{\pop}[1]{\op{\bigp{#1}}}
+\newcommand{\tto}[1]{\xrightarrow{#1}}
+\newcommand{\ito}{\hookrightarrow}
+\newcommand{\sto}{\twoheadrightarrow}
+
+% calculus %
+\newcommand{\grad}{\nabla}
+\renewcommand{\div}{\text{div}}
+
+% topology %
+\newcommand{\clo}[1]{\overline{#1}}
+% \newcommand{\clo}[2][{}]{\text{cl}_{#1}(#2)}
+\newcommand{\intr}[1]{#1^\circ}
+% \newcommand{\intr}[1]{\text{int}(#1)}
+\newcommand{\bdry}{\partial}
+
+% geometry %
+\DeclareMathOperator{\diam}{diam} % diameter
+\DeclareMathOperator{\dist}{dist} % distance
+\DeclareMathOperator{\vol}{vol} % volume
+\DeclareMathOperator{\conv}{conv} % convex hull
+
+\newcommand{\wto}{\rightharpoonup} % weak convergence
+
+% probability %
+\DeclareMathOperator{\pr}{\mathbb{P}} % probability
+\DeclareMathOperator{\E}{\mathbb{E}} % expected value
+\DeclareMathOperator{\var}{Var} % variance
+\DeclareMathOperator{\cov}{Cov} % covariance
+%\DeclareMathOperator{\ind}{\textbf{1}}
+\DeclareMathOperator{\ind}{\chi}
+\newcommand{\iid}{\overset{iid}{\sim}}
+
+% common probability distributions %
+\DeclareMathOperator{\Poi}{Poi} % Poisson
+\DeclareMathOperator{\Exp}{Exp} % Exponential
+\DeclareMathOperator{\Binom}{Binom} % Binomial
+
+
+% (multi)linear algebra %
+\DeclareMathOperator{\ran}{range} % range
+\DeclareMathOperator{\Span}{span} % span
+\DeclareMathOperator{\proj}{proj} % projection
+\DeclareMathOperator{\tr}{tr} % trace
+\DeclareMathOperator{\rank}{rank}
+
+\newcommand{\normalize}[1]{\f{#1}{\norm{#1}}}
+
+\newcommand{\tprod}{\otimes}
+
+\let\O\undefined
+\DeclareMathOperator{\O}{O} % orthogonal group
+\DeclareMathOperator{\SO}{SO} % special orthogonal group
+
+
+% brackets %
+\newcommand{\bigp}[1]{\left( #1 \right)}
+\newcommand{\bigc}[1]{\left\{ #1 \right\}}
+\newcommand{\bigb}[1]{\left[ #1 \right]}
+\newcommand{\abs}[1]{\left| #1 \right|}
+\newcommand{\norm}[1]{\left\| #1 \right\|}
+\newcommand{\dnorm}{\norm{\cdot}}
+\newcommand{\angles}[1]{\left\langle #1 \right\rangle}
+\newcommand{\aangles}[1]{\angles{\angles{#1}}}
+
+\newcommand{\floor}[1]{\left \lfloor #1 \right \rfloor}
+\newcommand{\ceil}[1]{\left \lceil #1 \right \rceil}
+
+% sequences %
+\newcommand{\seq}[2][n]{\bigc{#2_#1}_{#1 \in \N}}
+\newcommand{\upseq}[2][n]{\bigc{#2^{(#1)}}_{#1 \in \N}}
+\newcommand{\pseq}[2][n]{\bigp{#2_#1}_{#1 \in \N}}
+\newcommand{\seqone}[2][n]{\bigc{#2_#1}_{#1=1}^\infty}
+\newcommand{\iseq}[1]{\bigc{#1_i}_{i \in I}}
+\newcommand{\subseq}[3]{\{#1_{#2_#3}\}_{#3 \in \N}}
+\newcommand{\tseq}[2][n]{\{#2^{(#1)}\}_{#1 \in \N}}
+\newcommand{\fseq}[3][n]{\{#2_#1(#3)\}_{#1 \in \N}}
+\newcommand{\net}[1]{\bigc{#1_d}_{d \in D}}
+
+
+% common sets %
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Np}{\mathbb{N}^+}
+\newcommand{\Nm}{\mathbb{N}^-}
+ 
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Zp}{\mathbb{Z}^+}
+\newcommand{\Zm}{\mathbb{Z}^-}
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\Qp}{\mathbb{Q}^+}
+\newcommand{\Qm}{\mathbb{Q}^-}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Rp}{\R_+}
+% \newcommand{\Rn}{\R_-}
+\newcommand{\Rnn}{\R_{\geq 0}}
+\newcommand{\Rnp}{\R_{\leq 0}}
+
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Fp}{\mathbb{F}^+}
+\newcommand{\Fm}{\mathbb{F}^-}
+
+\renewcommand{\S}{\mathbb{S}} %overrides \S command!!!
+
+% common function spaces %
+\newcommand{\Cauchy}[1]{\text{Cauchy}(#1)}
+%\newcommand{\lp}[3][p]{\ell^{#1}(#2;#3)}
+\newcommand{\lp}[2][p]{\ell^{#1}(#2)}
+
+\newcommand{\bdd}[2]{\mathcal{B}(#1;#2)}
+
+\newcommand{\lin}[2]{L(#1;#2)}
+\newcommand{\blin}[2]{\mathcal{L}(#1;#2)}
+
+\newcommand{\Ck}[3]{C^{#3}(#1;#2)}
+\newcommand{\cont}[2]{C(#1;#2)}
+\newcommand{\diff}[2]{\Ck{#1}{#2}{1}}
+
+\newcommand{\Ckb}[3]{C_b^{#3}(#1;#2)}
+\newcommand{\bcont}[2]{\Ckb{#1}{#2}{0}}
+\newcommand{\bdiff}[2]{\Ckb{#1}{#2}{1}}
+
+\newcommand{\ucont}[2]{UC^0(#1;#2)}
+\newcommand{\ubcont}[2]{UC_b^0(#1;#2)}
+
+% \newcommand{\step}[2]{\text{Step}(#1;#2)}
+\newcommand{\reg}[2]{\text{Reg}(#1;#2)}
+
+
+% common categories and functors %
+\newcommand{\One}{\mathbbb{1}}
+\newcommand{\Two}{\mathbbb{2}}
+\newcommand{\Three}{\mathbbb{3}}
+\newcommand{\Cat}{\textbf{Cat}}
+\newcommand{\Set}{\textbf{Set}}
+\newcommand{\Pos}{\textbf{Pos}}
+\newcommand{\Mon}{\textbf{Mon}}
+\newcommand{\Top}{\textbf{Top}}
+\newcommand{\GTop}[1][G]{#1\text{-}\textbf{Top}}
+
+\DeclareMathOperator{\List}{\text{List}}
+
+
+% math cal shortcuts $
+\renewcommand{\AA}{\mathcal{A}}
+\newcommand{\BB}{\mathcal{B}}
+\newcommand{\CC}{\mathcal{C}}
+\newcommand{\DD}{\mathcal{D}}
+\newcommand{\EE}{\mathcal{E}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\GG}{\mathcal{G}}
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\II}{\mathcal{I}}
+\newcommand{\JJ}{\mathcal{J}}
+\newcommand{\KK}{\mathcal{K}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\MM}{\mathcal{M}}
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\QQ}{\mathcal{Q}}
+\newcommand{\RR}{\mathcal{R}}
+\renewcommand{\SS}{\mathcal{S}}
+\newcommand{\TT}{\mathcal{T}}
+\newcommand{\UU}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\newcommand{\WW}{\mathcal{W}}
+\newcommand{\XX}{\mathcal{X}}
+\newcommand{\YY}{\mathcal{Y}}
+\newcommand{\ZZ}{\mathcal{Z}}
+
+
+% thesis %
+\DeclareMathOperator{\TC}{\mathbf{TC}}
+\DeclareMathOperator{\cat}{cat}
+\DeclareMathOperator{\secat}{secat}
+\DeclareMathOperator{\consecat}{consecat}
+

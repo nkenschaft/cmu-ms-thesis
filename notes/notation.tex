@@ -1,0 +1,17 @@
+\section{Notation}
+\begin{itemize}
+    \item For a homotopy $h : X \times [0,1] \to Y$, I may also write $h_t : X \to Y$ with $h_t(x) := h(x,t)$.
+    \item For any set $X$, I write $c_x$ to mean the constant function at $x \in X$.
+    \item Given a path $\gamma : [0,1] \to X$, I write $\Bar{\gamma}$ to mean the reversed path $\Bar{\gamma}(t) := \gamma(1-t)$.
+    \item For any two paths $\alpha, \beta : [0,1] \to X$ with $\alpha(1) = \beta(0)$, I write $\beta \ast \alpha$ to indicate their concatenation:
+        \[
+            (\beta \ast \alpha)(t) =
+            \begin{cases}
+                \alpha(2t) &\text{if } 0 \leq t \leq \f12 \\
+                \beta(2t-1) &\text{if } \f12 \leq t \leq 1
+            \end{cases}.
+        \]
+        The exact paramerization is unimportant, but if it ever matters this is what I mean.
+    \item Unless specified otherwise, for any group $G$ I will write $e \in G$ to be the identity in $G$.
+        If there is the potential for confusion between different groups, I will use subscripts to differentiate (e.g. $e_G$ is the identity in $G$, $e_H$ is the identity in $H$).
+\end{itemize}

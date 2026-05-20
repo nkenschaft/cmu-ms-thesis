@@ -1,0 +1,1 @@
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QFrom there, I will spend a week or two studying Dym, Lawrence, and Siegel's paper and their proofs to find ways to use the existing math work to simplify their paper and extend to other cases.\\E$"}

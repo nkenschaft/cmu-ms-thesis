@@ -1,0 +1,67 @@
+\section{Canonicalizing $\R^{d \times n}$}
+\begin{definition}
+    The \emph{orthogonal group} of degree $n$ is the set
+    \[
+        \O(n) := \set{Q \in \R^{n \times n} : Q Q^T = I}.
+    \]
+\end{definition}
+
+\begin{definition}
+    The \emph{special orthogonal group} of degree $n$ is the set
+    \[
+        \SO(n) := \set{Q \in \R^{n \times n} : \det(Q) = 1}.
+    \]
+\end{definition}
+
+\begin{remark}
+    Observe that $\SO(n) \sub \O(n)$.
+\end{remark}
+
+\begin{definition}
+    The set of \emph{positive semi-definite matrices of degree $n$} is
+    \[
+        \S^n_+ := \set{A \in \R^{n \times n} : A = A^T, \forall x \in \R^n, x^T A x \geq 0}.
+    \]
+\end{definition}
+
+\begin{definition}
+    The set of \emph{positive semi-definite matrices of degree $n$ with at most rank $d$} is
+    \[
+        \S^n_d := \set{A \in \S^n_+ : \rank(A) \leq d}.
+    \]
+\end{definition}
+
+\begin{remark}
+    $\S^n_d = \S^n_n$ for any $d \geq n$.
+\end{remark}
+
+\begin{proposition}
+    $A \in \S^n_+$ if and only if there is some matrix $B \in \R^{n \times n}$ such that $A = B^T B$ \cite{wikipedia:definite-matrices}.
+\end{proposition}
+
+\begin{corollary}
+    $\S^n_+ = \S^n_n$.
+\end{corollary}
+
+\begin{proposition}\label{prop:psd-iff-transpose-product}
+    $A \in \S^n_d$ if and only if there is some matrix $B \in \R^{d \times n}$ such that $A = B^T B$ \cite{wikipedia:definite-matrices}.
+\end{proposition}
+
+\begin{lemma}\label{lem:Od-cong-psd}
+    With $O(d)$ acting on $\R^{d \times n}$ via matrix multiplication on the left, $\R^{d \times n} / \O(d)$ is homeomorphic to the space $S := \set{A^T A : A \in \R^{d \times n}}$.
+    \begin{proof}
+
+        To begin, consider the map $\phi : \R^{d \times n}$ given by $\phi(A) = A^T A$.
+        Now let $A,B \in \R^{d \times n}$ such that $[A] = [B] \in \R^{d \times n} / O(d)$, i.e. there exists $Q \in O(d)$ such that $A = QB$.
+        This means that $A^T A = (QB)^T QB = B^T Q^T Q B = B^T B$, so $\phi$ induces a map $\Hat{\phi} : \R^{d \times n} / O(d) \to S$ via $\Hat{\phi}([A]) = A^T A$.
+        Note that $\Hat{\phi}$ is bijective by construction, with inverse $\inv{\Hat{\phi}} : S \to \R^{d \times n} / O(d)$ given by $\inv{\Hat{\phi}}(A^T A) = [A]$.
+        Both of these maps are continuous, so we are done.
+    \end{proof}
+\end{lemma}
+
+\begin{corollary}
+    $\R^{d \times n} / O(d) \cong \S^n_d$.
+    \begin{proof}
+        This follows directly from proposition \ref{prop:psd-iff-transpose-product} and lemma \ref{lem:Od-cong-psd}.
+    \end{proof}
+\end{corollary}

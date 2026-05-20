@@ -1,0 +1,125 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global/global}
+    \entry{dym2024equivariant}{misc}{}{}
+      \name{author}{3}{}{%
+        {{hash=30fa8328e7b251ecb1ab972676f9cc10}{%
+           family={Dym},
+           familyi={D\bibinitperiod},
+           given={Nadav},
+           giveni={N\bibinitperiod}}}%
+        {{hash=1642b2bc6cd8069b98b2d6865512b47c}{%
+           family={Lawrence},
+           familyi={L\bibinitperiod},
+           given={Hannah},
+           giveni={H\bibinitperiod}}}%
+        {{hash=b12936d41c03259777f1165245159f78}{%
+           family={Siegel},
+           familyi={S\bibinitperiod},
+           given={Jonathan\bibnamedelima W.},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{fullhash}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{fullhashraw}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{bibnamehash}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{authorbibnamehash}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{authornamehash}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{authorfullhash}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{authorfullhashraw}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \field{labelalpha}{DLS24}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Equivariant Frames and the Impossibility of Continuous Canonicalization}
+      \field{year}{2024}
+      \verb{eprint}
+      \verb 2402.16077
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2402.16077
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2402.16077
+      \endverb
+    \endentry
+    \entry{shen2019cnninvariance}{misc}{}{}
+      \name{author}{5}{}{%
+        {{hash=47b4273eab0f88434ed2e7034fd17465}{%
+           family={Shen},
+           familyi={S\bibinitperiod},
+           given={Xu},
+           giveni={X\bibinitperiod}}}%
+        {{hash=569079cbabd28256ad705287d96be0be}{%
+           family={Tian},
+           familyi={T\bibinitperiod},
+           given={Xinmei},
+           giveni={X\bibinitperiod}}}%
+        {{hash=91050386dc154a1cdc08d85a573798e0}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Anfeng},
+           giveni={A\bibinitperiod}}}%
+        {{hash=86330ff5a67994e6ccf908e54d9a7e8b}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Shaoyan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=f15b34a2bc944a9f055fd6e2e3a7c460}{%
+           family={Tao},
+           familyi={T\bibinitperiod},
+           given={Dacheng},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{e7aa7f0155c85363518c1f0ec79e2839}
+      \strng{fullhash}{a43aa812e67147387e594f8fde4030ae}
+      \strng{fullhashraw}{a43aa812e67147387e594f8fde4030ae}
+      \strng{bibnamehash}{e7aa7f0155c85363518c1f0ec79e2839}
+      \strng{authorbibnamehash}{e7aa7f0155c85363518c1f0ec79e2839}
+      \strng{authornamehash}{e7aa7f0155c85363518c1f0ec79e2839}
+      \strng{authorfullhash}{a43aa812e67147387e594f8fde4030ae}
+      \strng{authorfullhashraw}{a43aa812e67147387e594f8fde4030ae}
+      \field{labelalpha}{She+19}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.CV}
+      \field{eprinttype}{arXiv}
+      \field{title}{Transform-Invariant Convolutional Neural Networks for Image Classification and Search}
+      \field{year}{2019}
+      \verb{eprint}
+      \verb 1912.01447
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1912.01447
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1912.01447
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

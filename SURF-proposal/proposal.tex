@@ -1,0 +1,98 @@
+% !BIB program = biber
+% !TeX program = pdflatex
+
+\documentclass[12pt]{article}
+
+\usepackage[margin=.75in]{geometry}
+\usepackage{hyperref}
+
+\usepackage[backend=biber,style=alphabetic]{biblatex}
+\addbibresource{../sources/sources.bib}
+
+
+\title{Applications of Equivariant Topology in Machine Learning and Beyond}
+\author{Nathaniel Kenschaft}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+    In machine learning (ML), many common models must handle data some sort of symmetry.
+    For instance, one would probably want an image classification model to correctly classify an image regardless of its rotation, which is an example of a symmetry.
+    A common way to handle this symmetry is to select a canonical representative for symmetric data (e.g. rotating an image to be upright).
+    However, Dym, Lawrence, and Siegel prove that it is not possible to do this in certain contexts \cite{dym2024equivariant}.
+    Their paper does this via rather lengthy, difficult proofs, while mathematicians have a rich theory of so-called equivariant topology to prove such results more easily.
+    As such, I will study equivariant topology and attempt to use its methods to simplify Dym's, Lawrence's, and Siegel's work and generalize to other cases.
+    This should hopefully lead to a better understanding of how to create ML models that appropriately handle symmetric data, or potentially when it is not possible to adequately do so and other solutions must be found.
+    I will pursue these goals by reviewing existing mathematical literature in equivariant topology, followed by using topological applications to construct symmetry-invariant ML models and benchmark them against previous techniques.
+
+
+\end{abstract}
+
+\section{Objectives and Contribution to the Research}
+Broadly speaking, in this research I will apply existing knowledge of topology to problems in machine learning, and potentially look for applications further afield.
+This was inspired by a recent paper by Dym, Lawrence, and Siegel where they proved that there is no way to continuously choose one representative rotation for any given set of $n$-points in $d$ dimensions \cite{dym2024equivariant}.
+This result was proven as part of the authors' work on producing machine learning (ML) models that are invariant to symmetries of input data (e.g. rotation or translation of images), which is an important problem in ML.
+
+To see the significance of this problem, consider the standard convolutional neural network (CNN), which takes an image as input and typically outputs some sort of classification (e.g. "dog" or "cat").
+One would presumably wish that a picture of a cat would be correctly identified whether the cat was rotated by 90-degrees, shrunken, or moved to another location within the image.
+All these transformations are examples of symmetries of standard visual data.
+Traditional CNNs, however, are general very poor at recognizing images that have been spatially transformed in intuitive ways (e.g. rotation, translation, scaling) \cite{shen2019cnninvariance}.
+
+Let's say one wanted to make a feed-forward neural network invariant to rotations of input points.
+One way to do this would be to attempt to rotate any input to be upright (in some sense); this is an example of a so-called ``canonicalization.''
+However, the aforementioned result by Dym, Lawrence, and Siegel demonstrates that it is impossible to do this in a continuous way, and a discontinuous canonicalization could lead to unpredictable model behavior.
+More generally, there are other symmetries where it is not possible to choose a continuous canonicalization.
+This requires users of these models to find other solutions to produce models that both respect symmetries and have predictable behavior.
+
+Proving the existence or non-existence of such canonicalizations is an exercise in topology.
+In particular, canonicalizations in ML are an example of mathematical objects called continuous sections, which have been extensively studied by mathematicians.
+In the study of continuous sections, a continuous map can be associated with the number of pieces its codomain must be broken up into to have the map be continuous on each section.
+This number is referred to as the sectional category \cite{colman2013equivariant}, and so the existence of a continuous canonicalization corresponds to the sectional category of an appropriate map being 1.
+There are known lower bounds for the sectional categories of certain G-spaces (i.e. spaces with symmetries) \cite{colman2013equivariant}, so it is plausible that the results shown by Dym, Lawrence, and Siegel would have directly followed from known topological results, if the authors had  known of the existing mathematical literature.
+
+The first goal of this project is to revise and simplify Dym, Lawrence, and Siegel's work using previous results from topology.
+Additionally, in the cases where there is no continuous canonicalization, the theory of sectional categories has the language and tools to say how many different continuous maps would be needed.
+This is valuable since having a piecewise continuous canonicalization with few sections is likely just as useful in practice as having a global continuous canonicalization.
+Tools from topology then have the potential to suggest improved methods for constructing symmetry-invariant models, like those proposed by Dym, Lawrence, and Siegel in their previously mentioned paper \cite{dym2024equivariant}.
+
+Researchers in robotics have also found that the theory of sectional categories is useful for robot motion planning \cite{farber2006topology}.
+This suggests that the topology I will be researching has potentially reaching applications that are ripe for discovery.
+So, after exploring how topology can be used to study symmetry invariance in machine learning, I will study other areas like robotics that can benefit from a topological approach.
+
+
+\section{Methodology}
+Given that I will be doing math research, my methods will not be like that of experimental research.
+That said, I will begin the summer by spending a few weeks familiarizing myself with math literature on equivariant topology (the field that studies sectional categories and continuous sections, among other things).
+From there, I will spend a week or two studying Dym, Lawrence, and Siegel's paper and their proofs to find ways to use the existing math work to simplify their paper and extend to other cases.
+Then, I will attempt to use the topological results to construct better symmetry-invariant feed-forward neural network.
+I will then compare the accuracy and runtime of these neural networks on an artificially generated dataset to a standard neural network and a neural network with a discontinuous canonicalization applied.
+This comparison is a standard means of comparison, and is sufficient to get at least a qualitative sense of the usefulness of the new approach.
+After this portion of the work concludes, I will work with Professor Frick to evaluate what the best next steps are and find other applications of equivariant topology.
+
+\section{Background}
+My faculty mentor for this project is Professor Florian Frick, whom I initially found by searching for a professor to advise my thesis project for the math department’s honors program. I reached out to him at the start of the semester, and we’ve since corresponded and settled on the project outlined in this proposal. Additionally, I’m currently taking a class with Professor Frick (algebraic topology) that is directly related to my proposed project.
+
+Last summer, I participated in the math department’s Summer Experiences in Mathematical Sciences (SEMS) program in conjunction with SURA. For this project, I worked with Professor Tomasz Tkocz and Postdoctoral Associate Dr. Martin Rapaport on an open problem in geometry that gave me a sense of what it looks like to do math research. By the end of the summer, I compiled a summary of existing work in the area and suggested a new direction to explore the problem.
+
+In addition to research experience, my coursework has also prepared me well for this project. I've taken courses in topology (21-651 and 21-752) and machine learning (10-701 and high school courses), which are both directly related to this project, and I've taken a host of other math courses (including graduate courses) that have greatly grown my mathematical maturity.
+
+\section{Feedback and Evaluation}
+This research will be completed in fulfillment of a portion of the math department's Honors Degree Program, so I will be evaluated in accordance with those standards.
+More specifically, my advisor (Professor Florian Frick) will meet with me frequently (at least weekly) throughout the summer to ensure that I am making good progress and doing work that is up to the math department's standards for graduate work (this is because the Honors Degree Program awards a Master's degree).
+To track my progress, I will keep a continuously updated manuscript containing what I have learned and proven that Professor Frick will regularly read and give feedback on.
+Additionally, when the research is completed, I will defend my thesis in front of a panel of professors who will evaluate the quality of my research.
+
+
+\section{Dissemination of Knowledge}
+The product of my proposed project will be a manuscript surveying and refining topological methods in ML, as previously explained.
+If appropriate, I will make an abridged version of this manuscript publicly available on arXiv and submit it for publication in an ML conference or topology journal, depending on the eventual research output.
+Depending on what produce, I may also present at the Mid-Atlantic Research Exchange, Shenandoah Undergraduate Conference of Mathematics and Statistics, and the Joint Mathematics Meetings, which are all conferences open to undergraduates.
+Lastly, I will of course present at CMU's Meeting of the Minds next year.
+
+\newpage
+\printbibliography
+
+\end{document}

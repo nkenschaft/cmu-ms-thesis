@@ -1,0 +1,192 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global/global}
+    \entry{colman2013equivariant}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=70ce70ec52aa21f56e05d549e3c7b241}{%
+           family={Colman},
+           familyi={C\bibinitperiod},
+           given={Hellen},
+           giveni={H\bibinitperiod}}}%
+        {{hash=c7418d25eb1f371a97d598814719ff68}{%
+           family={Grant},
+           familyi={G\bibinitperiod},
+           given={Mark},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Mathematical Sciences Publishers}%
+      }
+      \strng{namehash}{dd19a6aadb359010b1b2760a17434f95}
+      \strng{fullhash}{dd19a6aadb359010b1b2760a17434f95}
+      \strng{fullhashraw}{dd19a6aadb359010b1b2760a17434f95}
+      \strng{bibnamehash}{dd19a6aadb359010b1b2760a17434f95}
+      \strng{authorbibnamehash}{dd19a6aadb359010b1b2760a17434f95}
+      \strng{authornamehash}{dd19a6aadb359010b1b2760a17434f95}
+      \strng{authorfullhash}{dd19a6aadb359010b1b2760a17434f95}
+      \strng{authorfullhashraw}{dd19a6aadb359010b1b2760a17434f95}
+      \field{labelalpha}{CG13}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Algebraic \& Geometric Topology}
+      \field{number}{4}
+      \field{title}{Equivariant topological complexity}
+      \field{volume}{12}
+      \field{year}{2013}
+      \field{pages}{2299\bibrangedash 2316}
+      \range{pages}{18}
+    \endentry
+    \entry{dym2024equivariant}{misc}{}{}
+      \name{author}{3}{}{%
+        {{hash=30fa8328e7b251ecb1ab972676f9cc10}{%
+           family={Dym},
+           familyi={D\bibinitperiod},
+           given={Nadav},
+           giveni={N\bibinitperiod}}}%
+        {{hash=1642b2bc6cd8069b98b2d6865512b47c}{%
+           family={Lawrence},
+           familyi={L\bibinitperiod},
+           given={Hannah},
+           giveni={H\bibinitperiod}}}%
+        {{hash=b12936d41c03259777f1165245159f78}{%
+           family={Siegel},
+           familyi={S\bibinitperiod},
+           given={Jonathan\bibnamedelima W.},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \strng{namehash}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{fullhash}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{fullhashraw}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{bibnamehash}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{authorbibnamehash}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{authornamehash}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{authorfullhash}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \strng{authorfullhashraw}{2dd9a4d88307eeff3777a7a41ff0b51f}
+      \field{labelalpha}{DLS24}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.LG}
+      \field{eprinttype}{arXiv}
+      \field{title}{Equivariant Frames and the Impossibility of Continuous Canonicalization}
+      \field{year}{2024}
+      \verb{eprint}
+      \verb 2402.16077
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2402.16077
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2402.16077
+      \endverb
+    \endentry
+    \entry{farber2006topology}{incollection}{}{}
+      \name{author}{1}{}{%
+        {{hash=3e9baece9b4ff2a8b0b1976864b24cfd}{%
+           family={Farber},
+           familyi={F\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{3e9baece9b4ff2a8b0b1976864b24cfd}
+      \strng{fullhash}{3e9baece9b4ff2a8b0b1976864b24cfd}
+      \strng{fullhashraw}{3e9baece9b4ff2a8b0b1976864b24cfd}
+      \strng{bibnamehash}{3e9baece9b4ff2a8b0b1976864b24cfd}
+      \strng{authorbibnamehash}{3e9baece9b4ff2a8b0b1976864b24cfd}
+      \strng{authornamehash}{3e9baece9b4ff2a8b0b1976864b24cfd}
+      \strng{authorfullhash}{3e9baece9b4ff2a8b0b1976864b24cfd}
+      \strng{authorfullhashraw}{3e9baece9b4ff2a8b0b1976864b24cfd}
+      \field{labelalpha}{Far06}
+      \field{sortinit}{F}
+      \field{sortinithash}{2638baaa20439f1b5a8f80c6c08a13b4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Morse theoretic methods in nonlinear analysis and in symplectic topology}
+      \field{title}{Topology of robot motion planning}
+      \field{year}{2006}
+      \field{pages}{185\bibrangedash 230}
+      \range{pages}{46}
+    \endentry
+    \entry{shen2019cnninvariance}{misc}{}{}
+      \name{author}{5}{}{%
+        {{hash=47b4273eab0f88434ed2e7034fd17465}{%
+           family={Shen},
+           familyi={S\bibinitperiod},
+           given={Xu},
+           giveni={X\bibinitperiod}}}%
+        {{hash=569079cbabd28256ad705287d96be0be}{%
+           family={Tian},
+           familyi={T\bibinitperiod},
+           given={Xinmei},
+           giveni={X\bibinitperiod}}}%
+        {{hash=91050386dc154a1cdc08d85a573798e0}{%
+           family={He},
+           familyi={H\bibinitperiod},
+           given={Anfeng},
+           giveni={A\bibinitperiod}}}%
+        {{hash=86330ff5a67994e6ccf908e54d9a7e8b}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Shaoyan},
+           giveni={S\bibinitperiod}}}%
+        {{hash=f15b34a2bc944a9f055fd6e2e3a7c460}{%
+           family={Tao},
+           familyi={T\bibinitperiod},
+           given={Dacheng},
+           giveni={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{e7aa7f0155c85363518c1f0ec79e2839}
+      \strng{fullhash}{a43aa812e67147387e594f8fde4030ae}
+      \strng{fullhashraw}{a43aa812e67147387e594f8fde4030ae}
+      \strng{bibnamehash}{e7aa7f0155c85363518c1f0ec79e2839}
+      \strng{authorbibnamehash}{e7aa7f0155c85363518c1f0ec79e2839}
+      \strng{authornamehash}{e7aa7f0155c85363518c1f0ec79e2839}
+      \strng{authorfullhash}{a43aa812e67147387e594f8fde4030ae}
+      \strng{authorfullhashraw}{a43aa812e67147387e594f8fde4030ae}
+      \field{labelalpha}{She+19}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{cs.CV}
+      \field{eprinttype}{arXiv}
+      \field{title}{Transform-Invariant Convolutional Neural Networks for Image Classification and Search}
+      \field{year}{2019}
+      \verb{eprint}
+      \verb 1912.01447
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/1912.01447
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/1912.01447
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

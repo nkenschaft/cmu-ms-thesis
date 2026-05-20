@@ -1,0 +1,298 @@
+\section{Background from \cite{colman2013equivariant}}
+
+\begin{definition}\label{def:secat}
+    The \emph{sectional category} of a map $p : E \to B$, denoted $\secat(p)$, is the least integer $k$ such that $B$ may be covered by $k$ open sets $U_j$ that each admit a map $s_j : U_j \to E$ where $p \circ s_j$ is homotopic to the inclusion $i_j : U_j \ito B$.
+\end{definition}
+
+\begin{remark}\label{rem:secat-def-equivalence}
+    For a fibration $p : E \to B$, definition \ref{def:secat} corresponds to definition \ref{def:secat1} given in \cite{farber2006topology}.
+    \begin{proof}
+        First, let $U_j$ and $s_j : U_j \to E$ be as in definition \ref{def:secat1}, i.e. $p \circ s_j = i_j$.
+        Then trivially $p \circ s_i \simeq i_j$.
+        
+        Conversely, let $U_j$ and $s_j : U_j \to E$ be as in definition \ref{def:secat}, i.e. $p \circ s_j \simeq i_j$, and fix some $j \leq k$.
+        Let $h_t : U_j \to B$ be the homotopy witnessing $p \circ s_j \simeq i_j$ with $h_0 = p \circ s_j$ and $h_1 = i_j$.
+        We define the map $\Tilde{h_0} : U_j \to E$ by $\Tilde{h_0} = s_j$, and observe that by construction $p \circ \Tilde{h_0} = p \circ s_j = h_0$.
+        Then by the homotopy lifting property we have a homotopy $\Tilde{h_t} : U_j \to E$ such that $p \circ \Tilde{h_t} = h_t$.
+        In particular, this gives us a map $\Hat{s_j} := \Tilde{h_1} U_j \to E$ such that $p \circ \Hat{s_j} = h_1 = i_j$.
+    \end{proof}
+\end{remark}
+
+\begin{definition}\label{def:LScat}
+    The \emph{Lusternik-Schnirelmann category} of a space $X$, denoted $\cat(X)$, is the least integer $k$ such that $X$ may be covered by $k$ open sets $U_j$ where each inclusion $i_j : U_j \ito X$ is null-homotopic.
+\end{definition}
+
+\begin{remark}
+    For a path-connected space $X$, definition \ref{def:LScat} corresponds to definition \ref{def:LScat1} given in \cite{farber2006topology}.
+    Note that definition \ref{def:LScat1} only makes sense if $X$ is path-connected anyway.
+    \begin{proof}
+        First, let $U_j \sub X$ and $s_j : U_j \to P_0 X$ be as in definition \ref{def:LScat1}, i.e. $\pi_0 \circ s_j = i_j$.
+        We then simply define a homotopy $h_t : U_j \to X$ via $h_t(x) = s_j(x)(t)$, so $h_0(x) = s_j(x)(0) = x_0$ and $h_1(x) = s_j(x)(1) = x$.
+        Therefore $h_0 = c_{x_0}$ and $h_1 = i_j$, so $c_{x_0} \simeq i_j$.
+        
+        Conversely, let $U_j \sub X$ be as in definition \ref{def:LScat} with $i_j \simeq c_{x_j}$ for some $x_j \in X$.
+        Since $X$ is path-connected all constant maps are homotopic, so without loss of generality each $x_j = x_0$. 
+        Fixing some $j$, let $h_t : U_j \to X$ be the homotopy witnessing $i_j \simeq c_{x_0}$ where $h_0 = c_{x_0}$ and $h_1 = i_j$.
+        Then we define $s_j : U_j \to P_0 X$ by $s_j(x)(t) = h_t(x)$, so
+        \[
+            \pi_0 (s_j(x)) = s_j(x)(1) = h_1(x) = i_j(x) = x.
+        \]
+    \end{proof}
+\end{remark}
+
+\begin{proposition}\label{prop:secat-leq-cat}
+    For any spaces $E$ and $B$ along with a surjective map $p : E \to B$, $\secat(p) \leq \cat(B)$.
+    \begin{proof}
+        Take $\cat(B)$-many open sets $U_j$ such that $B = \cup_j U_j$ and each inclusion $i_j : U_j \ito B$ is homotopic to a constant map $c_j : U_j \to B$.
+        For each $j$, fix $e_j \in \inv{p}[c_j[U_j]]$ and define $s_j : U_j \to E$ by $s_j = c_{e_j}$.
+        Observe that $p \circ s_j = c_j$ by definition, so $p \circ s_j \simeq i_j$.
+        Therefore $\secat(p) \leq \cat(B)$.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}\label{prop:cat-leq-secat}
+    For a contractible space $E$ and any space $B$ along with a map $p : E \to B$, $\cat(B) \leq \secat(p)$.
+    \begin{proof}
+        Take $\secat(p)$-many open sets $U_j$ with $s_j : U_j \to E$ such that $B = \cup_j U_j$ and $p \circ s_j \simeq i_j$.
+        Since $E$ is contractible we have that each map $s_j$ is homotopic to a constant map $c_j$, and immediately this means that $p \circ s_j$ is homotopic to $p \circ c_j$ which is also constant.
+        Therefore $i_j \simeq p \circ c_j$ and $U_j$ is null-homotopic so $\cat(B) \leq \secat(p)$.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    If $E$ is a contractible space, $B$ is any space, and $p : E \to B$ is a surjection, then $\secat(p) = \cat(B)$.
+    \begin{proof}
+        This directly follows from propositions \ref{prop:secat-leq-cat} and \ref{prop:cat-leq-secat}.
+    \end{proof}
+\end{corollary}
+
+\begin{definition}
+        Let $G$ be a topological group and $X$ be a space, and assume we have some continuous $G$-action on $X$ (i.e. $(g,x) \mapsto g \cdot x$ is continuous).
+        Then $X$ is a \emph{$G$-space}.
+\end{definition}
+
+\begin{definition}
+    For $x \in X$ a $G$-space, the \emph{isotropy group} of $x$ is
+    \[
+        G_x := \set{g \in G : gx = x}.
+    \]
+\end{definition}
+
+\begin{remark}
+    $G_x$ is closed for all $x \in X$.
+    \begin{proof}
+        Fix some $x \in X$ and consider a point $g \in \clo{G_x}$.
+        Then there is a net $\set{g_d}_{d \in D} \sub G_x$ such that $g_d \to g$.
+        Since each $g_d x = x$ by definition, by continuity we have that $g_d x \to g x = x$, so $g \in G_x$ and $G_x$ is closed.
+    \end{proof}
+\end{remark}
+
+\begin{definition}
+    Given a $G$-space $X$ and $x \in X$, the \emph{orbit} of $x$ is
+    \[
+        Gx := \set{gx : g \in G}.
+    \]
+\end{definition}
+
+\begin{remark}
+    The map $\phi : G/G_x \to Gx$ given by $\phi(gG_x) = gx$ is a homeomorphism.
+    \begin{proof}
+        First, let $g,g' \in G$ such that $g G_x = g' G_x$; we wish to show that $g x = g' x$.
+        Since $g G_x = g' G_x$, there exists some $h \in G_x$ such that $g e = g' h$.
+        Then we have
+        \[
+            g x
+            = g e x
+            = g' h x
+            = g' x.
+        \]
+        So $\phi$ is well-defined.
+        
+        To see that $\phi$ is continuous, consider the quotient map $q : G \to G/G_x$; we wish to show that $\phi \circ q : G \to Gx$ is continuous.
+        Observe that $\phi(q(g)) = \phi(gG_x) = gx$, so it immediately follows that $\phi \circ q$ is continuous.
+        
+        Lastly, to see that $\phi$ is an open map, consider some open set $UG_x \sub G/G_x$.
+        Then $\phi[UG_x] = Ux$ which is clearly open.
+        
+        Therefore we conclude that $\phi$ is a homeomorphism.
+    \end{proof}
+\end{remark}
+
+\begin{definition}
+    For a $G$-space $X$, the \emph{orbit space} is $X/G$.
+\end{definition}
+
+\begin{proposition}
+    If $G$ is compact and $X$ is a Hausdorff $G$-space, then $X/G$ is Hausdorff.
+    \begin{proof}
+        \footnote{
+            Got proof idea from \href{https://claude.ai/share/8635611e-396a-427d-a9f2-c13dcaf48ffc}{this conversation with Claude}.
+        }
+        First consider the equivalence relation given on $X$ where $xRy$ if $x$ and $y$ lie in the same orbit.
+        This equivalence relation is then given by the following set:
+        \[
+            R := \set{(x,gx) : x \in X, g \in G} = \bigcup_{x \in X} \set{x} \times Gx \sub X \times X.
+        \]
+        We wish to show that $R$ is closed, so let $\set{(x_a, g_a x_a)}_{a \in A} \sub R$ be a convergent net with $(x_a,g_a x_a) \to (x,y) \in X \times X$.
+        Since $G$ is compact, the net $\set{g_a}_{a \in A}$ has a convergent subnet $\set{g_b}_{b \in B}$ with $g_b \to g \in G$.
+        Then by continuity we have that the subnet $\set{(x_b, g_b x_b)}_{b \in B}$ converges to $(x,gx) \in R$ so $y = gx$.
+        Thus $R$ is closed.
+
+        Additionally, observe that $x \mapsto gx$ is a homeomorphism for any $g \in G$, so for any open $U \sub X$, $GU = \cup_{g \in G} gU$ is open as well.
+        Then with the quotient map $q : X \to X/G$, $\inv{q}[GU] = GU$ since $GU$ is a union of orbits, so $GU \in X/G$ is open.
+
+        Now let $Gx, Gy \in X/G$ with $Gx \neq Gy$, so clearly $x$ and $y$ do not lie in the same orbit and $(x,y) \not\in R$.
+        Because $R$ is closed in $X \times X$, we can find open sets $U,V \sub X$ such that $(x,y) \in U \times V$ and $(U \times V) \cap D = \emp$.
+        We immediately have that $GU \cap GV = \emp$ as well since otherwise $x$ and $y$ would be in the same orbit.
+        Therefore we conclude that $X/G$ is Hausdorff.
+    \end{proof}
+\end{proposition}
+    
+\begin{definition}
+    Given two $G$-spaces $X$ and $Y$, $f : X \to Y$ is a \emph{$G$-map} if for all $g \in G$, $f(gx) = g \cdot f(x)$.
+    We write $f : X \to_G Y$.
+\end{definition}
+
+\begin{definition}
+    Given two $G$-spaces $X$ and $Y$, $h : X \times [0,1] \to Y$ is a \emph{$G$-homotopy} if $h$ is a homotopy and $h(-,t)$ is a $G$-map for all $t \in [0,1]$.
+    Equivalently, $h$ is a $G$-map with $G$ acting trivially on $[0,1]$ and diagonally on $X \times [0,1]$.
+    We write $h : X \times [0,1] \to_G Y$ or $h_t : X \to_G Y$.
+\end{definition}
+
+\begin{definition}
+    Two $G$-maps $f,g : X \to_G Y$ are \emph{$G$-homotopic} if there is a $G$-homotopy $h_t : X \to_G Y$ such that $h_0 = f$ and $h_1 = g$.
+    We write $f \simeq_G g$.
+\end{definition}
+
+\begin{definition}
+    Two $G$-spaces $X$ and $Y$ are \emph{$G$-homotopy equivalent} if there are $G$-maps $f : X \to_G Y$ and $g : Y \to_G X$ such that $g \circ f \simeq_G \id_X$ and $f \circ g \simeq_G \id_Y$.
+\end{definition}
+
+\begin{definition}
+    A set $U \sub X$ is \emph{invariant} if $gU \sub U$ for all $g \in G$.
+    Note that $U \sub GU$ always, so $U$ is invariant if and only if $U = GU$.
+\end{definition}
+
+\begin{definition}
+    A $G$-map $f : X \to Y$ is a \emph{fixed orbit map} if $f[X]$ is contained in a single orbit in $Y$.
+\end{definition}
+
+\begin{definition}
+    An invariant set $U \sub X$ is \emph{$G$-categorical} if the inclusion $i : U \to X$ is $G$-homotopic to a fixed orbit map.
+\end{definition}
+
+\begin{definition}\label{def:ecat}
+    The \emph{equivariant category} of a $G$-space $X$, denoted $\cat_G(X)$, is the least integer $k$ such that $X$ can be covered by $k$ $G$-categorical open sets.
+\end{definition}
+
+\begin{definition}
+    A $G$-space $X$ is \emph{$G$-contractible} if $\cat_G(X) = 1$.
+\end{definition}
+
+\begin{proposition}\label{prop:Gcon-iff-hom-equiv}
+    $X$ is $G$-contractible if and only if $X$ is $G$-homotopy equivalent to $G$.
+    \begin{proof}
+        First assume that $X$ is $G$-contractible, and let $h_t : X \to_G X$ be a corresponding $G$-homotopy witnessing this where $h_0 = \id_X$ and $h_1$ is a fixed orbit map.
+        Let $x_0 \in X$ be some representative of the orbit $h_1[X]$, i.e. $Gx_0 = h_1[X]$.
+        Observe that $Gx_0$ is trivially homeomorphic to $G$ via the map $g x_0 \mapsto g$, so we conclude that $X \simeq_G G$.
+        
+        Conversely, assume that $X \simeq_G G$ via $f : X \to_G G$ and $g : G \to_G X$ with corresponding $G$-homotopy $h_t : X \to_G X$ where $h_0 = g \circ f$ and $h_1 = \id_X$.
+        Observe that $g$ must be a fixed orbit map since $g(h \cdot e) = h \cdot g(e)$ so $g[G] = G g(e)$.
+        Then $g \circ f$ is trivially a fixed orbit map since $(g \circ f)[X] \sub g[G]$, so we conclude that $X$ is $G$-contractible via $h_t$.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    For any topological group $G$ acting on itself in the usual way, we have that $\cat_G(G) = 1$.
+    \begin{proof}
+        Clearly $G \simeq_G G$, so by proposition \ref{prop:Gcon-iff-hom-equiv} we are done.
+    \end{proof}
+\end{corollary}
+
+\begin{proposition}
+    For any $G$-space $X$, $\cat_G(X) \geq \cat(X/G)$.
+    \begin{proof}
+        Take $\cat_G(X)$-many $G$-categorical open sets $U_j$ that cover $X$.
+        Since each $U_j$ is invariant, $U_j = GU_j \sub X/G$ is open.
+        Then $i_j : U_j \ito X$ is $G$-homotopic to a fixed orbit map, so immediately we have that $q \circ i_j : GU_j \ito X/G$ is homotopic to a constant map and each $GU_j$ is null homotopic with $X/G = \cup_j GU_j$.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    If $X$ is metrizable and acted freely upon by $G$, then $\cat_G(X) = \cat(X/G)$.
+\end{proposition}
+
+\begin{definition}
+    The \emph{equivariant sectional category} of a $G$-map $p : E \to_G B$, denoted $\secat_G(p)$, is the least integer $k$ such that $B$ can be covered by $k$ invariant open sets $U_j$ that each admit a local $G$-homotopy section, i.e. there exists $s_j : U_j \to E$ such that $p \circ s \simeq_G i_j$ where $i_j : U_j \ito B$ is the inclusion.
+\end{definition}
+
+\begin{proposition}
+    If $p : E \to_G B$ is a $G$-fibration, then $\secat_G(p) \leq k$ if and only if $B$ can by covered by $k$ invariant open sets that each admit a local $G$-section.
+    \begin{proof}
+        This follows by an argument analogous to remark \ref{rem:secat-def-equivalence}.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    Given a $G$-space $X$ and a closed subgroup $H \sub G$, the \emph{$H$-fixed point set} of $X$ is
+    \[
+        X^H
+        := \set{x \in X : \forall h \in H, hx = x}
+        = \set{x \in X : Hx = \set{x}}.
+    \]
+\end{definition}
+
+\begin{definition}
+    A $G$-space $X$ is \emph{$G$-connected} if $X^H$ is path-connected for every closed subgroup $H \sub G$.
+\end{definition}
+
+\begin{proposition}\label{prop:connected-secat-leq-cat}
+    Let $p : E \to B$ be a $G$-map where $B$ is $G$-connected and $E^G \neq \emp$.
+    Then $\secat_G(p) \leq \cat_G(B)$.
+\end{proposition}
+
+\begin{proposition}\label{prop:subgroups-secat-leq-cat}
+    For a $G$-map $p : E \to_G B$, if $p[E^H] = B^H$ for all closed subgroups $H \sub G$, then $\secat_G(p) \leq \cat_G(B)$.
+\end{proposition}
+
+\begin{proposition}\label{prop:contractible-cat-leq-secat}
+    If $E$ is $G$-contractible then for any $G$-map $p : E \to_G B$ we have $\cat_G(B) \leq \secat_G(p)$.
+    \begin{proof}
+        Since $E$ is $G$-contractible, we have that $\id_E \simeq_G c$ where $c : E \to_G E$ is a fixed orbit map.
+        Now take $\secat_G(p)$-many invariant open sets $U_j \sub B$ such that $B = \cup_j U_j$ with maps $s_j : U_j \to E$ such that $s_j \simeq_G i_j$ where $i_j : U_j \ito B$ is the inclusion.
+        Then we have
+        \[
+            i_j
+            \simeq_G p \circ s_j
+            = p \circ \id_E \circ s_j
+            \simeq_G p \circ c \circ s_j
+        \]
+        in which the latter map is a fixed orbit map since $c$ is a fixed orbit map.
+        Hence we conclude $\cat_G(B) \leq \secat_G(p)$.
+        For clarity, this is represented in the following commutative diagram:
+        % https://q.uiver.app/#q=WzAsNCxbMSwwLCJFIl0sWzIsMCwiRSJdLFswLDEsIlVfaiJdLFsxLDEsIkIiXSxbMCwxLCJjIiwyLHsib2Zmc2V0IjoxfV0sWzAsMSwiXFxpZF9FIiwwLHsib2Zmc2V0IjotMX1dLFsyLDAsInNfaiJdLFsxLDMsInAiXSxbMCwzLCJwIiwyXSxbMiwzLCJpX2oiXV0=
+        \[\begin{tikzcd}
+        	E & E \\
+        	{U_j} & B
+        	\arrow["c"', shift right, from=1-1, to=1-2]
+        	\arrow["{\id_E}", shift left, from=1-1, to=1-2]
+        	\arrow["p"', from=1-1, to=2-2]
+        	\arrow["p", from=1-2, to=2-2]
+        	\arrow["{s_j}", from=2-1, to=1-1]
+        	\arrow["{i_j}"', from=2-1, to=2-2]
+        \end{tikzcd}\]
+    \end{proof}
+\end{proposition}
+
+
+\begin{corollary}
+    Let $p : E \to_G B$ be a $G$-map and let $E$ be a $G$-contracible space such that one of the following holds:
+    \begin{enumerate}
+        \item $B$ is $G$-connected and $E^G \neq \emp$
+        \item $p[E^H] = B^H$ for all closed subgroups $H \sub G$.
+    \end{enumerate}
+    Then $\secat_G(p) = \cat_G(p)$.
+    \begin{proof}
+        This immediately follows from propositions \ref{prop:connected-secat-leq-cat}, \ref{prop:subgroups-secat-leq-cat}, and \ref{prop:contractible-cat-leq-secat}.
+    \end{proof}
+\end{corollary}

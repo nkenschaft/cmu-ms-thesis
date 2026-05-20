@@ -1,0 +1,389 @@
+\section{Background from \cite{farber2006topology}}
+
+\begin{definition}
+    For a topological space $X$ and positive integer $n$,
+    \[
+        F(X,n) = \set{(x_1,...,x_n) \in X^n : x_i \neq x_j \text{ for } i \neq j}.
+    \]
+    Intuitively, this gives the configuration space of $n$ particles moving through $X$ with no collisions.
+\end{definition}
+
+\begin{definition}
+    For fixed $a = (a_1,...,a_m) \in \Rp^m$, we define the variety
+    \[
+        M(a) = \set{(z_1,...,z_m) \in (S^2)^m : \sum_{i = 1}^m a_i z_i = 0}/ SO (3)
+    \]
+    where $SO(3)$ acts coordinate-wise on $(S^2)^m$.
+    This variety describes all polygons in $\R^3$ with sidelengths $a_1,...,a_m$.
+\end{definition}
+
+\begin{definition}
+    Let $X$ be a path-connected topological space.
+    Then $PX = C([0,1];X)$ is the space of all paths $\gamma : [0,1] \to X$ equipped with the compact-open topology.
+    
+    Recall that the compact-open topology has a subbase given by sets of the form
+    \[
+    V(K,U) := \set{f \in C(X,Y) : f[K] \sub U}
+    \]
+    for $K \sub [0,1]$ compact and $U \sub X$ open \cite{wikipedia:compact-open}.
+\end{definition}
+
+\begin{definition}
+    For spaces $E$ and $B$, a map $p : E \to B$ has the \emph{homotopy lifting property (HLP)} for a space $X$ if for every homotopy $h_t : X \to B$ and every lift $\Tilde{h_0} : X \to E$ of $h_0$ ($h_0 = p \circ \Tilde{h_0}$), there exists a homotopy $\Tilde{h_t} : X \to E$ that lifts $h_t$ ($h_t = p \circ \Tilde{h_t}$).
+\end{definition}
+
+\begin{definition}
+    For spaces $E$ and $B$, a map $p : E \to B$ is a \emph{(Hurewicz) fibration} if $p$ satisfies the homotopy lifting property for all topological spaces \cite{wikipedia:fibration}.
+\end{definition}
+
+\begin{remark}
+    The map $\pi : PX \to X \times X$ given by $\pi(\gamma) = (\gamma(0), \gamma(1))$ is a fibration.
+    \begin{proof}
+        Let $Y$ be any topological space and let $h_t : Y \to X \times X$ be a homotopy with some $\Tilde{h_0} : Y \to PX$ such that $h_0 = \pi \circ \Tilde{h_0}$.
+        Then we simply define
+        \[
+            \Tilde{h_t}(y)(s) =
+            \begin{cases}
+                (h_{t(1-3s)}(y))_1           &\text{if } 0 \leq s \leq \f13 \\
+                \Tilde{h_0}(y)(3(s - \f{1}{3}))   &\text{if } \f13 \leq s \leq \f23 \\
+                (h_{t(3s-2)}(y))_2           &\text{if } \f23 \leq s \leq 1
+            \end{cases}.
+        \]
+        Intuitively, this simply defines a path from $(h_t(y))_1$ to $(h_t(y))_2$ by following:
+        \begin{enumerate}
+            \item $(h_\bullet(y))_1$ from $(h_t(y))_1$ to $(h_0(y))_1$,
+            \item $\Tilde{h_0}$ from $(h_0(y))_1 = \Tilde{h_0}(y)(0)$ ($h_0 = \pi \circ \Tilde{h_0}$) to $\Tilde{h_0}(y)(1)$,
+            \item and $(h_\bullet(y))_2$ from $\Tilde{h_0}(y)(1) = (h_0(y))_2$ ($\pi \circ \Tilde{h_0} = h_0$) to $(h_t(y))_2$.
+        \end{enumerate}
+        By construction $\Tilde{h_t}$ is continuous, so we conclude that $\pi$ is a fibration.
+    \end{proof}
+\end{remark}
+
+\begin{definition}
+    A \emph{motion planning algorithm} is a section $s : X \times X \to PX$ of $\pi$, i.e. $\pi \circ s = \id_{X \times X}$.
+\end{definition}
+
+
+\begin{lemma}\label{lem:cmpa-iff-contractible}
+    A continuous motion planning algorithm in $X$ exists if and only if $X$ is contractible.
+    \begin{proof}
+        First assume that there exists a continuous motion planning algorithm, i.e. a continuous section $s : X \times X \to PX$ of $\pi$, and fix some $x_0 \in X$.
+        Then for every $x \in X$, define $\gamma_x = s(x_0,x) \in PX$.
+        Now define a homotopy $h_t : X \to X$ via $h_t(x) = \gamma_x(t)$.
+        Observe that $h_0(x) = \gamma_x(0) = x_0$ and $h_1(x) = \gamma_x(1) = x$ so $h_0 = c_{x_0}$ and $h_1 = \id_X$.
+        Since $s$ is continuous, this means that $h$ is a homotopy from $c_{x_0}$ to $\id_{X}$ and therefore $X$ is contractible.
+        
+        Now instead assume that $X$ is contractible and let $h_t : X \to X$ be a homotopy exhibiting this ($h_0 = c_{x_0}$ for some $x_0 \in X$ and $h_1 = \id_X$).
+        Then for each $x \in X$, define $\gamma_x \in PX$ via $\gamma_x(t) = h_t(x)$ and define $s : X \times X \to PX$ by $s(x,y) = \gamma_y \ast \Bar{\gamma_x}$.
+        Then $s$ is a section since $\pi(s(x,y)) = ((\gamma_y \ast \Bar{\gamma_x})(0), (\gamma_y \ast \Bar{\gamma_x})(1)) = (x,y)$, and $s$ is continuous by construction.
+    \end{proof}
+\end{lemma}
+
+\begin{definition}\label{def:enr}
+    A topological space $X$ is a \emph{Euclidean Neighborhood Retract (ENR)} if there exists an embedding $i : X \to \R^n$ for some $n$ with an open neighborhood $U$ of $i[X]$ such that $U$ retracts onto $i[X]$.
+\end{definition}
+
+\begin{definition}\label{def:tame-mpa}
+    A motion planning algorithm $s : X \times X \to PX$ is \emph{tame} if there are finitely many disjoint sets $F_i \sub X \times X$ such that $X \times X = \cup_i F_i$, $s |_{F_i}$ is continuous, and $F_i$ is an ENR.
+\end{definition}
+
+\begin{definition}
+    The \emph{topological complexity} of a tame motion planning algorithm is the minimum number of sets $F_i$ one can take in definition \ref{def:tame-mpa}.
+\end{definition}
+
+\begin{definition}\label{def:tc1}
+    For a path-connected space $X$, the topological complexity $\TC_1(X)$ is the minimum topological complexity of tame motion planning algorithms in $X$.
+    We set $\TC_1(X) = \infty$ if $X$ admits no tame motion planning algorithms.
+\end{definition}
+
+\begin{remark}
+    $\TC_1(X) = 1$ if and only if $X$ is a contractible ENR.
+    \begin{proof}
+        This trivially follows from lemma \ref{lem:cmpa-iff-contractible} and definitions \ref{def:enr} and \ref{def:tame-mpa}.
+    \end{proof}
+\end{remark}
+
+\begin{definition}\label{def:secat1}
+    The \emph{Schwarz genus} or \emph{sectional category} of a fibration $p : E \to B$, denoted  $\secat(p)$ is the minimum number $k$ of open sets $U_1,...,U_k$ covering $B$ such that each $U_j$ admits a continuous section $s_j : U_j \to E$ of $p$.
+\end{definition}
+
+\begin{remark}
+    The Schwarz genus of a fibration $p : E \to B$ is 1 if and only if $p$ admits a continuous section $s : B \to E$.
+\end{remark}
+
+\begin{definition}
+    For a path-connected pointed space $(X,x_0)$, we define
+    \[
+        P_0X := \set{\gamma \in C([0,1];X) : \gamma(0) = x_0}.
+    \]
+\end{definition}
+
+\begin{definition}\label{def:LScat1}
+    For a path-connected pointed space $(X,x_0)$, the \emph{Lusternik-Schnirelmann category of X}, denoted $\cat(X)$, is the Schwarz genus of the fibration $\pi_0 : P_0 X \to X, \gamma \mapsto \gamma(1)$.
+\end{definition}
+
+\begin{definition}\label{def:tc2}
+    For a path-connected space $X$, the topological complextiy $\TC_2(X)$ is the Schwarz genus of the fibration $\pi : PX \to X \times X$.
+\end{definition}
+
+\begin{remark}
+    $\TC_2(X) = 1$ if and only if $X$ is contractible.
+    \begin{proof}
+        This is a direct corollary of lemma \ref{lem:cmpa-iff-contractible}.
+    \end{proof}
+\end{remark}
+
+\begin{lemma}\label{lem:cat-leq-tc}
+    Let $p : E \to B$ be a fibration, and let $B' \sub B$ with $E' := \inv{p}[B']$ and $p' = p |_{E'} : E' \to B'$.
+    Then $\secat(p') \leq \secat(p)$.
+    \begin{proof}
+        Assume the $\secat(p) < \infty$ and consider a corresponding minimal set of $U_i$'s with local sections $s_i : U_i \to E$ of $p$.
+        Observe that $s_i |_{B'} : U_i \cap B' \to E'$ is then a local section of $p'$, so $\secat(p') \leq \secat(p)$.
+        If $\secat(p) = \infty$, we trivially conclude $\secat(p') \leq \infty = \secat(p)$, so in either case the Schwarz genus of $p'$ is bounded above by that of $p$.
+        \footnote{If one wishes to more precisely compare cardinalities, the reasoning in the finite case works.}
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}\label{lem:tc-leq-cat}
+    For any fibration $p : E \to B$, $\secat(p) \leq \cat(B)$.
+    \begin{proof}
+        \footnote{\href{https://claude.ai/share/9dd0d1e1-becf-404d-b7e0-429a453849e8}{Consulted Claude} for the basic idea in this proof.}
+        Take $\cat(B)$-many open sets $U_i$ with continuous sections $s_i : U_i \to P_0 B$ of $\pi_0 : P_0 B \to B$.
+        Observe that each $s_i$ induces a homotopy $h_i : U_i \times [0,1] \to B$ via $h_i(u,t) := s_i(u)(t)$.
+        Then with the base point $b_0 \in B$, we can fix a corresponding element $e_0 \in \inv{p}[\set{b_0}] \sub E$ and define $\Tilde{h_i} : U_i \times \set{0} \to E$ by $\Tilde{h_i}(u, 0) = e_0$.
+        This gives us that $p(\Tilde{h_i}(u,0)) = p(e_0) = b_0 = s_i(u)(0) = h_i(u,0)$, so by the homotopy lifting property of $p$ there exists a homotopy $\Tilde{h_i} : U_i \times [0,1] \to E$ such that $p \circ \Tilde{h_i} = h_i$.
+        Then observe we can define maps $r_i : U_i \to E$ via $r_i(u) := \Tilde{h_i}(u,1)$, giving us $p(r_i(u)) = p(\Tilde{h_i}(u,1)) = h_i(u,1) = u$.
+        We therefore conclude that each $r_i$ is a continuous section of $p$ and so $\secat(p) \leq \cat(B)$.
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}
+    For a path-connected space $X$, $\cat(X) \leq \TC_2(X) \leq \cat(X \times X)$.
+    \begin{proof}
+        We have the fibration $\pi : PX \to X \times X$ from before, as well as $\pi_0 : P_0X \to X \times X$ given by $\pi_0(\gamma) = (x_0,\gamma(1))$.
+        Observe that $\cat(X)$ is exactly the Schwarz genus of $\pi_0$ and $P_0X = \inv{\pi}[\set{x_0} \times X]$, so we immediately know by lemma \ref{lem:cat-leq-tc} that $\cat(X) \leq \TC_2(X)$.
+        Then by lemma \ref{lem:tc-leq-cat} we conclude $\TC_2(X) = \secat(\pi : PX \to X \times X) \leq \cat(X \times X)$.
+    \end{proof}
+\end{proposition}
+
+\begin{theorem}
+    $\TC_2$ is a homotopy invariant.
+\end{theorem}
+
+\begin{definition}
+    The \emph{order of instability} of the composition in definition \ref{def:tame-mpa} is the maximum $r$ such that there is some sequence of indices $1 \leq i_1 < \cdots < i_r \leq k$ where $\clo{F_{i_1}} \cap \cdots \cap \clo{F_{i_r}}$ is non-empty.
+    The \emph{order of instability} of a motion planning algorithm $s$ is then the minimum order of instability of decompositions for $s$.
+\end{definition}
+
+\begin{definition}\label{def:tc3}
+    The topological complexity $\TC_3(X)$ is the minimum order of instability of all tame motion planning algorithms in $X$.
+\end{definition}
+
+\begin{remark}\label{rem:tc3-leq-tc1}
+    $\TC_3(X) \leq \TC_1(X)$.
+    \begin{proof}
+        This immediately follows from definitions \ref{def:tc1} and \ref{def:tc3}.
+    \end{proof}
+\end{remark}
+
+\begin{definition}
+    A \emph{random $n$-valued path $\sigma$} in $X$ is a pair of $n$-tuples $(\gamma_1,...,\gamma_n) \in (PX)^n$ and $(p_1,...,p_n) \in [0,1]^n$ such that all the $\gamma_i$'s have the same start and end points and $p_1 + \cdots + p_n = 1$.
+    We write $\sigma$ as a formal linear combination $\sigma = p_1 \gamma_1 + \cdots + p_n \gamma_n$.
+    
+    We then define $P_n X$ to be the set of all $n$-valued random paths in $X$ with the subspace topology induced by $\bigoplus_n PX$, and we have the same fibration $\pi : P_n X \to X \times X$ as before taking $n$-valued random paths to their end points.
+\end{definition}
+
+\begin{definition}
+    An \emph{$n$-valued random motion planning algorithm} is a continuous section $s : X \times X \to P_n X$ of $\pi$.
+    
+    Observe that $s(x,y)$ is simply a probability distribution on $n$ paths from $x$ to $y$.
+\end{definition}
+
+\begin{definition}
+    The topological complexity $\TC_4(X)$ is the minimum integer $n$ such that there is some $n$-valued random motion planning algorithm $s : X \times X \to P_n X$.
+\end{definition}
+
+\begin{theorem}
+    If $X$ is a simplicial polyhedron, then
+    \[
+        \TC_1(X) = \TC_2(X) = \TC_3(X) = \TC_4(X).
+    \]
+    \begin{proof}[Proof sketch]
+        The proof proceeds in steps:
+
+        \begin{enumerate}[Step]
+            \step{1} $\TC_1(X) \leq \TC_2(X)$:
+                Expand each $F_i$ to a $U_i$ that deformation retracts back onto it and use the deformation retract to extend $s |_{F_i} : F_i \to PX$ so $s_i : U_i \to PX$.
+            \step{2} $\TC_2(X) \leq \TC_1(X)$:
+                Trim each $U_i$ just enough to get disjoint $F_i$'s that are ENRs.
+            \step{3} $\TC_3(X) \leq \TC_2(X)$:
+                Same basic idea as step 1.
+            \step{4} $\TC_1(X) \leq \TC_3(X)$:
+                Done already in remark \ref{rem:tc3-leq-tc1}.
+            \step{5} $\TC_2(X) \leq \TC_4(X)$:
+                Construct open sets $U_j \sub X \times X$ from the functions $p_j : X \times X \to [0,1]$, and conclude by construction.
+            \step{6} $\TC_4(X) \leq \TC_2(X)$:
+                Extend the $s_i$'s arbitrarily, weight them via a partition of unity, and conclude.
+        \end{enumerate}
+    \end{proof}
+\end{theorem}
+
+\begin{definition}\label{def:tc}
+    Moving forward, we define the \emph{topological complexity} of a space $X$ to be $\TC(X) := \TC_2(X)$.
+\end{definition}
+
+\begin{definition}
+    The \emph{order} of an open cover $\UU$ of $X$ is the least integer $n$ such that each point of $X$ belongs to at most $n$ sets of $\UU$ (if such an integer exists) \cite{wikipedia:covering-dimension}.
+\end{definition}
+
+\begin{definition}
+    The \emph{covering dimension} of a space $X$, denoted $\dim X$, to be the least integer $n$ such that every finite open cover $\UU$ of $X$ has a refinement $\VV$ of order $n+1$.
+    If no such $n$ exists, then we set $\dim X = \infty$ \cite{wikipedia:covering-dimension}.
+\end{definition}
+
+\begin{lemma}\label{lem:cat-leq-dim}
+    Let $X$ be a path-connected paracompact locally contractible space.
+    Then
+    \[
+        \cat(X) \leq \dim(X) + 1.
+    \]
+\end{lemma}
+
+\begin{lemma}\label{lem:dimX2=2dimX}
+    Let $X$ be a path-connected paracompact locally contractible space.
+    Then
+    \[
+        \dim(X \times X) = 2 \dim X.
+    \]
+\end{lemma}
+
+\begin{theorem}
+    Let $X$ be a path-connected paracompact locally contractible space.
+    Then
+    \[
+        \TC(X) \leq 2 \dim X + 1.
+    \]
+    \begin{proof}
+        By lemmas \ref{lem:tc-leq-cat}, \ref{lem:cat-leq-dim}, and \ref{lem:dimX2=2dimX} we have
+        \[
+            \TC(X)
+            \leq \cat(X \times X)
+            \leq \dim(X \times X) + 1
+            = 2 \dim X + 1.
+        \]
+    \end{proof}
+\end{theorem}
+
+\begin{theorem}
+    Let $X$ be an $r$-connected CW-complex.
+    Then
+    \[
+        \TC(X) \leq \f{2 \dim X + 1}{r+1} + 1.
+    \]
+\end{theorem}
+
+\begin{definition}
+    The tensor product $H^\bullet(X) \otimes H^\bullet(X)$ is a graded algebra with multiplication given by
+    \[
+        (u_1 \otimes v_1) \cdot (u_2 \otimes v_2) = (-1)^{\abs{v_1} \abs{u_2}} (u_1 u_2) \otimes (v_1 v_2)
+    \]
+    where $\abs{x}$ denotes the degree of the cohomology class of $x$.
+\end{definition}
+
+\begin{definition}
+    The \emph{cup product} $\smile : H^k (X) \otimes H^\ell (X) \to H^{k + \ell} (X)$ is given by
+    \[
+        (\alpha \smile \beta)(\sigma) := \alpha(\sigma_{[0,...,k]}) \cdot \beta(\sigma_{[k,...,k+\ell]}).
+    \]
+    Note that this means $\smile$ induces a graded algebra $H^\bullet(X)$.
+\end{definition}
+
+\begin{definition}
+    The \emph{ideal of the zero-divisors} of $H^\bullet(X)$ is the kernel of
+    \[
+        \smile : H^\bullet (X) \otimes H^\bullet (X) \to H^\bullet (X).
+    \]
+\end{definition}
+
+\begin{definition}
+    The \emph{zero-divisors-cup-length} of $H^\bullet (X)$ is the length of the longest nontrivial product in the ideal of zero-divisors of $H^\bullet (X)$.
+\end{definition}
+
+\begin{theorem}
+    $\TC(X)$ is greater than the zero-divisors-cup-length of $H^\bullet (X)$.
+\end{theorem}
+
+\begin{example}
+    Consider $S^n$, letting $u \in H^n(S^n)$ be the fundamental class and $1 \in H^0(S^n)$ be the unit.
+    Recall that $H^k(S^n) = 0$ for $k \neq 0,n$, and note $H^n(S^n) = \angles{u}$ and $H^0(S^n) = \angles{1}$.
+    We then set $a = u \otimes 1 - 1 \otimes u$ and $b = u \otimes u$, and note that, up to coefficients, $a$ and $b$ are the only (potentially) interesting elements of $H^\bullet (S^n) \otimes H^\bullet (S^n)$.
+    Observe that $u^2 \in H^{2n}(S^n) = 0$ so $u^2 = 0$ and we compute
+    \begin{align*}
+        a \cdot a
+        &= (u \otimes 1 - 1 \otimes u) \cdot (u \otimes 1 - 1 \otimes u) \\
+        &= (u \otimes 1) \cdot (u \otimes 1) - (u \otimes 1) \cdot (1 \otimes u) - (1 \otimes u) \cdot (u \otimes 1) + (1 \otimes u) \cdot (1 \otimes u) \\
+        &= (-1)^{\abs{1}\abs{u}} (u^2 \otimes 1^2) - (-1)^{\abs{1}\abs{1}} (u \otimes u) - (-1)^{\abs{u} \abs{u}}(u \otimes u) + (-1)^{\abs{u}\abs{1}} (1^2 \otimes u^2) \\
+        &= - u \otimes u - (-1)^{n^2} (u \otimes u) \\
+        &= ((-1)^{n+1} - 1) u \otimes u.
+    \end{align*}
+    So if $n$ is even then $a^2 = -2b$ and if $n$ is odd $a^2 = 0$, giving us that the zero-divisors-cup-length of $H^\bullet(S^n)$ is 1 for odd $n$ and 2 for even $n$.
+\end{example}
+
+\begin{theorem}
+    For spaces $X$ and $Y$,
+    \[
+        \TC(X \times Y) \leq \TC(X) + \TC(Y) - 1.
+    \]
+\end{theorem}
+
+\begin{corollary}\label{cor:tc-leq-linear}
+    For spaces $X_1,...,X_n$ with $\TC(X_i) \leq M$ for all $1 \leq i \leq n$,
+    \[
+        \TC(X_1 \times \cdots \times X_n) \leq nM - 1.
+    \]
+\end{corollary}
+
+\begin{theorem}\label{thm:tc-geq-n}
+    For $n$ path-connected spaces $X_i$ that are (co)homologically nontrivial,
+    \[
+        \TC(X_1 \times \cdots \times X_n) \geq n+1.
+    \]
+\end{theorem}
+
+\begin{corollary}
+    For $n$ path-connected spaces $X_i$ that are (co)homologically nontrivial, \[
+    \TC(X_1 \times \cdots \times X_n)
+    \]
+    grows linearly with $n$.
+    \begin{proof}
+        This follows directly from corollary \ref{cor:tc-leq-linear} and theorem \ref{thm:tc-geq-n}.
+    \end{proof}
+\end{corollary}
+
+\begin{proposition}\label{prop:section-via-homotopy}
+    For $U \sub X \times X$, there exists a section $s : U \to PX$ of $\pi : PX \to X \times X$ if and only if the inclusion $i : U \ito  X \times X$ is homotopic to some diagonal map $f : U \to X \times X$ (i.e. $f[U]$ is contained in the diagonal of $X \times X$).
+    \begin{proof}
+        First assume we have a section $s : U \to PX$ of $\pi$ and consider the diagonal map $f : U \to X \times X$ given by $f(x,y) := (y,y)$.
+        Then we can construct a homotopy $h_t : U \to X \times X$ by $h_t(x,y) := (s(x,y)(t),y)$.
+        Observe that $h_0(x,y) = (x,y) = i(x,y)$ and $h_1(x,y) = (y,y) = f(x,y)$ so we have a homotopy from $i : U \to X \times X$ to a diagonal map $f : U \to X \times X$.
+        
+        Conversely, assume we have a homotopy $h_t : U \to X \times X$ such that $h_0 = i$ and $h_1 =: f$ is a diagonal map; denote $\Hat{f} = f_1 = f_2$.
+        Then for some $(x,y) \in U$, we have two paths, $\gamma_1(t) = (h_t(x,y))_1$ from $x$ to $\Hat{f}(x,y)$ and $\gamma_2(t) = (h_t(x,y))_2$ from $y$ to $\Hat{f}(x,y)$.
+        Then we can define $s : U \to PX$ by $s(x,y) = \Bar{\gamma_2} \ast \gamma_1$, and by construction we have $\pi \circ s = \id$
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    The topological complexity $\TC(X) = \TC_2(X)$ is the smallest integer $k$ such that $X \times X$ can be covered by $k$ open sets where each inclusion $U_j \ito X \times X$ is homotopic to a diagonal map $f : U \to X \times X$.
+    \begin{proof}
+        This follows immediately from definition \ref{def:tc2} and proposition \ref{prop:section-via-homotopy}.
+    \end{proof}
+\end{corollary}
+
+\begin{proposition}
+    If $X$ is an ENR then
+    \[
+        \TC(X) \geq \cat((X \times X)/\Delta X) - 1
+    \]
+    where $\Delta X \sub X \times X$ is the diagonal.
+\end{proposition}

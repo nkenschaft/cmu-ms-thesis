@@ -1,0 +1,63 @@
+\section{Background from \cite{dym2024equivariant}}
+\begin{definition}
+    A map $f : X \to Y$ is \emph{($G$-)invariant} if for all $x \in X$ and for all $g \in G$, $f(g \cdot v) = f(v)$.
+\end{definition}
+
+\begin{definition}
+    For a space $X$ and group $G$, we denote $X$ as a $G$-space with $G$ acting trivially by $X_{triv}$.
+\end{definition}
+
+\begin{definition}
+    We denote the category of topological spaces as $\Top$ and the category of $G$-spaces for fixed group $G$ as $\GTop$.
+\end{definition}
+
+\begin{remark}
+    A map $f : X \to Y$ is invariant if and only if it is a $G$-map when $G$ acts trivially on $Y$, i.e. $f : X \to_G Y_{triv}$.
+\end{remark}
+
+\begin{remark}\label{rem:top-cong-gtop}
+    An invariant map $f : X \to Y$ induces a map $\Hat{f} : X/G \to Y$ via $\Hat{f} (Gv) = f(v)$.
+    Conversely, a map $\Hat{f} : X/G \to Y$ induces an invariant map $f : X \to Y$ via $f(v) = \Hat{f}(Gv)$.
+    This gives an isomorphism $\Top(X/G,Y) \cong \GTop(X,Y_{triv})$.
+    
+    Furthermore, let $L : \GTop \to \Top$ and $R : \Top \to \GTop$ be the functors defined as follows:
+    \begin{itemize}
+        \item $LX = X/G$, $L(f : X \to_G Y) = (Gx \mapsto G(f(x)))$
+        \item $RY = Y_{triv}$, $R(f : Y \to X) = (y \mapsto f(y))$.
+    \end{itemize}
+    Then the previous isomorphism actually means that $L$ is a left adjoint of $R$.
+\end{remark}
+
+\begin{definition}
+    Given a $G$-space $X$, an \emph{orbit canonicalization} is an invariant map $f : X \to X$ such that $f(x) \in Gx$ for all $x \in X$.
+\end{definition}
+
+\begin{remark}
+    An orbit canonicalization $f : X \to X$ must have a unique fixed point in each orbit $Gx \in X/G$.
+    \begin{proof}
+        Remark \ref{rem:top-cong-gtop} gives us an embedding $X/G \ito X$, and we conclude by instead considering this embedding as a map $X \to X$.
+    \end{proof}
+\end{remark}
+
+\begin{proposition}\label{prop:canon-is-section}
+    Every orbit canonicalization $f : X \to X$ corresponds uniquely to a continuous section $s : X/G \to X$.
+    \begin{proof}
+        First, let $f : X \to X$ be an orbit canonicalization.
+        As per remark \ref{rem:top-cong-gtop}, $f$ induces $\Hat{f} : X/G \to X$ via $\Hat{f}(Gx) = f(x)$ with $\Hat{f} \circ q = f$.
+        Since $f$ is invariant, we have that $q(\Hat{f}(Gx)) = q(f(x)) = G(f(x)) = Gx$ and so $\Hat{f}$ is a section of $q$.
+        
+        Conversely, let $s : X/G \to X$ be some section of $q$ such that $s(Gx) \in Gx$ always.
+        Then we can define a map $f : X \to X$ via $f = s \circ q$ and observe that $f(x) = s(q(x)) = s(Gx)$.
+        Since $s$ is a section of $q$, we have that $q(s(Gx)) = Gx$, meaning that $f(x) = s(Gx) \in \inv{q}[Gx] = Gx$.
+        Therefore $f$ is an orbit canonicalization.
+
+        Lastly, to see the uniqueness, observe that the process in the converse step applied to $\Hat{f}$ yields $f$, so the map $f \mapsto \Hat{f}$ is a bijection.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    An orbit canonicalization $f : X \to X$ exists if and only if there is a continuous section $s : X/G \to X$.
+    \begin{proof}
+        This is just a restatement of proposition \ref{prop:canon-is-section}.
+    \end{proof}
+\end{corollary}
