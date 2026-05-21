@@ -8,3 +8,20 @@ We first introduce some (slightly) new terminology.
 \begin{definition}
     The \emph{strong sectional category} of a map $p : E \to B$, denoted $\ssecat(p)$, is the least integer $k$ such that there $k$ open sets $U_j$ covering $B$ that each admit a section $s_j : U_j \to E$ of $p$ (i.e. $p \circ s_j = i_j$ where $i_j : U_j \ito B$ is the inclusion).
 \end{definition}
+
+Recall that by remark \ref{rem:secat-def-equivalence} $\secat(p) = \ssecat(p)$ when $p$ is a fibration.
+In general, we have the following result:
+
+\begin{lemma}
+    For any map $p : E \to B$, $\secat(p) \leq \ssecat(p)$.
+    \begin{proof}
+        Take $\ssecat(p)$-many open sets covering $U_j$ with sections $s_j : U_j \to E$ of $p$ i.e. $p \circ s_j = i_j$.
+        It trivially follows that $p \circ s_j \simeq i_j$, so we are done.
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}
+    (Theorem 1.4.6 in \href{https://www.math.toronto.edu/selick/mat1345/notes.pdf}{these lecture notes}).
+    Let $G$ be a Lie group and let $M$ be a manifold such that $G$ acts freely and properly on $M$.
+    Then $X/G$ is a smooth manifold and the quotient map $q : X \to X/G$ is a principal $G$-bundle.
+\end{proposition}

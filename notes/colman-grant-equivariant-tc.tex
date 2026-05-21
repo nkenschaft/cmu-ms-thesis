@@ -67,6 +67,15 @@
 \end{corollary}
 
 \begin{definition}
+    Given a commutative ring $R$ and an ideal $I \sub R$, the \emph{nilpotency} of $I$, denoted $\nil I$, is the maximum integer $k$ such that we can find elements $r_1,...,r_k \in I$ with $r_1 \cdots r_k \neq 0$.
+\end{definition}
+
+\begin{proposition}\label{prop:cohomological-lower-bound-for-secat}
+    Let $p : E \to B$ be a fibration and let $p^* : H^*(B) \to H^*(E)$ be the induced homomorphism on cohomology.
+    Then $\secat(p) > \nil \ker p^*$.
+\end{proposition}
+
+\begin{definition}
         Let $G$ be a topological group and $X$ be a space, and assume we have some continuous $G$-action on $X$ (i.e. $(g,x) \mapsto g \cdot x$ is continuous).
         Then $X$ is a \emph{$G$-space}.
 \end{definition}
