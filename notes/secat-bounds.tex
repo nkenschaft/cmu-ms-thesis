@@ -12,7 +12,7 @@ We first introduce some (slightly) new terminology.
 Recall that by remark \ref{rem:secat-def-equivalence} $\secat(p) = \ssecat(p)$ when $p$ is a fibration.
 In general, we have the following result:
 
-\begin{lemma}
+\begin{lemma}\label{lem:secat-leq-ssecat}
     For any map $p : E \to B$, $\secat(p) \leq \ssecat(p)$.
     \begin{proof}
         Take $\ssecat(p)$-many open sets covering $U_j$ with sections $s_j : U_j \to E$ of $p$ i.e. $p \circ s_j = i_j$.
@@ -20,8 +20,90 @@ In general, we have the following result:
     \end{proof}
 \end{lemma}
 
-\begin{proposition}
-    (Theorem 1.4.6 in \href{https://www.math.toronto.edu/selick/mat1345/notes.pdf}{these lecture notes}).
-    Let $G$ be a Lie group and let $M$ be a manifold such that $G$ acts freely and properly on $M$.
-    Then $X/G$ is a smooth manifold and the quotient map $q : X \to X/G$ is a principal $G$-bundle.
+\begin{definition}
+    (Definition 1.1 in \cite{cohentopologyoffiberbundles})
+    Let $E$, $B$, and $F$ be spaces, and let $p : E \to B$ be a map such that
+    \begin{enumerate}
+        \item $p$ is surjective,
+        \item for all $b \in B$, $\inv{p}[\set{b}] \cong F$,
+        \item and for all $b \in B$, there is some open neighborhood $U_b \sub B$ of $B$ and a homeomorphism $\Phi_b : \inv{p}[U_b] \to U_b \times F$ such that $p|_{\inv{p}[U_b]} = \pi_b \circ \Phi_b$ where $\pi_b : U_b \times F \to U_b$ is the projection.
+    \end{enumerate}
+    Then $p$ is a \emph{fiber bundle with fiber $F$}.
+\end{definition}
+
+\begin{lemma}\label{lem:paracompact-bundle-implies-fibration}
+    (Corollary 2.7.14 in \cite{spanier1966algebraictopology})
+    If $B$ is paracompact, then any fiber bundle $p : E \to B$ is a fibration.
+\end{lemma}
+
+\begin{definition}
+    (Definition 1.5 in \cite{cohentopologyoffiberbundles})
+    A topological group $G$ is a \emph{Lie group} is $G$ is a differentiable manifold such that products and inverses are differentiable maps.
+\end{definition}
+
+\begin{definition}
+    (Definition 1.6 in \cite{cohentopologyoffiberbundles})
+    Let $G$ be a topological group, let $E$ and $B$ be spaces, and let $p : E \to B$ be a fiber bundle with fiber $G$ such that
+    \begin{enumerate}
+        \item $E$ has a free left $G$-action where $p(e) = p(ge)$ for all $g \in G$, $e \in E$, i.e. the fibers of $p$ are closed under the $G$-action,
+        \item for all $b \in B$, the induced $G$-action on $\inv{p}[\set{b}]$ is free and transitive,
+        \item and for every open set $U \sub B$, there exists a $G$-equivariant homeomorphism $\Psi_U : \inv{p}[U] \to G \times U$ where $G$ acts on $G \times U$ by multiplication on $G$.
+    \end{enumerate}
+    Then $p$ is a \emph{principal $G$-bundle}.
+\end{definition}
+
+\begin{definition}
+    (Definition 1.7 in \cite{cohentopologyoffiberbundles})
+    A $G$-space $X$ \emph{has slices} if the quotient map $q : X \to X/G$ has local sections around every point in $X/G$.
+\end{definition}
+
+\begin{proposition}\label{prop:slices-implies-bundle}
+    (Proposition 1.2 in \cite{cohentopologyoffiberbundles})
+    If $X$ is a free $G$-space with slices, then the quotient map $q : X \to X/G$ is a principal $G$-bundle.
 \end{proposition}
+
+\begin{theorem}\label{thm:free-cpt-implies-slices}
+    (Theorem 1.3 in \cite{cohentopologyoffiberbundles})
+    Let $M$ be a smooth manifold with a smooth, free $G$-action by a compact Lie group $G$.
+    Then $M$ has slices.
+\end{theorem}
+
+\begin{corollary}\label{cor:free-cpt-implies-bundle}
+    Let $M$ be a smooth manifold with a smooth, free $G$-action by a compact Lie group $G$.
+    Then $q : M \to M/G$ is a principal $G$-bundle.
+    \begin{proof}
+        This follows directly from theorem \ref{thm:free-cpt-implies-slices} and proposition \ref{prop:slices-implies-bundle}.
+    \end{proof}
+\end{corollary}
+
+\begin{theorem}\label{thm:free-cpt-implies-fibration}
+    Let $M$ be a smooth manifold with a smooth, free $G$-action by a compact Lie group $G$ such that $M/G$ is paracompact.
+    Then $q : M \to M/G$ is a fibration.
+    \begin{proof}
+        This follows directly from corollary \ref{cor:free-cpt-implies-bundle} and lemma \ref{lem:paracompact-bundle-implies-fibration}.
+    \end{proof}
+\end{theorem}
+
+\begin{theorem}\label{thm:secat-inequalities}
+    Let $G$ be a compact Lie group and let $M$ be a smooth manifold with submanifold $N \sub M$ such that
+    \begin{enumerate}
+        \item $G$ acts smoothly on $M$,
+        \item $N$ is $G$-invariant (hence $N/G \sub M/G$),
+        \item the induced $G$-action on $N$ is free,
+        \item and $N/G$ is paracompact.
+    \end{enumerate}
+    Then letting $q : M \to M/G$ and $p : N \to N/G$ be the respective quotient maps, we have the following chain of inequalities:
+    \[
+        \nil \ker (p^*)
+        < \secat(p)
+        = \ssecat(p)
+        \leq \ssecat(q).
+    \]
+    \begin{proof}
+        Since $G$ is a compact Lie group acting freely on $N$ and $N/G$ is paracompact, by theorem \ref{thm:free-cpt-implies-fibration} we know that $p$ is a fibration.
+        Then by proposition \ref{prop:nil-leq-secat} we have that $\nil \ker (p^*) < \secat(p)$; by remark \ref{rem:secat-def-equivalence} we have that $\secat(p) = \ssecat(p)$; and by lemma \ref{lem:subsecat-leq-secat} we have that $\ssecat(p) \leq \ssecat(q)$.
+    \end{proof}
+\end{theorem}
+
+Theorem \ref{thm:secat-inequalities} gives a concrete method to find a lower bound for strong sectional category even for quotient maps that fail to be fibrations by considering appropriate submanifolds of a given space.
+This is particularly useful in the problem of orbit canonicalization, since orbit canonicalizations are directly related to the strong sectional category of the quotient map.
