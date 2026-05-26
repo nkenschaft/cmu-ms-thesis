@@ -59,9 +59,80 @@
     \end{proof}
 \end{lemma}
 
-\begin{corollary}
+\begin{corollary}\label{cor:Rnd/Od-cong-Snd}
     $\R^{d \times n} / O(d) \cong \S^n_d$.
     \begin{proof}
         This follows directly from proposition \ref{prop:psd-iff-transpose-product} and lemma \ref{lem:Od-cong-psd}.
     \end{proof}
 \end{corollary}
+
+With corollary \ref{cor:Rnd/Od-cong-Snd} in hand, we have that any invariant map $f : \R^{d \times n} \to Y$ factors through $\S^n_d$ and so it suffices to reduce to consider maps from $\S^n_d$ to $Y$.
+
+\begin{definition}
+    Given a group $G$ and a $G$-set $X$, the \emph{free locus} of $X$ is
+    \[
+        X_{free}
+        :=
+        \set{x \in X : \forall g \in G \sminus \set{e}, g x \neq x}
+        =
+        \set{x \in X : G_x = \set{e}}
+    \]
+\end{definition}
+
+\begin{lemma}
+    With $O(d)$ acting on $\R^{d \times n}$ via matrix multiplication,
+    $\R^{d \times n}_{free} = \R^{d \times n}_*$.
+    \begin{proof}
+        First, let $A \in \R^{d \times n}$ such that $\rank(A) = k < d$.
+        Then there are some orthonormal bases $\set{e_1,...,e_k}$ of $\col(A)$ and $\set{e_{k+1},...,e_d}$ of $\nul(A)$.
+        Let $B = [e_1 \cdots e_d]^T \in O(d)$ be the change of basis matrix from the standard basis for $\R^d$ to $\set{e_1,...,e_d}$.
+        Then $A$ can be written in the basis $\set{e_1,...,e_d}$ as a matrix
+        \[
+            \Hat{A} = 
+            BA = 
+            \begin{bmatrix}
+                \Hat{a}_{1,1} & \cdots & \Hat{a}_{n,1} \\
+                \vdots & & \vdots \\
+                \Hat{a}_{k,1} & \cdots & \Hat{a}_{n,k} \\
+                0 & \cdots & 0 \\
+                \vdots & & \vdots \\
+                0 & \cdots & 0
+            \end{bmatrix}.
+        \]
+    Now define the matrix $R \in \R^{d \times d}$ by $R_{i,i} = 1$ if $i \leq k$, $R_{i,i} = -1$ if $i > k$, and $R_{i,j} = 0$ if $i \neq j$ ($R$ simply flips the sign of the last $d-k$ coordinates) and observe that clearly $R \in O(d)$.
+    Define $Q = B^T R B$, and then $Q \in O(d)$ since
+    \[
+        Q^T Q
+        = (B^T R B)^T B^T R B
+        = B^T R^T B B^T R B
+        = I.
+    \]
+    By construction we have that $R\Hat{A} = \Hat{A}$, so it follows that $QA = A$.
+    However, without loss of generality $Q \neq I$, so we have that $A \not\in \R^{d \times n}_{free}$.
+    
+    Conversely, let $A \in \R^{d \times n}_*$ and let $Q \in O(d)$ such that $QA = A$.
+    Since $\col(A) = \R^d$, this means that $Q$ fixes all of $\R^d$ and hence $Q = I$.
+    Therefore $A \in \R^{d \times n}_{free}$.
+    \end{proof}
+\end{lemma}
+
+\begin{corollary}
+    $O(d)$ does not act freely on any subset of $\R^{d \times n}$ if $n < d$.
+\end{corollary}
+
+\begin{definition}
+    (From \cite{bendokat2024grassmanhandbook})
+    The \emph{Stiefel manifold} $V_k(n)$ is the set of orthonormal basis matrices for $k$-dimensional subspaces of $\R^n$, i.e.
+    \[
+        V_k(n) := \set{U \in \R^{n \times k} : U^T U = I}
+    \]
+\end{definition}
+
+\begin{definition}
+    (From \cite{bendokat2024grassmanhandbook})
+    The \emph{Grassmannian manifold}
+    \[
+        G_{d,n} := V_{d,n}/O(d)
+    \]
+    is the set of $d$-dimensional subspaces of $\R^n$.
+\end{definition}
