@@ -27,12 +27,12 @@
 \begin{definition}
     The set of \emph{positive semi-definite matrices of degree $n$ with at most rank $d$} is
     \[
-        \S^n_d := \set{A \in \S^n_+ : \rank(A) \leq d}.
+        \S^n_{\leq d} := \set{A \in \S^n_+ : \rank(A) \leq d}.
     \]
 \end{definition}
 
 \begin{remark}
-    $\S^n_d = \S^n_n$ for any $d \geq n$.
+    $\S^n_{\leq d} = \S^n_{\leq n}$ for any $d \geq n$.
 \end{remark}
 
 \begin{proposition}
@@ -40,11 +40,18 @@
 \end{proposition}
 
 \begin{corollary}
-    $\S^n_+ = \S^n_n$.
+    $\S^n_+ = \S^n_{\leq n}$.
 \end{corollary}
 
+\begin{definition}
+    The set of \emph{positive semi-definite matrices of degree $n$ with rank $d$} is
+    \[
+        \S^n_d := \set{A \in \S^n_+ : \rank(A) = d}.
+    \]
+\end{definition}
+
 \begin{proposition}\label{prop:psd-iff-transpose-product}
-    $A \in \S^n_d$ if and only if there is some matrix $B \in \R^{d \times n}$ such that $A = B^T B$ \cite{wikipedia:definite-matrices}.
+    $A \in \S^n_d$ if and only if there is some matrix $B \in \R^{d \times n}$ such that $A = B^T B$ with $\rank(B) = d$. \cite{wikipedia:definite-matrices}.
 \end{proposition}
 
 \begin{lemma}\label{lem:Od-cong-psd}
@@ -60,7 +67,7 @@
 \end{lemma}
 
 \begin{corollary}\label{cor:Rnd/Od-cong-Snd}
-    $\R^{d \times n} / O(d) \cong \S^n_d$.
+    $\R^{d \times n} / O(d) \cong \S^n_{\leq d}$.
     \begin{proof}
         This follows directly from proposition \ref{prop:psd-iff-transpose-product} and lemma \ref{lem:Od-cong-psd}.
     \end{proof}
@@ -79,9 +86,8 @@ With corollary \ref{cor:Rnd/Od-cong-Snd} in hand, we have that any invariant map
     \]
 \end{definition}
 
-\begin{lemma}
-    With $O(d)$ acting on $\R^{d \times n}$ via matrix multiplication,
-    $\R^{d \times n}_{free} = \R^{d \times n}_*$.
+\begin{lemma}\label{lem:free-iff-full-rank}
+    With $O(d)$ acting on $\R^{d \times n}$ via matrix multiplication, $\R^{d \times n}_{free} = \R^{d \times n}_*$.
     \begin{proof}
         First, let $A \in \R^{d \times n}$ such that $\rank(A) = k < d$.
         Then there are some orthonormal bases $\set{e_1,...,e_k}$ of $\col(A)$ and $\set{e_{k+1},...,e_d}$ of $\nul(A)$.
@@ -120,19 +126,48 @@ With corollary \ref{cor:Rnd/Od-cong-Snd} in hand, we have that any invariant map
     $O(d)$ does not act freely on any subset of $\R^{d \times n}$ if $n < d$.
 \end{corollary}
 
+\begin{corollary}
+    $\R^{d \times n}_* / O(d) \cong \S^n_d$.
+    \begin{proof}
+        This follows from proposition \ref{prop:psd-iff-transpose-product}, lemma \ref{lem:Od-cong-psd}, and lemma \ref{lem:free-iff-full-rank}.
+    \end{proof}
+\end{corollary}
+
 \begin{definition}
     (From \cite{bendokat2024grassmanhandbook})
-    The \emph{Stiefel manifold} $V_k(n)$ is the set of orthonormal basis matrices for $k$-dimensional subspaces of $\R^n$, i.e.
+    The \emph{Stiefel manifold} $V_k(n)$ is the set of orthonormal basis matrices for $k$-dimensional subspaces of $\R^n$, which can be represented via
     \[
-        V_k(n) := \set{U \in \R^{n \times k} : U^T U = I}
+        V_k(n) := \set{U \in \R^{n \times k} : U^T U = I \in \R^{k \times k}}
     \]
 \end{definition}
 
 \begin{definition}
     (From \cite{bendokat2024grassmanhandbook})
-    The \emph{Grassmannian manifold}
+    The \emph{Grassmann manifold} $G_k(n)$ is the set of all $k$-dimensional subspaces of $\R^n$.
+    This can be represented with the set of all rank $k$ orthogonal projection matrices via
     \[
-        G_{d,n} := V_{d,n}/O(d)
+        G_k(n) := \set{P \in \R^{n \times n} : P^T = P, P^2 = P, \rank(P) = k}.
     \]
-    is the set of $d$-dimensional subspaces of $\R^n$.
 \end{definition}
+
+\begin{remark}
+    The Grassmann manifold $G_k(n)$ can also be realized as a quotient of the Stiefel manifold $V_k(n)$ by relating matrices that are basis for the same subspace, i.e. those that differ by an orthogonal transformation.
+    This is captured by the action of $O(k)$ on $S_k(n)$ by right multiplication, hence $G_k(n) \cong V_k(n) / O(k)$.
+\end{remark}
+
+Both of these manifolds are compact, and have corresponding non-compact variants:
+
+\begin{definition}
+    The \emph{non-compact Stiefel manifold} $V'_k(n)$ is the set of basis matrices for $k$-dimensional subspaces of $\R^n$, which can be represented via
+    \[
+        V_k(n) := \set{U \in \R^{n \times k} : \rank(U) = k}
+    \]
+\end{definition}
+
+\begin{definition}
+    The \emph{non-compact Grassmann manifold} $G'_k(n)$ is $V'_k(n) / O(k)$ where $O(k)$ acts on $V'_k(n)$ on the right via matrix multiplication.
+\end{definition}
+
+\begin{remark}
+    There is a one-to-one correspondence between $\R^{d \times n}_*$ and $V_d(n)$ via $A \mapsto A^T$.
+\end{remark}
