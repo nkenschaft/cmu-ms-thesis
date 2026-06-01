@@ -18,9 +18,16 @@
 \end{remark}
 
 \begin{definition}
+    The set of \emph{real symmetric matrices of degree $n$} is
+    \[
+        \S^n := \set{A \in \R^{n \times n} : A = A^T}.
+    \]
+\end{definition}
+
+\begin{definition}
     The set of \emph{positive semi-definite matrices of degree $n$} is
     \[
-        \S^n_+ := \set{A \in \R^{n \times n} : A = A^T, \forall x \in \R^n, x^T A x \geq 0}.
+        \S^n_+ := \set{A \in \S^n : \forall x \in \R^n, x^T A x \geq 0}.
     \]
 \end{definition}
 
@@ -173,7 +180,118 @@ Both of these manifolds are compact, and have corresponding non-compact variants
 \end{remark}
 
 We now present a somewhat simplified proof of the result of \cite{colman2013equivariant}  that $(\R^{d \times n}, O(d))$ and $(\R^{d \times n}, SO(d))$ lack continuous canonicalizations for $n > d$ and $n \geq d$ respectively.
+The following results are due to Casson, as presented in \cite{kendall1999shape}.
 
 \begin{definition}
-    The \emph{shape space} $\Sigma^k_m$ is 
+    For a finite dimensional matrix $A \in \R^{n \times m}$, the \emph{spectrum} of $A$ is the set of (possibly complex) eigenvalues of $A$, denoted $\sigma(A)$.
+
+    Note: this is a slight abuse of the standard definition of the spectrum of a linear operator, but since we are in finite dimensions this definition coincides with the more general one.
 \end{definition}
+
+\begin{lemma}\label{lem:sym-tr0-eigenbound}
+    Let $E \in \S^n \sminus \set{0}$ with $\tr(E) = 0$, and let $\eps \in \R$ be the least eigenvalue of $E$.
+    Then $\abs{\eps} > \f{\norm{E}}{n}$ where $\norm{\cdot}$ denotes the operator norm.
+    \begin{proof}
+        \Afsoc that $\eps \leq \f{\norm{E}}{n}$.
+        Let $\set{\lambda_i}$ and $\set{\mu_j}$ be the positive and negative eigenvalues of $E$ respectively.
+        Recall that $\tr(E) = \sum_i \lambda_i + \sum_j \mu_j$, so $E$ must have at least one positive and one negative eigenvalue since $E \neq 0$.
+        Also note that we must have that $\abs{\mu_j} \leq \abs{\eps}$ for all $j$.
+        From functional analysis we know that $\norm{E} = \max\set{\abs{\min \sigma(E)}, \abs{\max \sigma(E)}}$, so since $\abs{\eps} < \norm{E}$ we must have some positive eigenvalue $\lambda_j = \norm{E}$.
+        Then we have
+        \[
+            \norm{E}
+            \leq \sum_i \lambda_i
+            = \sum_j \abs{\mu_j}
+            \leq (n-1) \abs{\eps}
+            < n \abs{\eps}
+            \leq \norm{E}
+        \]
+        which is a contradiction.
+        Therefore we conclude that $\abs{\eps} > \f{\norm{E}}{n}$.
+    \end{proof}
+\end{lemma}
+
+\begin{proposition}
+    Let $Y_+ = \S^n_+ \setminus \set{0}$ be the set of non-zero positive semidefinite matrices of degree $n$, let $Y_0 = \set{A \in Y_+ : \det(A) = 0}$, and let $\Rp$ be the group of positive real numbers under multiplication.
+    If $\Rp$ acts on the left of $Y_+$ via scalar multiplication, then $Y_+/\Rp$ is homeomorphic to a closed ball of dimension $n(n+1)/2 - 1$.
+    Additionally, $Y_0/\Rp$ is homeomorphic to the ball's boundary.
+    
+    \begin{proof}
+        % This section was included in Casson's proof, but I believe it is no longer necessary.
+        %
+        %First, we wish to show that the identity matrix $I$ is interior point of $Y_+ \sub \S^n$ in the subspace topology.
+        %Recall all norms are equivalent on a finite dimensional vector space, so it suffices to find an open ball under the operator norm.
+        %Define the function $\mu : \S^n \to \R$ by $\mu(A) = \min \sigma(A)$.
+        %$\mu$ is well-defined since real symmetric matrices have finitely many eigenvalues, all of which are real, and it follows from Weyl's inequality that $\mu$ is continuous.
+        %For any $A \in \S^n$, observe that $I + A \in Y_+$ if and only if $\mu(I + A) \geq 0$.
+        %By the continuity of $\mu$, there is some $\delta$ such that $\norm{A} < \delta$ implies $\abs{\mu(I) - \mu(I + A)} < 1$, meaning $\mu(I+A) > 0$ since $\mu(I) = 1$.
+        %Therefore $B(I,\delta) \sub Y_+$, as desired.
+        %
+        Let $\angles{A,B} := \tr(AB)$ be the Frobenius inner product on $\S^n$, which induces the Frobenius norm $\norm{\cdot}_F$.
+        Then let $I^\perp$ be orthogonal complement of $I$ in $\S^n$, let $D: = (I + I^\perp) \cap Y_+$, and let $B := \clo{B(0,1)} \cap I^\perp$ be the closed unit ball in $I^\perp$ under the operator, which has dimension $\dim(I^\perp) = \dim(Y_+) - \dim(\Span\set{I}) = n(n+1)/2 - 1$.
+        Observe that $D$ is trivially homeomorphic to $Y_+ / \Rp$ via the quotient map $E \mapsto [E]$ with continuous inverse $[E] \mapsto \f{1}{\norm{\proj_I E}} E$.
+
+        We now define $\Phi : B \to D$ via $\Phi(E) =  I - \f{\norm{E}}{\mu(E)}E$ if $E \neq 0$ and $\Phi(0) = I$.
+        We will show that $\Phi$ is the desired homeomorphism.
+        Observe that $\Phi(E) \in (I + I^\perp)$ by construction, but it remains to show that $\Phi(E) \in Y_+$.
+        This is trivially true for $E = 0$, so we consider $E \neq 0$.
+        Note that $E \in E^\perp$ means that $\tr(E) = 0$, meaning that the sum of $E$'s eigenvalues is $0$, so $E$ must have at least one negative eigenvalue since $E \neq 0$.
+        Hence, $\mu(E) < 0$.
+        Then we see that $E \in Y_+$ since
+        \begin{align*}
+            \min_{\norm{x} = 1} x^T \Phi(E) x
+            &= \min_{\norm{x} = 1} x^T \bigp{I - \f{\norm{E}}{\mu(E)}E} x \\
+            &= 1  - \f{\norm{E}}{\mu(E)} \min_{\norm{x} = 1} x^T E x \\
+            &= 1 - \norm{E} \\
+            &\geq 0.
+        \end{align*}
+        This also shows that $\Phi(E) \in Y_0$ if and only if $\norm{E} = 1$.
+        The continuity of $\Phi$ at every point other than $0$ is evident from its construction.
+        To see $\Phi$'s continuity at $0$, first observe that
+        \[
+            \f{\mu(E)}{\norm{E}}
+            = \f{\min_{\norm{x} = 1} x^T E x}{\norm{E}}
+            = \min_{\norm{x} = 1} x^T \f{E}{\norm{E}} x
+            = \mu\bigp{\f{E}{\norm{E}}}
+        \]
+        so
+        \[
+            \Phi(E) = I - \f{1}{\mu\bigp{\f{E}{\norm{E}}}} E.
+        \]
+        Note that $\Phi(E)$ is continuous if and only if $\f{1}{\mu\bigp{\f{E}{\norm{E}}}} E$ is, and since $\norm{\f{E}{\norm{E}}} = 1$ we use lemma \ref{lem:sym-tr0-eigenbound} to get that $\mu\bigp{\f{E}{\norm{E}}} > \f{1}{n}$ and  compute
+        \[
+            \lim_{E \to 0} \norm{\f{1}{\mu\bigp{\f{E}{\norm{E}}}} E}
+            < \lim_{E \to 0} \norm{n E}
+            = 0
+        \]
+        so $\lim_{E \to 0} \Phi(E) = I$ and $\Phi$ is continuous.
+        
+        We show that $\Phi$ is indeed a homeomorphism by constructing its inverse $\inv{\Phi} : D \to B$ via $\inv{\Phi}(I + E) = -\f{\mu(E)}{\norm{E}} E$ for $E \neq 0$ and $\inv{\Phi}(I) = 0$.
+        To see that this is indeed the inverse of $\Phi$, we first compute
+        \begin{align*}
+            \Phi(\inv{\Phi}(I + E))
+            &= \Phi\bigp{-\f{\mu(E)}{\norm{E}}E} \\
+            &= I - \f{\norm{-\f{\mu(E)}{\norm{E}}E}}{\mu\bigp{-\f{\mu(E)}{\norm{E}}E}}\bigp{-\f{\mu(E)}{\norm{E}} E} \\
+            &= I + \f{-\f{\mu(E)}{\norm{E}}\norm{E}}{-\f{\mu(E)}{\norm{E}}\mu\bigp{E}}\f{\mu(E)}{\norm{E}} E \\
+            &= I + E
+        \end{align*}
+        when $E \neq 0$, and the computation is trivial when $E = 0$.
+        Similarly, we have
+        \begin{align*}
+            \inv{\Phi}(\Phi(E))
+            &= \inv{\Phi}\bigp{I - \f{\norm{E}}{\mu(E)} E} \\
+            &= -\mu\bigp{\f{-\f{\norm{E}}{\mu(E)} E}{\norm{-\f{\norm{E}}{\mu(E)} E}}}\bigp{-\f{\norm{E}}{\mu(E)} E} \\
+            &= \f{-\f{\norm{E}}{\mu(E)}}{-\f{\norm{E}}{\mu(E)} \norm{E}} \mu(E) \f{\norm{E}}{\mu(E)} E \\
+            &= E.
+        \end{align*}
+        Thus we have that $\inv{\Phi}$ is indeed the inverse of $\Phi$.
+        Lastly, $\inv{\Phi}$ is again clearly continuous every except $0$ by construction, and at $0$ we have by the continuity of $\mu$ that
+        \[
+            \lim_{E \to 0} \norm{\inv{\Phi}(E)}
+            = \lim_{E \to 0} \norm{\f{\mu(E)}{\norm{E}} E}
+            = \lim_{E \to 0} \abs{\mu(E)} \f{\norm{E}}{\norm{E}}
+            = 0.
+        \]
+        Therefore we conclude $\Phi$ is a homeomorphism, and hence $Y_+ \cong B$.
+    \end{proof}
+\end{proposition}
