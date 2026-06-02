@@ -180,7 +180,7 @@ Both of these manifolds are compact, and have corresponding non-compact variants
 \end{remark}
 
 We now present a somewhat simplified proof of the result of \cite{colman2013equivariant}  that $(\R^{d \times n}, O(d))$ and $(\R^{d \times n}, SO(d))$ lack continuous canonicalizations for $n > d$ and $n \geq d$ respectively.
-The following results are due to Casson, as presented in \cite{kendall1999shape}.
+Propositions \ref{prop:PSD-mod-scale-cong-ball} and \ref{prop:mod-SOn-cong-PSD} and theorem \ref{thm:Casson} are due to Casson, as presented in theorem 1.1 of \cite{kendall1999shape}.
 
 \begin{definition}
     For a finite dimensional matrix $A \in \R^{n \times m}$, the \emph{spectrum} of $A$ is the set of (possibly complex) eigenvalues of $A$, denoted $\sigma(A)$.
@@ -211,12 +211,15 @@ The following results are due to Casson, as presented in \cite{kendall1999shape}
     \end{proof}
 \end{lemma}
 
-\begin{proposition}
+\begin{proposition}\label{prop:PSD-mod-scale-cong-ball}
     Let $Y_+ = \S^n_+ \setminus \set{0}$ be the set of non-zero positive semidefinite matrices of degree $n$, let $Y_0 = \set{A \in Y_+ : \det(A) = 0}$, and let $\Rp$ be the group of positive real numbers under multiplication.
     If $\Rp$ acts on the left of $Y_+$ via scalar multiplication, then $Y_+/\Rp$ is homeomorphic to a closed ball of dimension $n(n+1)/2 - 1$.
     Additionally, $Y_0/\Rp$ is homeomorphic to the ball's boundary.
     
     \begin{proof}
+        The basic idea of this proof is that we observe that $Y_+$ is a convex cone without its point, so we simply take a slice of it and homeomorphically map that slice to a disk.
+        Then it is reasonably clear that such a slice is exactly the cone quotient by scaling, so we conclude there.
+        The difficulty lies in showing the slice is actually a topological disk, the details of which lie in this proof.
         % This section was included in Casson's proof, but I believe it is no longer necessary.
         %
         %First, we wish to show that the identity matrix $I$ is interior point of $Y_+ \sub \S^n$ in the subspace topology.
@@ -226,10 +229,10 @@ The following results are due to Casson, as presented in \cite{kendall1999shape}
         %For any $A \in \S^n$, observe that $I + A \in Y_+$ if and only if $\mu(I + A) \geq 0$.
         %By the continuity of $\mu$, there is some $\delta$ such that $\norm{A} < \delta$ implies $\abs{\mu(I) - \mu(I + A)} < 1$, meaning $\mu(I+A) > 0$ since $\mu(I) = 1$.
         %Therefore $B(I,\delta) \sub Y_+$, as desired.
-        %
+
         Let $\angles{A,B} := \tr(AB)$ be the Frobenius inner product on $\S^n$, which induces the Frobenius norm $\norm{\cdot}_F$.
         Then let $I^\perp$ be orthogonal complement of $I$ in $\S^n$, let $D: = (I + I^\perp) \cap Y_+$, and let $B := \clo{B(0,1)} \cap I^\perp$ be the closed unit ball in $I^\perp$ under the operator, which has dimension $\dim(I^\perp) = \dim(Y_+) - \dim(\Span\set{I}) = n(n+1)/2 - 1$.
-        Observe that $D$ is trivially homeomorphic to $Y_+ / \Rp$ via the quotient map $E \mapsto [E]$ with continuous inverse $[E] \mapsto \f{1}{\norm{\proj_I E}} E$.
+        Observe that $D$ is homeomorphic to $Y_+ / \Rp$ via the quotient map $E \mapsto [E]$ with continuous inverse $[E] \mapsto \f{1}{\norm{\proj_I E}} E$.
 
         We now define $\Phi : B \to D$ via $\Phi(E) =  I - \f{\norm{E}}{\mu(E)}E$ if $E \neq 0$ and $\Phi(0) = I$.
         We will show that $\Phi$ is the desired homeomorphism.
@@ -285,13 +288,104 @@ The following results are due to Casson, as presented in \cite{kendall1999shape}
             &= E.
         \end{align*}
         Thus we have that $\inv{\Phi}$ is indeed the inverse of $\Phi$.
-        Lastly, $\inv{\Phi}$ is again clearly continuous every except $0$ by construction, and at $0$ we have by the continuity of $\mu$ that
+        Lastly, $\inv{\Phi}$ is again clearly continuous everywhere except $0$ by construction, and at $0$ we have by the continuity of $\mu$ that
         \[
             \lim_{E \to 0} \norm{\inv{\Phi}(E)}
-            = \lim_{E \to 0} \norm{\f{\mu(E)}{\norm{E}} E}
+            = \lim_{E \to 0} \norm{-\f{\mu(E)}{\norm{E}} E}
             = \lim_{E \to 0} \abs{\mu(E)} \f{\norm{E}}{\norm{E}}
             = 0.
         \]
-        Therefore we conclude $\Phi$ is a homeomorphism, and hence $Y_+ \cong B$.
+        We conclude that $\Phi$ is a homeomorphism, hence $Y_+/\Rp \cong B$ with $Y_0/\Rp \cong \bdry B$.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}\label{prop:mod-SOn-cong-PSD}
+    Let  $X_+ = \set{A \in \R^{n \times n} \sminus \set{0} : \det(A) \geq 0}$ with left $\SO(n)$ action given by matrix multiplication, and let $Y_+ = \S^n_+ \sminus \set{0}$.
+    Additionally, let $X_0 \sub X_+$ and $Y_0 \sub Y_+$ be the subspaces of singular matrices.
+    Then $X_+ / \SO(n) \cong Y_+$ with $X_0 / \SO(n) \cong Y_0$.
+    \begin{proof}
+        This follows from a nearly identical argument to that of lemma \ref{lem:Od-cong-psd} and corollary \ref{cor:Rnd/Od-cong-Snd}, simply with the added care to only use matrices with nonnegative determinant.
+    \end{proof}
+\end{proposition}
+
+\begin{theorem}[Casson]\label{thm:Casson}
+    Let $X = \R^{n \times n} \sminus \set{0}$ with $\SO(n)$ and $\Rp$ acting on the left via matrix and scalar multiplication respectively, and let $S$ be the sphere of dimension $n(n+1)/2 - 1$.
+    Then $X / (\Rp \times \SO(n)) \cong S$.
+    \begin{proof}
+        First observe that the actions of $\Rp$ and $\SO(n)$ on $X$ commute, so we have that
+        $X / (\Rp \times \SO(n)) \cong (X / \SO(n)) / \Rp$.
+        Let $X_0,X_+,X_-$ be the subspaces of $X$ of matrices with zero, nonnegative, and nonpositive determinant respectively, and observe that clearly $X \cong X_+ \cup_{X_0} X_-$.
+        Observe that any $\SO(n)$ orbit is entirely contained in $X_0$, $X_+$, or $X_-$, since $\SO(n)$-actions do not change the determinant.
+        Additionally, $X_+ \cong X_-$ via your favorite map that flips the sign of the determinant (e.g. multiplying the last column by $-1$).
+        It then follows that
+        \[
+            (X / \SO(n)) / \Rp
+            \cong (X_+ / \SO(n)) / \Rp
+            \cup_{(X_0 / \SO(n)) / \Rp}
+             (X_+ / \SO(n)) / \Rp.
+        \]
+        By propositions \ref{prop:PSD-mod-scale-cong-ball} and \ref{prop:mod-SOn-cong-PSD} we know that $(X_+ / \SO(n))/\Rp$ and $(X_0 / \SO(n))/\Rp$ are homeomorphic to the ball of dimension $n(n+1)/2 - 1$ and its boundary respectively, so we conclude that $X / (\Rp \times \SO(n))$ is homeomorphic to the sphere of dimension $n(n+1)/2 - 1$.
+    \end{proof}
+\end{theorem}
+
+With Casson's theorem in hand we can now rather quickly prove two of \cite{dym2024equivariant}'s impossibility results.
+
+\begin{lemma}\label{lem:induce-canon-truncate}
+    Let $G \sub \R^{d \times d}$ be a group acting on $\R^{d \times n}$ on the left via matrix multiplication.
+    Then a canonicalization for $\R^{d \times n}$ induces a canonicalization for $\R^{d \times m}$ for any $m \leq n$.
+    \begin{proof}
+        Let $f : \R^{d \times n} \to \R^{d \times n}$ be a canonicalization, and consider the map $\Hat{f} : \R^{d \times m} \to \R^{d \times m}$ given by $\Hat{f}(A) = f([A \mid 0])[:,:m]$ ($[A \mid 0]$ indicates padding $A$ on the right with zeroes so $[A \mid 0] \in \R^{d \times n}$).
+        Then for any $Q \in G$ and $A \in \R^{d \times m}$,
+        \[
+            \Hat{f}(QA)
+            = f(Q[A \mid 0])[:,:m]
+            = (\Hat{Q}[A \mid 0])[:,:m]
+            = \Hat{Q}A
+        \]
+    for some $\Hat{Q} \in G$.
+    Note that $\Hat{f}(QB) = \Hat{Q}A$ any $Q \in G$, and $B \in GA$ since $f$ is a canonicalization, so we conclude that $\Hat{f}$ is a canonicalization as well.
+    \end{proof}
+\end{lemma}
+
+\begin{theorem}\label{thm:no-SOd-canon-for-dxn}
+    If $n \geq d$, $\R^{d \times n}$ has no canonicalization with respect to $\SO(d)$.
+    \begin{proof}
+        By lemma \ref{lem:induce-canon-truncate} we know that any canonicalization of $\R^{d \times n}$ induces a canonicalization for $\R^{d \times d}$, so we reduce to considering this case.
+        Now, \afsoc that we have a canonicalization for $\R^{d \times d}$, and recall that this induces a section  of the quotient map $\R^{d \times d} \to \R^{d \times d}/\SO(d)$.
+        Observe that such a section also induces a section on any $\SO(d)$-invariant subspace of $\R^{d \times d}$, so we specifically consider the unit sphere $S^{d^2-1} \sub \R^{d \times d}$ under the Frobenius norm.
+        It is easy to see that $S^{d^2-1}$ is invariant under $\SO(d)$ transformations since orthogonal transformations do not change the Frobenius norm, and it is also clear that $S^{d^2-1}$ is homeomorphic to the quotient $(\R^{d \times d} \sminus \set{0}) / \Rp$ since one can always scale a non-zero matrix to have norm $1$.
+        Hence, we have a section $s : S^{d^2-1}/\SO(d) \to S^{d^2-1}$ of the quotient map $q : S^{d^2-1} \to S^{d^2-1}/\SO(d)$.
+
+        Recall by theorem \ref{thm:Casson} that the quotient $S^{d^2-1}/\SO(d)$ is homeomorphic to the sphere of dimension $d(d+1)/2-1$, $S^{\f{d(d+1)}{2} - 1}$.
+        So, up to slight abuse of notation, we have induced maps on homology
+        \[
+            H_k(S^{\f{d(d+1)}{2} - 1})
+            \tto{s_\sharp}
+            H_k(S^{d^2 - 1})
+            \tto{q_\sharp}
+            H_k(S^{\f{d(d+1)}{2} - 1})
+        \]
+        such that $q_\sharp \circ s_\sharp$ is still the identity.
+        However, when $k = d(d+1)/2-1$ this is impossible, since in this case $H_k(S^{\f{d(d+1)}{2} - 1}) \cong \Z$ and $H_k(S^{d^2-1}) \cong 0$.
+        Therefore we conclude that there can be no canonicalization of $\R^{d \times n}$ with respect to $\SO(d)$ for $n \geq d$.
+    \end{proof}
+\end{theorem}
+
+\begin{theorem}\label{thm:no-Od-canon-for-dxn}
+    If $n > d$, $\R^{d \times n}$ has no canonicalization with respect to $\O(d)$.
+    \begin{proof}
+        This proof proceeds almost identically to that of theorem \ref{thm:no-SOd-canon-for-dxn}.
+        We first reduce to considering $\R^{d \times (d+1)}$, then find $S^{d(d+1) - 1} \sub \R^{d \times (d+1)}$, which is homeomorphic to $\R^{d \times (d+1)} / \Rp$.
+        Next, observe that $S^{d(d+1) - 1}/O(d)$ is homeomorphic to $\set{A \in \S^{d+1} : \det(A) = 0}/\Rp$ by corollary \ref{cor:Rnd/Od-cong-Snd}, which is in turn homeomorphic to the boundary of the ball of dimension $(d+1)(d+2)/2 - 1$, i.e. the sphere of that dimension, by proposition \ref{prop:PSD-mod-scale-cong-ball}.
+        Then a contradiction once again arises by considering the induced maps on homology.
+    \end{proof}
+\end{theorem}
+
+\begin{proposition}
+    Let $\SO(d)$ act on the left of $\R^{d \times d}_*$ via matrix multiplication and let $q : \R^{d \times d}_* \to \R^{d \times d}_* / \SO(d)$ be the quotient map.
+    Then $\ssecat(q) = 2$.
+    \begin{proof}
+        First, observe that by theorem \ref{thm:no-SOd-canon-for-dxn}, proposition \ref{prop:canon-is-section}, remark \ref{rem:secat1-iff-section}, and lemma \ref{lem:subsecat-leq-secat} we have that $\ssecat(q) > 1$.
+        Hence, it remains to show that $\ssecat(q) \leq 2$.
     \end{proof}
 \end{proposition}
