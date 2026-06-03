@@ -32,6 +32,13 @@
 \end{definition}
 
 \begin{definition}
+    The set of \emph{negative semi-definite matrices of degree $n$} is
+    \[
+        \S^n_- := \set{A \in \S^n : \forall x \in \R^n, x^T A x \leq 0}.
+    \]
+\end{definition}
+
+\begin{definition}
     The set of \emph{positive semi-definite matrices of degree $n$ with at most rank $d$} is
     \[
         \S^n_{\leq d} := \set{A \in \S^n_+ : \rank(A) \leq d}.
@@ -220,19 +227,14 @@ Propositions \ref{prop:PSD-mod-scale-cong-ball} and \ref{prop:mod-SOn-cong-PSD} 
         The basic idea of this proof is that we observe that $Y_+$ is a convex cone without its point, so we simply take a slice of it and homeomorphically map that slice to a disk.
         Then it is reasonably clear that such a slice is exactly the cone quotient by scaling, so we conclude there.
         The difficulty lies in showing the slice is actually a topological disk, the details of which lie in this proof.
-        % This section was included in Casson's proof, but I believe it is no longer necessary.
-        %
-        %First, we wish to show that the identity matrix $I$ is interior point of $Y_+ \sub \S^n$ in the subspace topology.
-        %Recall all norms are equivalent on a finite dimensional vector space, so it suffices to find an open ball under the operator norm.
-        %Define the function $\mu : \S^n \to \R$ by $\mu(A) = \min \sigma(A)$.
-        %$\mu$ is well-defined since real symmetric matrices have finitely many eigenvalues, all of which are real, and it follows from Weyl's inequality that $\mu$ is continuous.
-        %For any $A \in \S^n$, observe that $I + A \in Y_+$ if and only if $\mu(I + A) \geq 0$.
-        %By the continuity of $\mu$, there is some $\delta$ such that $\norm{A} < \delta$ implies $\abs{\mu(I) - \mu(I + A)} < 1$, meaning $\mu(I+A) > 0$ since $\mu(I) = 1$.
-        %Therefore $B(I,\delta) \sub Y_+$, as desired.
 
         Let $\angles{A,B} := \tr(AB)$ be the Frobenius inner product on $\S^n$, which induces the Frobenius norm $\norm{\cdot}_F$.
         Then let $I^\perp$ be orthogonal complement of $I$ in $\S^n$, let $D: = (I + I^\perp) \cap Y_+$, and let $B := \clo{B(0,1)} \cap I^\perp$ be the closed unit ball in $I^\perp$ under the operator, which has dimension $\dim(I^\perp) = \dim(Y_+) - \dim(\Span\set{I}) = n(n+1)/2 - 1$.
         Observe that $D$ is homeomorphic to $Y_+ / \Rp$ via the quotient map $E \mapsto [E]$ with continuous inverse $[E] \mapsto \f{1}{\norm{\proj_I E}} E$.
+
+        Define the function $\mu : \S^n \to \R$ by $\mu(A) = \min \sigma(A)$.
+        $\mu$ is well-defined since real symmetric matrices have finitely many eigenvalues, all of which are real, and it follows from Weyl's inequality that $\mu$ is continuous.
+        For any $A \in \S^n$, observe that $I + A \in Y_+$ if and only if $\mu(I + A) \geq 0$.
 
         We now define $\Phi : B \to D$ via $\Phi(E) =  I - \f{\norm{E}}{\mu(E)}E$ if $E \neq 0$ and $\Phi(0) = I$.
         We will show that $\Phi$ is the desired homeomorphism.
@@ -297,6 +299,20 @@ Propositions \ref{prop:PSD-mod-scale-cong-ball} and \ref{prop:mod-SOn-cong-PSD} 
         \]
         We conclude that $\Phi$ is a homeomorphism, hence $Y_+/\Rp \cong B$ with $Y_0/\Rp \cong \bdry B$.
     \end{proof}
+    \begin{proof}[Alternative proof]
+        First, we wish to show that the identity matrix $I$ is interior point of $Y_+ \sub \S^n$ in the subspace topology.
+        Recall all norms are equivalent on a finite dimensional vector space, so it suffices to find an open ball under the operator norm.
+        Define the function $\mu : \S^n \to \R$ by $\mu(A) = \min \sigma(A)$.
+        $\mu$ is well-defined since real symmetric matrices have finitely many eigenvalues, all of which are real, and it follows from Weyl's inequality that $\mu$ is continuous.
+        For any $A \in \S^n$, observe that $I + A \in Y_+$ if and only if $\mu(I + A) \geq 0$.
+        By the continuity of $\mu$, there is some $\delta$ such that $\norm{A} < \delta$ implies $\abs{\mu(I) - \mu(I + A)} < 1$, meaning $\mu(I+A) > 0$ since $\mu(I) = 1$.
+        Therefore $B(I,\delta) \sub Y_+$, as desired, so $\dim Y_+ = \dim \S^n = n(n+1)/2$.
+        
+        Next, $Y_+$ is clearly convex since the sum of any two positive semidefinite matrices is also positive semidefinite.
+        % TODO: formalize this
+        From here, one can simply consider the intersection $Y_+ \cap (I + I^\perp)$ which is a bounded, convex subset of $Y_+$ and is hence homeomorphic to the ball of dimension $n(n+1)/2 - 1$.
+        Additionally, $\bdry Y_+ = Y_0$ since any singular matrix can be perturbed to have a negative eigenvalue, so $Y_0 \cap (I + I^\perp)$ is homeomorphic to the ball's boundary.
+    \end{proof}
 \end{proposition}
 
 \begin{proposition}\label{prop:mod-SOn-cong-PSD}
@@ -331,6 +347,7 @@ Propositions \ref{prop:PSD-mod-scale-cong-ball} and \ref{prop:mod-SOn-cong-PSD} 
 With Casson's theorem in hand we can now rather quickly prove two of \cite{dym2024equivariant}'s impossibility results.
 
 \begin{lemma}\label{lem:induce-canon-truncate}
+    (From \cite{dym2024equivariant})
     Let $G \sub \R^{d \times d}$ be a group acting on $\R^{d \times n}$ on the left via matrix multiplication.
     Then a canonicalization for $\R^{d \times n}$ induces a canonicalization for $\R^{d \times m}$ for any $m \leq n$.
     \begin{proof}
@@ -372,20 +389,51 @@ With Casson's theorem in hand we can now rather quickly prove two of \cite{dym20
 \end{theorem}
 
 \begin{theorem}\label{thm:no-Od-canon-for-dxn}
-    If $n > d$, $\R^{d \times n}$ has no canonicalization with respect to $\O(d)$.
+    If $n > d \geq 4$, $\R^{d \times n}$ has no canonicalization with respect to $\O(d)$.
     \begin{proof}
         This proof proceeds almost identically to that of theorem \ref{thm:no-SOd-canon-for-dxn}.
         We first reduce to considering $\R^{d \times (d+1)}$, then find $S^{d(d+1) - 1} \sub \R^{d \times (d+1)}$, which is homeomorphic to $\R^{d \times (d+1)} / \Rp$.
-        Next, observe that $S^{d(d+1) - 1}/O(d)$ is homeomorphic to $\set{A \in \S^{d+1} : \det(A) = 0}/\Rp$ by corollary \ref{cor:Rnd/Od-cong-Snd}, which is in turn homeomorphic to the boundary of the ball of dimension $(d+1)(d+2)/2 - 1$, i.e. the sphere of that dimension, by proposition \ref{prop:PSD-mod-scale-cong-ball}.
+        Next, observe that $S^{d(d+1) - 1}/O(d)$ is homeomorphic to $\set{A \in \S^{d+1} : \det(A) = 0}/\Rp$ by corollary \ref{cor:Rnd/Od-cong-Snd}, which is in turn homeomorphic to the boundary of the ball of dimension $(d+1)(d+2)/2 - 1$, i.e. the sphere of one dimension less than that, by proposition \ref{prop:PSD-mod-scale-cong-ball}.
         Then a contradiction once again arises by considering the induced maps on homology.
+        We require $d \geq 4$ so that $d^2 - 1 > (d+1)(d+2)/2 - 2$ and this last step actually produces a contradiction.
+        For lower values of $d$, one can use \cite{dym2024equivariant}'s proof.
     \end{proof}
 \end{theorem}
 
-\begin{proposition}
+\begin{proposition}\label{prop:SOd-secat-2}
     Let $\SO(d)$ act on the left of $\R^{d \times d}_*$ via matrix multiplication and let $q : \R^{d \times d}_* \to \R^{d \times d}_* / \SO(d)$ be the quotient map.
     Then $\ssecat(q) = 2$.
     \begin{proof}
         First, observe that by theorem \ref{thm:no-SOd-canon-for-dxn}, proposition \ref{prop:canon-is-section}, remark \ref{rem:secat1-iff-section}, and lemma \ref{lem:subsecat-leq-secat} we have that $\ssecat(q) > 1$.
         Hence, it remains to show that $\ssecat(q) \leq 2$.
+        By proposition \ref{prop:psd-iff-transpose-product} we know that $\R^{d \times d}$ is homeomorphic to the (disjoint) union of full rank matrices in $\S^d_+$ and $\S^d_-$ (here denoted $S_+$ and $S_-$) via the map $q : \R^{d \times d}_* \to S_+ \sqcup S_-$ defined as follows:
+        \[
+            q(A) = 
+            \begin{cases}
+                A^T A &\text{ if } \det(A) > 0 \\
+                -A^T A &\text{ if } \det(A) < 0
+            \end{cases}.
+        \]
+        Observe that this well-defined since $A^T A$ is always positive semi-definite with $\rank(A^T A) = \rank(A)$, so $A^T A \in S_+$ and $-A^T A \in S_-$.
+        Additionally, $q$ is clearly continuous.
+
+        Next, we define $s_+ : S_+ \to \R^{d \times d}$ by $s_+(A) = A^{\f12}$ and $s_- : S_- \to \R^{d \times d}$ by $s_-(A) = T(-A)^{\f12}$, where $M^{\f12}$ denotes the matrix square root where $T$ is some orthogonal transformation that flips the sign of its input's determinant, i.e. $T \in O(d) \sminus SO(d)$.
+        Both of these maps are clearly well-defined and continuous by construction.
+        For $A \in S_+$, we then compute
+        \[
+            q(s_+(A))
+            = q(A^{\f12})
+            = (A^{\f12})^T (A^{\f12})
+            = A
+        \]
+        and similarly for $A \in S_-$ we have
+        \[
+            q(s_-(A))
+            = q(T(-A)^{\f12})
+            = -(T(-A)^{\f12})^T (T(-A)^{\f12})
+            = -(-A)^{\f12} T^T T (-A)^{\f12}
+            = A.
+        \]
+        Therefore both $s_+$ and $s_-$ are local sections of $q$ one $S_+$ and $S_-$ respectively, and both $S_+$ and $S_-$ are open in the quotient by construction so we conclude that $\ssecat(q) \leq 2$.
     \end{proof}
 \end{proposition}
