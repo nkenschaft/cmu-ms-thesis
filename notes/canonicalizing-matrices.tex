@@ -1,4 +1,4 @@
-\section{Canonicalizing $\R^{d \times n}$}
+\subsection{Canonicalizing $\R^{d \times n}$}\label{sec:canonicalizing-matrices}
 \begin{definition}
     The \emph{orthogonal group} of degree $n$ is the set
     \[
@@ -389,14 +389,18 @@ With Casson's theorem in hand we can now rather quickly prove two of \cite{dym20
 \end{theorem}
 
 \begin{theorem}\label{thm:no-Od-canon-for-dxn}
-    If $n > d \geq 4$, $\R^{d \times n}$ has no canonicalization with respect to $\O(d)$.
-    \begin{proof}
+    If $n > d$, $\R^{d \times n}$ has no canonicalization with respect to $\O(d)$.
+    \begin{proof}[Proof 1]
         This proof proceeds almost identically to that of theorem \ref{thm:no-SOd-canon-for-dxn}.
         We first reduce to considering $\R^{d \times (d+1)}$, then find $S^{d(d+1) - 1} \sub \R^{d \times (d+1)}$, which is homeomorphic to $\R^{d \times (d+1)} / \Rp$.
-        Next, observe that $S^{d(d+1) - 1}/O(d)$ is homeomorphic to $\set{A \in \S^{d+1} : \det(A) = 0}/\Rp$ by corollary \ref{cor:Rnd/Od-cong-Snd}, which is in turn homeomorphic to the boundary of the ball of dimension $(d+1)(d+2)/2 - 1$, i.e. the sphere of one dimension less than that, by proposition \ref{prop:PSD-mod-scale-cong-ball}.
+        Next, observe that $S^{d(d+1) - 1}/O(d)$ is homeomorphic to $\S^{d+1}_{\leq d}/\Rp$ by corollary \ref{cor:Rnd/Od-cong-Snd}, which is in turn homeomorphic to the boundary of the ball of dimension $(d+1)(d+2)/2 - 1$, i.e. the sphere of one dimension less than that, by proposition \ref{prop:PSD-mod-scale-cong-ball}.
         Then a contradiction once again arises by considering the induced maps on homology.
-        We require $d \geq 4$ so that $d^2 - 1 > (d+1)(d+2)/2 - 2$ and this last step actually produces a contradiction.
+        We require $d \geq 4$ here so that $d^2 - 1 > (d+1)(d+2)/2 - 2$ and this last step actually produces a contradiction.
         For lower values of $d$, one can use \cite{dym2024equivariant}'s proof.
+    \end{proof}
+    This result also has a more direct proof.
+    \begin{proof}[Proof 2]
+        \Afsoc that we have some canonicalization of $\R^{d \times n}$ and the associated section $s : \S^n_{\leq d} \to \R^{d \times n}$.
     \end{proof}
 \end{theorem}
 

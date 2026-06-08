@@ -1,0 +1,26 @@
+\section{Motivation}
+In machine learning, one is generally trying to learn a map $f : V \to W$ between vector spaces with some desired properties.
+For instance, if $V$ is the vector space of tuples of age and height of some population and $W$ represents the weights of that population, one may wish to identify a relationship between those three variables in the form of a map $f$ taking tuples $(age, height) \in V$ to some $weight = f(age, height) \in W$.
+Generally, we want this map to reflect our intuition of how patterns in nature behave, meaning this map should at the very least be continuous (or nearly so), and potentially respect other properties or structure of the data.
+
+A natural example of additional structure is when the data have some sort of inherent symmetry.
+This could arise when trying to label the pose of a person, for example, where any horizontal rotation of a person in a certain pose still is shaped in that pose.
+Mathematically, we can represent this with a group action on our space $V$ by some group $G$ of symmetries.
+In the case of poses, we might wish to construct a map $f$ that ignores the actions our group $G$ of horizontal rotations, meaning that every rotation is identified as the same pose.
+Formally, this is called an \emph{invariant} or \emph{$G$-invariant} map, defined to mean that $f(g \cdot v) = f(v)$ for all $g \in G$ and $v \in V$.
+Similarly, one may also wish to consider the case where $W$ is also equipped with a $G$-action (for the same group $G$), in which case we may want a \emph{($G$-)equivariant} map $f : V \to W$, meaning $f(g \cdot v) = g \cdot f(v)$.
+
+For practical purposes, one must then consider how to construct such a map.
+A very natural way is to consider a so-called \emph{canonicalization}, where one first associates each instance of the data to a canonical representative respecting the symmetry \cite{dym2024equivariant}.
+Concretely, if someone hands you a collection of points representing the joints of a human in a certain pose, you may attempt to rotate this collection of points so that the person would be facing you, then proceed to identify the pose.
+Mathematically, a canonicalization is then a map $c : V \to V$ such that $c(g \cdot v) = c(v) \in Gv$ for all $g \in G$ and $v \in V$.
+Then any continuous map $f : V \to W$, not necessarily invariant on its own, becomes an invariant map when composed with $c$, since $f(c(g \cdot v)) = f(c(v))$.
+The question then becomes whether or not such a canonicalization even exists.
+This question is addressed in \cite{dym2024equivariant} and chapter \ref{ch:canonicalization}.
+
+Another rather intuitive way to construct such a map would be to take an average of some map over all possible symmetries.
+Informally, this would look like
+\[
+    \f{1}{\card{G}} \sum_{g \in G} f(g \cdot v).
+\]
+This of course doesn't make sense if the group $G$ is infinite (like the case of rotational symmetries), but it can be made precise using integration and measure theory; this is explored further in \cite{dym2024equivariant} and chapter \ref{ch:frame-averaging}.

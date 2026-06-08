@@ -1,0 +1,16 @@
+\subsection{Stiefel-Whitney Classes}\label{sec:bg-stiefel-whitney-classes}
+The following material is from \cite{hatcher2009bundlesktheory}
+
+\begin{definition}
+    Let $E$ and $B$ be spaces and let $p : E \to B$ be a map such that
+    \begin{enumerate}
+        \item $p$ is surjective
+        \item for all $b \in B$, $\inv{p}[\set{b}]$ has an $\R$-vector space structure,
+        \item and there is a cover of $B$ by open sets $U_\alpha$ with homeomorphisms $\Phi_\alpha : \inv{p}[U_\alpha] \to U_\alpha \times \R^n$ such that $\Phi_\alpha |_{\inv{p}[\set{b}]} : \inv{p}[\set{b}] \to \set{b} \times \R^n$ is a linear isomorphism for each $b \in U_\alpha$.
+    \end{enumerate}
+    Then $p$ is an \emph{$n$-dimensional vector bundle} and the maps $\Phi_\alpha$ are \emph{local trivializations}.
+\end{definition}
+
+\begin{remark}
+    An $n$-dimensional vector bundle is a special type of fiber bundle with fiber $\R^n$.
+\end{remark}
