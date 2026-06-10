@@ -147,45 +147,6 @@ With corollary \ref{cor:Rnd/Od-cong-Snd} in hand, we have that any invariant map
     \end{proof}
 \end{corollary}
 
-\begin{definition}
-    (From \cite{bendokat2024grassmanhandbook})
-    The \emph{Stiefel manifold} $V_k(n)$ is the set of orthonormal basis matrices for $k$-dimensional subspaces of $\R^n$, which can be represented via
-    \[
-        V_k(n) := \set{U \in \R^{n \times k} : U^T U = I \in \R^{k \times k}}
-    \]
-\end{definition}
-
-\begin{definition}
-    (From \cite{bendokat2024grassmanhandbook})
-    The \emph{Grassmann manifold} $G_k(n)$ is the set of all $k$-dimensional subspaces of $\R^n$.
-    This can be represented with the set of all rank $k$ orthogonal projection matrices via
-    \[
-        G_k(n) := \set{P \in \R^{n \times n} : P^T = P, P^2 = P, \rank(P) = k}.
-    \]
-\end{definition}
-
-\begin{remark}
-    The Grassmann manifold $G_k(n)$ can also be realized as a quotient of the Stiefel manifold $V_k(n)$ by relating matrices that are basis for the same subspace, i.e. those that differ by an orthogonal transformation.
-    This is captured by the action of $O(k)$ on $V_k(n)$ by right multiplication, hence $G_k(n) \cong V_k(n) / O(k)$.
-\end{remark}
-
-Both of these manifolds are compact, and have corresponding non-compact variants:
-
-\begin{definition}
-    The \emph{non-compact Stiefel manifold} $V'_k(n)$ is the set of basis matrices for $k$-dimensional subspaces of $\R^n$, which can be represented via
-    \[
-        V_k(n) := \set{U \in \R^{n \times k} : \rank(U) = k}
-    \]
-\end{definition}
-
-\begin{definition}
-    The \emph{non-compact Grassmann manifold} $G'_k(n)$ is $V'_k(n) / O(k)$ where $O(k)$ acts on $V'_k(n)$ on the right via matrix multiplication.
-\end{definition}
-
-\begin{remark}
-    The transposition map $A \mapsto A^T$ gives a homeomorphism between $\R^{d \times n}_*$ and $V'_d(n)$, hence $\R^{d \times n}_* / O(d) \cong G'_d(n)$.
-\end{remark}
-
 We now present a somewhat simplified proof of the result of \cite{colman2013equivariant}  that $(\R^{d \times n}, O(d))$ and $(\R^{d \times n}, SO(d))$ lack continuous canonicalizations for $n > d$ and $n \geq d$ respectively.
 Propositions \ref{prop:PSD-mod-scale-cong-ball} and \ref{prop:mod-SOn-cong-PSD} and theorem \ref{thm:Casson} are due to Casson, as presented in theorem 1.1 of \cite{kendall1999shape}.
 
@@ -440,4 +401,65 @@ With Casson's theorem in hand we can now rather quickly prove two of \cite{dym20
         \]
         Therefore both $s_+$ and $s_-$ are local sections of $q$ one $S_+$ and $S_-$ respectively, and both $S_+$ and $S_-$ are open in the quotient by construction so we conclude that $\ssecat(q) \leq 2$.
     \end{proof}
+\end{proposition}
+
+We would also like to compute or at least bound the sectional category of the quotients $\R^{d \times n} \to \R^{d \times n} / \SO(d)$ and $\R^{d \times n} / \O(d)$ in general.
+To do this, it is useful to consider the Stiefel and Grassmann manifolds as in section \ref{sec:bg-stiefel-whitney-classes}.
+
+
+\begin{remark}
+    (From \cite{bendokat2024grassmanhandbook})
+    The Grassmann manifold $\Gr(n,k)$ can also be realized as a quotient of the Stiefel manifold $\St(n,k)$ by relating matrices that are basis for the same subspace, i.e. those that differ by an orthogonal transformation.
+    This is captured by the action of $O(k)$ on $\St(n,k)$ by right multiplication, hence $\Gr(n,k) \cong \St(n,k) / O(k)$.
+\end{remark}
+
+Both of the the Stiefel and Grassman manifolds are compact, and have corresponding non-compact variants:
+
+\begin{definition}
+    The \emph{non-compact Stiefel manifold} $\St'(n,k)$ is the set of basis matrices for $k$-dimensional subspaces of $\R^n$, which can be represented via
+    \[
+        \St'(n,k) := \set{U \in \R^{n \times k} : \rank(U) = k}
+    \]
+\end{definition}
+
+\begin{definition}
+    The \emph{non-compact Grassmann manifold} $\Gr'(n,k)$ is $\St'(n,k) / O(k)$ where $O(k)$ acts on the right of $\St'(n,k)$ via matrix multiplication.
+\end{definition}
+
+\begin{remark}\label{rem:full-rank-hom-stiefel}
+    The transposition map $A \mapsto A^T$ gives a homeomorphism between $\R^{d \times n}_*$ and $\St'(n,d)$, hence $\R^{d \times n}_* / O(d) \cong \Gr'(n,d)$.
+\end{remark}
+
+In view of remark \ref{rem:full-rank-hom-stiefel}, we now wish to compute/bound the sectional category of the projection $\pi : \St(n,k) \to \Gr(n,k)$, treating $\St(n,k)$ as the unit sphere in $\R^{d \times n}_*$.
+But recall that by corollary \ref{cor:nil-st-gr-proj-eq-cup-gr} this can be done by computing/bounding the cup length of $\Gr(n,k)$.
+
+\begin{proposition}
+    (From \cite{stong1982}, p. 104)
+    If $2^s < n \leq 2^{s+1}$ for some positive integer $s$, we have
+    \[
+        \cupln(\Gr(n,3))
+        = \begin{cases}
+            2^{s + 2} - 3 \cdot 2^{p - 1} - 4 &\text{ if } n = 2^{s+1} - 2^{p} \text{ for some } p \geq 1 \\
+            2^{s + 2} - 3 \cdot 2^{p - 1} - 2 + t &\text{ if } n = 2^{s+1} - 2^{p} + 2 + t\\
+            &\text{ for some } p \geq 1, 0 \leq t \leq 2^{p-1}-2 \\
+            2^{s + 2} - 5 &\text{ if } n = 2^{s+1} \\
+        \end{cases}
+    \]
+\end{proposition}
+
+\begin{proposition}
+    Given a positive integer $s$, we have
+    \[
+        \cupln(\Gr(2^s+1,4)) = 2^{s+1}+2^s-7.
+    \]
+    Furthermore, given integers $0 \leq r < s$ and $0 \leq t < 2^r - 1$, we have
+    \[
+        \cupln(\Gr(2^s+2^r+t+1,4)) = 2^{s+1} + 2^s + 2^{r+1} + t - 7.
+    \]
+\end{proposition}
+
+% TODO: this proposition causes the 2 above not to work for n \leq 9. not sure why.
+\begin{proposition}
+    (From \cite{pavesic2021} following proposition 3.5)
+    For $n \leq m$, $\cupln(\Gr(n,k)) \leq \cupln(\Gr(m,k))$.
 \end{proposition}
