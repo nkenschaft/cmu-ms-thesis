@@ -433,33 +433,119 @@ Both of the the Stiefel and Grassman manifolds are compact, and have correspondi
 In view of remark \ref{rem:full-rank-hom-stiefel}, we now wish to compute/bound the sectional category of the projection $\pi : \St(n,k) \to \Gr(n,k)$, treating $\St(n,k)$ as the unit sphere in $\R^{d \times n}_*$.
 But recall that by corollary \ref{cor:nil-st-gr-proj-eq-cup-gr} this can be done by computing/bounding the cup length of $\Gr(n,k)$.
 
-\begin{proposition}
+\begin{proposition}\label{prop:cup-Grnk-monotonicity}
+    (From \cite{pavesic2021} following proposition 3.5)
+    For $n \leq m$, $\cupln(\Gr(n,k)) \leq \cupln(\Gr(m,k))$.
+\end{proposition}
+
+\begin{proposition}\label{prop:cup-Grn2}
+    (From \cite{pavesic2021}, proposition 3.3)
+    If $2^s < n \leq 2^{s+1}$ for some integer $s$, then
+    \[
+        \cupln(\Gr(n,2))
+        = \begin{cases}
+            2^{s+1} - 2 &\tif n = 2^s + 1 \\
+            2^{s+1} - 1 &\totherwise.
+        \end{cases}
+    \]
+\end{proposition}
+
+\begin{proposition}\label{prop:cup-Grn3}
     (From \cite{stong1982}, p. 104)
     If $2^s < n \leq 2^{s+1}$ for some positive integer $s$, we have
     \[
         \cupln(\Gr(n,3))
         = \begin{cases}
-            2^{s + 2} - 3 \cdot 2^{p - 1} - 4 &\text{ if } n = 2^{s+1} - 2^{p} \text{ for some } p \geq 1 \\
-            2^{s + 2} - 3 \cdot 2^{p - 1} - 2 + t &\text{ if } n = 2^{s+1} - 2^{p} + 2 + t\\
-            &\text{ for some } p \geq 1, 0 \leq t \leq 2^{p-1}-2 \\
+            2^{s + 2} - 3 \cdot 2^{p - 1} - 4 &\text{ if } n = 2^{s+1} - 2^{p} + 1 \text{ for some } p \geq 1 \\
+            2^{s + 2} - 3 \cdot 2^{p - 1} - 4 + t &\text{ if } n = 2^{s+1} - 2^{p} + t\\
+            &\quad\text{ for some } p \geq 1, 2 \leq t \leq 2^{p-1} \\
             2^{s + 2} - 5 &\text{ if } n = 2^{s+1} \\
         \end{cases}
     \]
+    From this, we have a tight lower bound of $\cupln(\Gr(n,3)) \geq 2n - 5$.
 \end{proposition}
 
-\begin{proposition}
-    Given a positive integer $s$, we have
+\begin{proposition}\label{prop:cup-Grn4}
+    Letting $s$ range over the positive integers, we have
     \[
-        \cupln(\Gr(2^s+1,4)) = 2^{s+1}+2^s-7.
+        \cupln(\Gr(n,4))
+        = \begin{cases}
+            3 \cdot 2^s - 7 + 2^{r+1} + t &\tif n = 2^s + 1 + 2^r + t \\
+            &\quad\text{ for some } 0 \leq r < s, 0 \leq t < 2^r \\
+            3 \cdot 2^s - 7 &\tif n = 2^s + 1
+        \end{cases}
     \]
-    Furthermore, given integers $0 \leq r < s$ and $0 \leq t < 2^r - 1$, we have
-    \[
-        \cupln(\Gr(2^s+2^r+t+1,4)) = 2^{s+1} + 2^s + 2^{r+1} + t - 7.
-    \]
+    From this, we have a tight lower bound of $\cupln(\Gr(n,4)) \geq \f{9}{4} n - 8$.
 \end{proposition}
 
-% TODO: this proposition causes the 2 above not to work for n \leq 9. not sure why.
-\begin{proposition}
-    (From \cite{pavesic2021} following proposition 3.5)
-    For $n \leq m$, $\cupln(\Gr(n,k)) \leq \cupln(\Gr(m,k))$.
+\begin{proposition}\label{prop:cup-Grn5-partial}
+    (From \cite{stong1982}, p.104)
+    For $s \geq 3$, $\cupln(\Gr(2^s+1,5)) = 3 \cdot 2^s + 2^{s-2} - 9$.
 \end{proposition}
+
+\begin{corollary}
+    Combining propositions \ref{prop:cup-Grn5-partial} and \ref{prop:cup-Grnk-monotonicity}, we have that
+    \[
+        \cupln(\Gr(n,5)) \geq \f{13}{8} n - \f{85}{8}
+    \]
+\end{corollary}
+
+For more general $k$, we have the following bound.
+
+\begin{proposition}\label{prop:cup-Grnk-bound}
+    (Corollary of \cite{stong1982}, p. 103)
+    If $2 \leq k \leq n/2$ and $2^s < n \leq s^{s+1}$ for some integer $s$, then
+    \[
+        \cupln(\Gr(n,k))
+        \geq \begin{cases}
+            2^{s+1} - 2 &\tif n = 2^s+1 \\
+            2^{s+1} - 1 &\totherwise.
+        \end{cases}
+    \]
+    In turn, this means that $\cupln(\Gr(n,k)) \geq n-1$.
+\end{proposition}
+
+All of these cup length bounds can thus be used to compute lower bounds for $\ssecat(q)$ with the quotient map $q :\R^{d \times n} \to \R^{d \times n}/\O(d)$, summarized in the following theorem.
+
+\begin{theorem}\label{ref:Od-secat-lower-bounds}
+    Let $n \geq d$ and let $q : \R^{d \times n} \to \R^{d \times n}/\O(d)$ be the quotient map.
+    Then
+    \[
+        \secat(q)
+        \geq \begin{cases}
+            2n - 5 &\tif d = 3 \\
+            \f{9}{4}n - 8 &\tif d = 4 \\
+            \f{13}{8}n - \f{85}{8} &\tif d = 5 \\
+            n - 1 &\tif 6 \leq d \leq \f{n}{2}.
+        \end{cases}
+    \]
+\end{theorem}
+
+
+We now turn to the case of $q : \R^{d \times n} \to \R^{d \times n}/\SO(d)$.
+This case turns out to me markedly more difficult to study, as we now must consider the \emph{oriented} Grassmann manifolds, which less is known about.
+
+\begin{definition}
+    The \emph{oriented Grassmann manifold} $\Tilde{\Gr}(n,k)$ is the space of all oriented $k$-dimensional vector subspaces of $\R^n$.
+\end{definition}
+
+\begin{remark}
+    There is a natural vector bundle over $\Tilde{\Gr}(n,k)$ given by
+    \[
+        \Tilde{E}(n,k) := \set{(P,x) \in \Tilde{\Gr}(n,k) \times \R^n : x \in P}\footnote{``$x \in P$'' is a slight abuse of notation here, since $P$ is not a set but rather an oriented plane. However, the meaning is still the obvious one: that $x$ lies in the (unoriented) plane specified by $P$.}
+    \]
+    with the projection $p : \Tilde{E}(n,k) \to \Tilde{\Gr}(n,k)$.
+\end{remark}
+
+\begin{remark}
+    There is a natural projection $\Tilde{\pi} : \St(n,k) \to \Tilde{\Gr(n,k)}$ where $\pi(B)$ is the plane $\Span B$ with orientation given by the order of the basis $B$.
+\end{remark}
+
+\begin{proposition}
+    Let $\pi^*(\Tilde{E}(n,k))$ be the pullback of the vector bundle $p : \Tilde{E}(n,k) \to \Gr(n,k)$ via the projection $\Tilde{pi} : \St(n,k) \to \Tilde{\Gr}(n,k)$.
+    Then the induced map $\pi^* : H^*(\Gr(n,k)) \to H^*(\St(n,k))$ is zero on the Stiefel-Whitney classes $w_i(\Tilde{E}(n,k))$.
+    \begin{proof}
+        This argument is exactly the same as proposition \ref{prop:Stiefel-Grassmann-projection-kernel}, except that we no longer have that $H^*(\Tilde{\Gr}(n,k);\Z_2)$ is generated by Stiefel-Whitney classes.
+    \end{proof}
+\end{proposition}
+

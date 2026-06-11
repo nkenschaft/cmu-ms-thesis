@@ -5,18 +5,12 @@ def get_Gr_n_3_cuplns(max_s=10):
     cup_lns = [None]*(2**(max_s+1))
     for s in range(1, max_s+1):
         n = 2**(s+1)
-        if n == 5:
-            print(f"found 5! s={s}")
         cup_lns[n - 1] = 2**(s+2) - 5
         for p in range(1,s+1):
             n = 2**(s+1) - 2**p + 1
-            if n == 5:
-                print(f"found 5! s={s} p={p}")
             cup_lns[n - 1] = 2**(s+2) - 3*2**(p-1) - 4
             for t in range(0,(2**(p-1)-2)+1):
                 n = 2**(s+1) - 2**p + 2 + t
-                if n == 5:
-                    print(f"found 5! s={s} p={p} t={t}")
                 cup_lns[n - 1] = 2**(s+2) - 3*2**(p-1) - 2 + t
     return cup_lns
 
@@ -30,17 +24,26 @@ def get_Gr_n_4_cuplns(max_s=10):
             for t in range(0,(2**r - 1) + 1):
                 n = 2**s + 2**r + t + 1
                 cup_lns[n - 1] = 2**(s+1) + 2**s + 2**(r+1) + t - 7
+                if r == s - 1 and t == 2**r - 1:
+                    print(2**(s+1) + 2**s + 2**(r+1) + t - 7)
     return cup_lns
 
 
-def plot_cup_lns(k, max_s):
+def plot_cup_lns(k, max_s, show_lower_bound=False):
+    bounds = None
     if k == 3:
         cup_lns = get_Gr_n_3_cuplns(max_s=max_s)
+        if show_lower_bound:
+            bounds = [2*n - 5 for n in range(1, len(cup_lns)+1)]
     if k == 4:
         cup_lns = get_Gr_n_4_cuplns(max_s=max_s)
+        if show_lower_bound:
+            bounds = [2.25*n - 8 for n in range(1, len(cup_lns)+1)]
     x = [i+1 for i in range(len(cup_lns))]
     y = cup_lns
     plt.plot(x, y, marker='o', linestyle='-', color='b')
+    if show_lower_bound:
+        plt.plot(x, bounds, marker='none', linestyle='-', color='r')
     plt.xlabel("n")
     plt.ylabel(f"Cup Length of Gr(n,{k})")
     title = f"Cup Lengths of Gr(n,{k}) for n <={2**(max_s+1)}"
@@ -50,11 +53,7 @@ def plot_cup_lns(k, max_s):
     plt.savefig(title + ".png")
 
 
-if __name__ == "__main__":
-    # k = int(argv[1])
-    max_s = int(argv[2])
-    # plot_cup_lns(k=k, max_s=max_s)
-    # plot_cup_lns(k=k, max_s=max_s)
+def multi_plot_cup_lns(max_s):
     cup_lns3 = get_Gr_n_3_cuplns(max_s=max_s)
     cup_lns4 = get_Gr_n_4_cuplns(max_s=max_s)
     x = [i+1 for i in range(len(cup_lns3))]
@@ -70,3 +69,13 @@ if __name__ == "__main__":
     plt.grid(True)
     plt.tight_layout()
     plt.savefig(title + ".png")
+
+
+if __name__ == "__main__":
+    if len(argv) == 2:
+        max_s = int(argv[1])
+        multi_plot_cup_lns(max_s=max_s)
+    elif len(argv) == 3:
+        k = int(argv[1])
+        max_s = int(argv[2])
+        plot_cup_lns(k=k, max_s=max_s, show_lower_bound=True)
