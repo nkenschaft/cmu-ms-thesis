@@ -70,7 +70,7 @@ Practically speaking, this would allow us to operate on unordered collections of
 
 We answer \cite{dym2024equivariant}'s question about the canonicalizability of $\R^{d \times n}$ with respect to $\Sigma_n$ in the negative with the following theorem.
 
-\begin{theorem}
+\begin{theorem}\label{thm:no-Sigman-canon-for-dxn}
     If $d,n \geq 2$, there exists no continuous canonicalization of $\R^{d \times n}$ with respect to $\Sigma_n$.
     \begin{proof}
         \Afsoc that there is some such canonicalization.
@@ -95,12 +95,40 @@ We answer \cite{dym2024equivariant}'s question about the canonicalizability of $
         This means that $\alpha \simeq \gamma$, but this is not possible since $\gamma$ is not a loop.
         Hence we must have that $q_*$ is not surjective.
         
-        To conclude, observe that the section $s$ induces a map $s_* : \pi_1(\Conf_n(\R^d)/\Sigma_n) \to \pi_1(\Conf_n(\R^d))$ such that $q_* \circ s_* = \id$.
+        To conclude, observe that the section $s$ induces a map on fundamental groups $s_* : \pi_1(\Conf_n(\R^d)/\Sigma_n) \to \pi_1(\Conf_n(\R^d))$ such that $q_* \circ s_* = \id$.
         However, this is not possible since $q_*$ is not surjective.
         Therefore we conclude that there no continuous canonicalization of $\R^{d \times n}$ with respect to $\Sigma_n$.
     \end{proof}
 \end{theorem}
 
+\cite{zhang2020fspoollearningsetrepresentations} proved this using a metric argument, but observe that the proof of theorem \ref{thm:no-Sigman-canon-for-dxn} generalizes to any manifold of dimension at least 2. %TODO: verify this claim!
+
 \begin{remark}
     For completeness, we note that for $d = 1$, sorting is a canonicalization, and for $n = 1$ the identity is a canonicalization.
 \end{remark}
+
+As per with rotations, we would like to give some lower bounds for the sectional category of the relevant quotient map here.
+
+\begin{theorem}\label{thm:permutation-secat-bounds}
+    (Theorem 1.4 of \cite{roth2008configurationfibrations})
+    Let $q : \Conf_n(\R^d) \to \Conf_n(\R^d) / \Sigma_n$ be the quotient map, and let $\alpha(n)$ be the number of $1$'s in the dyadic expansion of $n$.
+    Then we have 
+    \[
+        (n - \alpha(n))(d-1) + 1
+        \leq \secat(q)
+        \leq \cat(\Conf_n(\R^d)/\Sigma_n)
+        \leq (n-1)(d-1) + 1.
+    \]
+\end{theorem}
+
+\begin{corollary}
+    Let $q : \Conf_n(\R^d) \to \Conf_n(\R^d) / \Sigma_n$ be the quotient map.
+    Then
+    \[
+        \secat(q) \geq (n - \ceil{\log_2(n)})(d-1) + 1
+    \]
+    where $\ceil{x}$ is the least integer greater than or equal to $x$.
+\end{corollary}
+
+By theorem \ref{thm:no-Sigman-canon-for-dxn} we cannot find a continuous canonicalization of $\R^{d \times n}$ with respect to $\Sigma_n$, but theorem \ref{thm:permutation-secat-bounds} tells us that, if we are willing to restrict to $\Conf_n(\R^d)$ we must be able to find a canonicalization with at most $(n-1)(d-1)+1$ open sets on which the canonicalization is continuous.
+Unfortunately, the proof of this fact does not appear to be constructive, so the question remains how to produce such a canonicalization that could be used in practice.
