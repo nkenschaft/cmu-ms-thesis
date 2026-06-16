@@ -1,5 +1,106 @@
 \subsection{Canonicalizing $\R^{d \times n}$ with respect to $\Sigma_n$}\label{sec:canonicalizing-matrices-permutations}
+With an extensive exploration of canonicalizing $\R^{d \times n}$ with respect to rotation, we now follow the lead of \cite{dym2024equivariant} and consider canonicalizing $\R^{d \times n}$ with respect to permutations.
+More precisely, we wish to canonicalize $\R^{d \times n}$ with respect to $\Sigma_n$, the symmetric group on $n$ elements.
+Practically speaking, this would allow us to operate on unordered collections of points in $\R^d$.
+
 \begin{definition}
     The \emph{symmetric group on $n$ elements}, denoted $\Sigma_n$, is the set of all bijections on the first $n$ positive integers with the product given by function composition.
-    For our purposes, we will equivalently consider $\Sigma_n$ as the set of $n$ by $n$ matrices with exactly one $1$ in each row and column and all other entries being $0$, with the product given by matrix multiplication.
 \end{definition}
+
+\begin{definition}
+    For a topological space $X$ and positive integer $n$,
+    \[
+        \Conf_n(X) := \set{(x_1,...,x_n) \in X^n : x_i \neq x_j \text{ for } i \neq j}
+    \]
+    is the space of $n$ ordered mutually distinct points in $X$.
+\end{definition}
+
+\begin{definition}
+    For a topological space $X$ and positive integer $n$,
+    \[
+        \UConf_n(X) := \Conf_n(X) / \Sigma_n = \set{\set{x_1,...,x_n} \sub X : x_i \neq x_j \text{ for } i \neq j}
+    \]
+    is the space of $n$ unordered mutually distinct points in $X$.
+\end{definition}
+
+\begin{lemma}\label{lem:permutation-quotient-covering}
+    If $X$ is Hausdorff and $\Conf_n(X)$ is path-connected, then the quotient map $q : \Conf_n(X) \to \UConf_n(X)$ is a covering space.
+    \begin{proof}
+        By proposition 1.40 of \cite{hatcher2005algebraic}, it suffices to show that the action of $\Sigma_n$ on $\Conf_n(X)$ is properly discontinuous.
+        To see this, let $(x_1,...,x_n) \in \Conf_n(X)$.
+        Since $x_i \neq x_j$ for $i \neq j$ and $X$ is Hausdorff, there are open sets $U_1,...,U_n$ such that $x_i \in U_i$ and $U_i \cap U_j = \emp$ for $i \neq j$.
+        Note that $U := U_1 \times \cdots \times U_n$ is an open neighborhood of $(x_1,...,x_n)$ in $\Conf_n(X)$.
+        Now assume that we have $\sigma, \mu \in \Sigma_n$ such that $\sigma(U) \cap \mu(U) \neq \emp$, and let $(y_1,...,y_n) \in \sigma U \cap \mu U$.
+        For any $i$, this means $y_i \in U_{\sigma(i)} \cap U_{\mu(i)}$, which is only possible if $\sigma(i) = \mu(i)$.
+        Hence, $\mu = \sigma$, and $\Sigma_n$ acts properly discontinuously on $\Conf_n(X)$.
+    \end{proof}
+\end{lemma}
+
+\begin{remark}
+    Observe that $\Conf_n(\R^d) \sub (\R^d)^n \cong \R^{d \times n}$ and consequently $\UConf_n(\R^d) \sub (\R^d)^n / \Sigma_n \cong \R^{d \times n} / \Sigma_n$.
+\end{remark}
+
+\begin{lemma}\label{lem:conf-Rd-pconn}
+    For $d \geq 2$, $\Conf_n(\R^d)$ is path-connected.
+    \begin{proof}
+        Let $x,y \in \Conf_n(\R^d)$ and write $x = (x_1,...,x_n), y = (y_1,...,y_n)$.
+        Then for every $i$, we can find some path
+        \[
+            \alpha_i : I \to \R^{d} \sminus \set{y_1,...,y_{i-1}, x_{i+1},...,x_n}
+        \]
+        such that $\alpha_i(0) = x_i$ and $\alpha_i(1) = y_i$ since $\R^d \sminus A$ for any finite set $A$ is still path-connected.
+        Then we simply construct a path $\gamma : I \to \Conf_n(\R^d)$ with $\gamma(0) = x$ and $\gamma(1) = y$ by moving coordinate-wise via the $\alpha_i$'s, i.e.
+        \[
+            \gamma_i(t)
+            = \begin{cases}
+                x_i &\tif 0 \leq t < \f{i}{n} \\
+                \alpha_i(nt - i) &\tif \f{i}{n} \leq t < \f{i+1}{n} \\
+                y_i & \tif \f{i+1}{n} \leq t \leq 1.
+            \end{cases}
+        \]
+        We can see that $\gamma(t) \in \Conf_n(\R^d)$ for all $t \in [0,1]$ since the $\alpha_i$'s are chosen such that when $\f{i}{n} \leq t < \f{i+1}{n}$, we have $\gamma_j(t) = y_j$ for $j < i$, $\gamma_k(t) = x_k$ for $k > i$, and $\gamma_i(t) = \alpha_i(nt-i) \not\in \set{y_1,...,y_{i-1},x_{i+1},...,x_n}$.
+        Therefore we conclude that $\Conf_n(\R^d)$ is path-connected.
+    \end{proof}
+\end{lemma}
+
+\begin{remark}
+    Lemma \ref{lem:conf-Rd-pconn} fails for $\R$ since removing any points from $\R$ causes it to no longer be path-connected.
+    In greater generality, lemma \ref{lem:conf-Rd-pconn} holds for any manifold $X$ with $\dim X \geq 2$, and fails if $\dim X = 1$ for the same reasons as for $\R$.
+\end{remark}
+
+We answer \cite{dym2024equivariant}'s question about the canonicalizability of $\R^{d \times n}$ with respect to $\Sigma_n$ in the negative with the following theorem.
+
+\begin{theorem}
+    If $d,n \geq 2$, there exists no continuous canonicalization of $\R^{d \times n}$ with respect to $\Sigma_n$.
+    \begin{proof}
+        \Afsoc that there is some such canonicalization.
+        Observe that $\Conf_n(\R^d) \sub \R^{d \times n}$ is $\Sigma_n$-invariant, so this gives a canonicalization of $\Conf_n(\R^d)$ as well.
+        Such a canonicalization then gives us a section $s : \Conf_n(\R^d) / \Sigma_n \to \Conf_n(\R^d)$ of the quotient map $q : \Conf_n(\R^d) \to \Conf_n(\R^d) / \Sigma_n$.
+        Since $q$ is a covering space we have that the map induced on the fundamental groups $q_* : \pi_1(\Conf_n(\R^d)) \to \pi_1(\Conf_n(\R^d)/\Sigma_n)$ is injective (see proposition 1.31 of \cite{hatcher2005algebraic}, for instance), and, more importantly, $q_*$ is not surjective.
+        
+        To see that $q_*$ is not surjective, we define the path $\gamma : I \to \Conf_n(\R^d)$ as follows.
+        Let $e = (1,0,...) \in \R^d$ and let $x \in \Conf_n(\R^d)$ be such that $x_i = i e = (i,0,...)$.
+        Then define
+        \[
+            \gamma_i(t)
+            = \begin{cases}
+                (i+t)e &\tif 1 \leq i < n \\
+                \alpha(t) &\tif i = n
+            \end{cases}
+        \]
+        where $\alpha : I \to \R^d$ is some path from $ne$ to $e$ that doesn't intersect $\Span \set{e}$ (for instance the polygon path from $(ne,0,...)$ to $(ne,1,0,...)$ to $(e,1,0,...)$ to $(e,0,...)$).
+        Observe that $\gamma(1)$ is just a cyclic permutation of the coordinates of $x$, so we have that $q \circ \gamma$ is a loop in $\Conf_n(\R^d) / \Sigma_n$.
+        Now \afsoc that there is some $[\alpha] \in \pi_1(\Conf_n(\R^d))$ such that $q_*([\alpha]) = [q \circ \gamma]$.
+        Observe that $[q \circ \gamma] = q_*([\gamma])$, so since $q_*$ is injective we have that $[\alpha] = [\gamma]$.
+        This means that $\alpha \simeq \gamma$, but this is not possible since $\gamma$ is not a loop.
+        Hence we must have that $q_*$ is not surjective.
+        
+        To conclude, observe that the section $s$ induces a map $s_* : \pi_1(\Conf_n(\R^d)/\Sigma_n) \to \pi_1(\Conf_n(\R^d))$ such that $q_* \circ s_* = \id$.
+        However, this is not possible since $q_*$ is not surjective.
+        Therefore we conclude that there no continuous canonicalization of $\R^{d \times n}$ with respect to $\Sigma_n$.
+    \end{proof}
+\end{theorem}
+
+\begin{remark}
+    For completeness, we note that for $d = 1$, sorting is a canonicalization, and for $n = 1$ the identity is a canonicalization.
+\end{remark}
