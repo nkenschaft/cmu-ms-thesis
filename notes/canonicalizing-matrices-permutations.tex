@@ -68,6 +68,20 @@ Practically speaking, this would allow us to operate on unordered collections of
     In greater generality, lemma \ref{lem:conf-Rd-pconn} holds for any manifold $X$ with $\dim X \geq 2$, and fails if $\dim X = 1$ for the same reasons as for $\R$.
 \end{remark}
 
+\begin{lemma}
+    Let $p : \Tilde{X} \to X$ be a covering space where $\Tilde{X}$ is not homeomorphic to $X$ (i.e. the covering space has more than one sheet).
+    Then there is no global section of $p$.
+    \begin{proof}
+        Assume for the sake of contradiction that we have a section $s : X \to \Tilde{X}$ of $p$, and fix some base point $x \in X$.
+        Since $p$ has more than one sheet, we can find distinct $x_1,x_2 \in \inv{p}(x)$.
+        Then by path-connectivity we can find a path $\gamma : I \to X$ such that $\gamma(0) = x_1$ and $\gamma(1) = x_2$.
+        Since $p(x_1) = p(x_2)$ by construction, we have that $p \circ \gamma$ is a loop in $X$ and $[p \circ \gamma]$ is a well-defined element of $\pi_1(X)$.
+        Now observe that $p$ and $s$ induce maps $p_* : \pi_1(\Tilde{X}) \to \pi_1(X)$ and $s_* : \pi_1(X) \to \pi_1(\Tilde{X})$ such that $p_* \circ s_* = \id$.
+        Specifically, this means we can find $[\alpha] := s_*([p \circ \gamma])$ such that $p_*([\alpha]) = [p \circ \alpha] = [p \circ \gamma]$, giving us a homotopy $h_t : I \to X$ such that $h_0 = p \circ \alpha$ and $h_1 = p \circ \gamma$.
+        Since $\gamma$ clearly lifts $p \circ \gamma$, the homotopy lifting property gives us a unique homotopy lift $\Tilde{h_t} : I \to \Tilde{X}$ such that $p \circ \Tilde{h_t} = h_t$.
+    \end{proof}
+\end{lemma}
+
 We answer \cite{dym2024equivariant}'s question about the canonicalizability of $\R^{d \times n}$ with respect to $\Sigma_n$ in the negative with the following theorem.
 
 \begin{theorem}\label{thm:no-Sigman-canon-for-dxn}
