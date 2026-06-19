@@ -1,17 +1,53 @@
 \subsection{Canonicalizing $\R^{d \times n}/\Sigma_n$ with respect to $\O(d)$ and $\SO(d)$}\label{sec:canonicalizing-point-clouds-rotations}
-The last space we might wish to canonicalize is (unordered) point clouds with respect to rotations.
+The last space we might wish to canonicalize is unordered point clouds with respect to rotations.
 In particular, we wish to produce a section of the quotient $q : \UConf_n(\R^d) \to \UConf_n(\R^d) / O(d)$, or show that such a map cannot exist.
-To begin, we consider the following situation.
+We begin with a few observations.
 
-\begin{lemma}
+\begin{lemma}\label{lem:Od-Sigman-commute}
     The actions of $\Sigma_n$ and $O(d)$ on $R^{d \times n}$ commute, and we have
     \[
         (\R^{d \times n} / O(d)) / \Sigma_n
         \cong (\R^{d \times n} / \Sigma_n) / O(d)
         \cong \R^{d \times n} / (\Sigma_n \times O(d)).
     \]
+    \begin{proof}
+        This follows directly from the associativity of matrix multiplication.
+        Explicitly, let $Q \in O(d)$ and $\sigma \in \Sigma_n$, treating $\sigma$ as an $n$ by $n$ matrix.
+        Then for any $A \in \R^{d \times n}$,
+        \[
+            \sigma \cdot Q \cdot A
+            = \sigma \cdot (QA)
+            = (QA)\sigma
+            = Q(A\sigma)
+            = Q \cdot (A \sigma)
+            = Q \cdot \sigma \cdot A.
+        \]
+    \end{proof}
 \end{lemma}
 
-\begin{proposition}
-    If there is a continuous section $s : \R^{d \times n} / O(d) \to \R^{d \times n}$ of the quotient map $q : \R^{d \times n} \to \R^{d \times n} / O(d)$, then there exists a continuous section of the quotient map $p : \R^{d \times n} / \Sigma_n \to (\R^{d \times n} / \Sigma_n) / O(d)$.
-\end{proposition}
+\begin{lemma}\label{lem:Conf-mod-orthogonal-mod-permutation-covering}
+    The quotient $q : \Conf_n(\R^d)/O(d) \to (\Conf_n(\R^d)/O(d))/\Sigma_n$ is an $n!$-sheeted covering space.
+    \begin{proof}
+        Recall by lemma \ref{lem:Hausdorff-free-prop-discont} that it suffices to show that $\Sigma_n$ acts freely on $\Conf_n(\R^d)/O(d)$.
+        So, let $O(d)A, O(d)B \in \Conf_n(\R^d)/O(d)$ and $\sigma \in \Sigma_n$ such that $O(d)A = (O(d)B)\sigma$.
+        But the actions of $O(d)$ and $\Sigma_n$ commute so we have $(O(d)B)\sigma = O(d)(B\sigma)$, and we can find $Q \in O(d)$ such that $A = QB\sigma$.
+        Since $\Sigma_n$ acts freely on $\Conf_n(\R^d)$, we have that $A = QB$
+        We therefore conclude that $O(d)A = O(d)B$ and $q$ is an $n!$-sheeted covering space.
+    \end{proof}
+\end{lemma}
+
+\begin{theorem}\label{thm:Rdn-mod-Od-mod-Sigman-no-canon}
+    The quotient $q : \R^{d \times n}/O(d) \to (\R^{d \times n}/O(d))/\Sigma_n$ has no canonicalization.
+    \begin{proof}
+        This follows directly from lemmas \ref{lem:cover-no-section} and \ref{lem:Conf-mod-orthogonal-mod-permutation-covering}.
+    \end{proof}
+\end{theorem}
+
+\begin{corollary}\label{cor:Rdn-mod-Od-Sigman-no-canon}
+    The quotient $Q : \R^{d \times n} \to \R^{d \times n}/(O(d) \times \Sigma_n)$ has no canonicalization.
+    \begin{proof}
+        This follows from theorem \ref{thm:Rdn-mod-Od-mod-Sigman-no-canon} and the fact that any section $S : \R^{d \times n}/(O(d) \times \Sigma_n) \to \R^{d \times n}$ induces a section of $q : \R^{d \times n}/O(d) \to (\R^{d \times n} / O(d))/\Sigma_n$ via $s := p \circ S$ where $p : \R^{d \times n} \to \R^{d \times n}/O(d)$ is the quotient map.
+    \end{proof}
+\end{corollary}
+
+Note that all the preceding results apply just the same for $\SO(d)$ instead of $\O(d)$.

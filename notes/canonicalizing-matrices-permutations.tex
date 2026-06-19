@@ -23,16 +23,35 @@ Practically speaking, this would allow us to operate on unordered collections of
     is the space of $n$ unordered mutually distinct points in $X$.
 \end{definition}
 
+\begin{definition}
+    A $G$-action on $X$ is \emph{properly discontinuous} if for every $x \in X$ there is an open neighborhood $U \ni x$ such that $g U \cap U = \emp$ for all $g \in G$.
+\end{definition}
+
+\begin{lemma}\label{lem:Hausdorff-free-prop-discont}
+    Let $G$ be a finite group that acts freely on a Hausdorff space $X$.
+    Then the action of $G$ is properly discontinuous.
+    \begin{proof}
+        Let $x \in X$ and write $G = \set{g_1,...,g_n}$ where $g_1 = e_G$.
+        Since $X$ is Hausdorff, we can find open neighborhoods $U_1,...,U_n$ of $g_1 x,...,g_n x$ such that $U_i \cap U_j = \emp$ for $i \neq j$.
+        \footnote{Got construction of $U$ \href{https://math.stackexchange.com/questions/3172278/finite-group-action-on-hausdorff-space}{here}}
+        Now let $U = \cap_{i=2}^n \inv{g_i} U_i$ and observe that $U$ is an open set containing $x$ with $g_i U \sub U_i$.
+        To finish, let $g \in G$ such that $gU \cap U \neq \emp$.
+        Since $g_i U \cap U = \emp$ for $i \neq 1$ by construction, we conclude that $g = g_1$ and $G$ acts properly discontinuously on $X$.
+    \end{proof}
+\end{lemma}
+
 \begin{lemma}\label{lem:permutation-quotient-covering}
     If $X$ is Hausdorff and $\Conf_n(X)$ is path-connected, then the quotient map $q : \Conf_n(X) \to \UConf_n(X)$ is a covering space.
+    Additionally, $q$ is an $n!$-sheeted covering.
     \begin{proof}
-        By proposition 1.40 of \cite{hatcher2005algebraic}, it suffices to show that the action of $\Sigma_n$ on $\Conf_n(X)$ is properly discontinuous.
-        To see this, let $(x_1,...,x_n) \in \Conf_n(X)$.
-        Since $x_i \neq x_j$ for $i \neq j$ and $X$ is Hausdorff, there are open sets $U_1,...,U_n$ such that $x_i \in U_i$ and $U_i \cap U_j = \emp$ for $i \neq j$.
-        Note that $U := U_1 \times \cdots \times U_n$ is an open neighborhood of $(x_1,...,x_n)$ in $\Conf_n(X)$.
-        Now assume that we have $\sigma, \mu \in \Sigma_n$ such that $\sigma(U) \cap \mu(U) \neq \emp$, and let $(y_1,...,y_n) \in \sigma U \cap \mu U$.
-        For any $i$, this means $y_i \in U_{\sigma(i)} \cap U_{\mu(i)}$, which is only possible if $\sigma(i) = \mu(i)$.
-        Hence, $\mu = \sigma$, and $\Sigma_n$ acts properly discontinuously on $\Conf_n(X)$.
+        By proposition 1.40 of \cite{hatcher2005algebraic}, it suffices to show that the action of $\Sigma_n$ on $\Conf_n(X)$ is properly discontinuous, so by lemma \ref{lem:Hausdorff-free-prop-discont} it suffices to show that $\Sigma_n$ acts freely on $\Conf_n(X)$.
+        However, $\Sigma_n$ clearly acts freely on $\Conf_n(X)$ by the definition of $\Conf_n(X)$, so $q$ is a covering map.
+
+        For the second statement, proposition 1.40 of \cite{hatcher2005algebraic} also gives us that
+        \[
+            \Sigma_n \cong \pi_1(\UConf_n(X))/q_*(\pi_1(\Conf_n(X))),
+        \]
+        so by proposition 1.32 of \cite{hatcher2005algebraic} we conclude that the covering has $\card{\Sigma_n} = n!$ sheets.
     \end{proof}
 \end{lemma}
 
@@ -68,54 +87,57 @@ Practically speaking, this would allow us to operate on unordered collections of
     In greater generality, lemma \ref{lem:conf-Rd-pconn} holds for any manifold $X$ with $\dim X \geq 2$, and fails if $\dim X = 1$ for the same reasons as for $\R$.
 \end{remark}
 
-\begin{lemma}
+\begin{lemma}\label{lem:cover-no-section}
     Let $p : \Tilde{X} \to X$ be a covering space where $\Tilde{X}$ is not homeomorphic to $X$ (i.e. the covering space has more than one sheet).
     Then there is no global section of $p$.
     \begin{proof}
         Assume for the sake of contradiction that we have a section $s : X \to \Tilde{X}$ of $p$, and fix some base point $x \in X$.
-        Since $p$ has more than one sheet, we can find distinct $x_1,x_2 \in \inv{p}(x)$.
-        Then by path-connectivity we can find a path $\gamma : I \to X$ such that $\gamma(0) = x_1$ and $\gamma(1) = x_2$.
-        Since $p(x_1) = p(x_2)$ by construction, we have that $p \circ \gamma$ is a loop in $X$ and $[p \circ \gamma]$ is a well-defined element of $\pi_1(X)$.
+        Since $p$ has more than one sheet, we can find $x_1 \in \inv{p}(x)$ that is distinct from the base point $x_0 \in \Tilde{X}$.
+        Then by path-connectivity we can find a path $\gamma : I \to X$ such that $\gamma(0) = x_0$ and $\gamma(1) = x_1$.
+        Since $p(x_0) = p(x_1)$ by construction, we have that $p \circ \gamma$ is a loop in $X$ and $[p \circ \gamma]$ is a well-defined element of $\pi_1(X)$.
         Now observe that $p$ and $s$ induce maps $p_* : \pi_1(\Tilde{X}) \to \pi_1(X)$ and $s_* : \pi_1(X) \to \pi_1(\Tilde{X})$ such that $p_* \circ s_* = \id$.
-        Specifically, this means we can find $[\alpha] := s_*([p \circ \gamma])$ such that $p_*([\alpha]) = [p \circ \alpha] = [p \circ \gamma]$, giving us a homotopy $h_t : I \to X$ such that $h_0 = p \circ \alpha$ and $h_1 = p \circ \gamma$.
-        Since $\gamma$ clearly lifts $p \circ \gamma$, the homotopy lifting property gives us a unique homotopy lift $\Tilde{h_t} : I \to \Tilde{X}$ such that $p \circ \Tilde{h_t} = h_t$.
+        This means we can find $[\alpha] := s_*([p \circ \gamma]) \in \pi_1(\Tilde{X})$ such that $p_*([\alpha]) = [p \circ \alpha] = [p \circ \gamma]$, giving us a homotopy $h_t : I \to X$ such that $h_0 = p \circ \alpha$ and $h_1 = p \circ \gamma$.
+        Since $\gamma$ clearly lifts $p \circ \gamma$, the homotopy lifting property gives us a unique homotopy lift $\Tilde{h_t} : I \to \Tilde{X}$ such that $p \circ \Tilde{h_t} = h_t$ with $\Tilde{h_1} = \gamma$.
+        By the uniqueness of lifting we also have that $\alpha = \Tilde{h_0}$, but this is impossible since $\alpha$ is a loop and $\gamma$ is not.
+        Therefore we conclude that there can be no global section $s$ of $p$.
     \end{proof}
 \end{lemma}
 
-We answer \cite{dym2024equivariant}'s question about the canonicalizability of $\R^{d \times n}$ with respect to $\Sigma_n$ in the negative with the following theorem.
+We now present a new proof of the uncanonicalizability of $\R^{d \times n}$ with respect to $\Sigma_n$.
+\cite{zhang2020fspoollearningsetrepresentations} proved this using a metric argument, but observe that the proof of theorem \ref{thm:no-Sigman-canon-for-dxn} generalizes to any manifold of dimension at least 2. %TODO: verify this claim!
 
 \begin{theorem}\label{thm:no-Sigman-canon-for-dxn}
     If $d,n \geq 2$, there exists no continuous canonicalization of $\R^{d \times n}$ with respect to $\Sigma_n$.
     \begin{proof}
-        \Afsoc that there is some such canonicalization.
-        Observe that $\Conf_n(\R^d) \sub \R^{d \times n}$ is $\Sigma_n$-invariant, so this gives a canonicalization of $\Conf_n(\R^d)$ as well.
-        Such a canonicalization then gives us a section $s : \Conf_n(\R^d) / \Sigma_n \to \Conf_n(\R^d)$ of the quotient map $q : \Conf_n(\R^d) \to \Conf_n(\R^d) / \Sigma_n$.
-        Since $q$ is a covering space we have that the map induced on the fundamental groups $q_* : \pi_1(\Conf_n(\R^d)) \to \pi_1(\Conf_n(\R^d)/\Sigma_n)$ is injective (see proposition 1.31 of \cite{hatcher2005algebraic}, for instance), and, more importantly, $q_*$ is not surjective.
-        
-        To see that $q_*$ is not surjective, we define the path $\gamma : I \to \Conf_n(\R^d)$ as follows.
-        Let $e = (1,0,...) \in \R^d$ and let $x \in \Conf_n(\R^d)$ be such that $x_i = i e = (i,0,...)$.
-        Then define
-        \[
-            \gamma_i(t)
-            = \begin{cases}
-                (i+t)e &\tif 1 \leq i < n \\
-                \alpha(t) &\tif i = n
-            \end{cases}
-        \]
-        where $\alpha : I \to \R^d$ is some path from $ne$ to $e$ that doesn't intersect $\Span \set{e}$ (for instance the polygon path from $(ne,0,...)$ to $(ne,1,0,...)$ to $(e,1,0,...)$ to $(e,0,...)$).
-        Observe that $\gamma(1)$ is just a cyclic permutation of the coordinates of $x$, so we have that $q \circ \gamma$ is a loop in $\Conf_n(\R^d) / \Sigma_n$.
-        Now \afsoc that there is some $[\alpha] \in \pi_1(\Conf_n(\R^d))$ such that $q_*([\alpha]) = [q \circ \gamma]$.
-        Observe that $[q \circ \gamma] = q_*([\gamma])$, so since $q_*$ is injective we have that $[\alpha] = [\gamma]$.
-        This means that $\alpha \simeq \gamma$, but this is not possible since $\gamma$ is not a loop.
-        Hence we must have that $q_*$ is not surjective.
-        
-        To conclude, observe that the section $s$ induces a map on fundamental groups $s_* : \pi_1(\Conf_n(\R^d)/\Sigma_n) \to \pi_1(\Conf_n(\R^d))$ such that $q_* \circ s_* = \id$.
-        However, this is not possible since $q_*$ is not surjective.
-        Therefore we conclude that there no continuous canonicalization of $\R^{d \times n}$ with respect to $\Sigma_n$.
+        Since $d,n \geq 2$, we immediately conclude by lemmas \ref{lem:permutation-quotient-covering}, \ref{lem:conf-Rd-pconn}, and \ref{lem:cover-no-section}, as any canonicalization of $\R^{d \times n}$ must descend to a canonicalization of $\Conf_n(\R^d)$.
+        %\Afsoc that there is some such canonicalization.
+        %Observe that $\Conf_n(\R^d) \sub \R^{d \times n}$ is $\Sigma_n$-invariant, so this gives a canonicalization of $\Conf_n(\R^d)$ as well.
+        %Such a canonicalization then gives us a section $s : \Conf_n(\R^d) / \Sigma_n \to \Conf_n(\R^d)$ of the quotient map $q : \Conf_n(\R^d) \to \Conf_n(\R^d) / \Sigma_n$.
+        %Since $q$ is a covering space we have that the map induced on the fundamental groups $q_* : \pi_1(\Conf_n(\R^d)) \to \pi_1(\Conf_n(\R^d)/\Sigma_n)$ is injective (see proposition 1.31 of \cite{hatcher2005algebraic}, for instance), and, more importantly, $q_*$ is not surjective.
+        %
+        %To see that $q_*$ is not surjective, we define the path $\gamma : I \to \Conf_n(\R^d)$ as follows.
+        %Let $e = (1,0,...) \in \R^d$ and let $x \in \Conf_n(\R^d)$ be such that $x_i = i e = (i,0,...)$.
+        %Then define
+        %\[
+        %    \gamma_i(t)
+        %    = \begin{cases}
+        %        (i+t)e &\tif 1 \leq i < n \\
+        %        \alpha(t) &\tif i = n
+        %    \end{cases}
+        %\]
+        %where $\alpha : I \to \R^d$ is some path from $ne$ to $e$ that doesn't intersect $\Span \set{e}$ (for instance the polygon path from $(ne,0,...)$ to $(ne,1,0,...)$ to $(e,1,0,...)$ to $(e,0,...)$).
+        %Observe that $\gamma(1)$ is just a cyclic permutation of the coordinates of $x$, so we have that $q \circ \gamma$ is a loop in $\Conf_n(\R^d) / \Sigma_n$.
+        %Now \afsoc that there is some $[\alpha] \in \pi_1(\Conf_n(\R^d))$ such that $q_*([\alpha]) = [q \circ \gamma]$.
+        %Observe that $[q \circ \gamma] = q_*([\gamma])$, so since $q_*$ is injective we have that $[\alpha] = [\gamma]$.
+        %This means that $\alpha \simeq \gamma$, but this is not possible since $\gamma$ is not a loop.
+        %Hence we must have that $q_*$ is not surjective.
+        %
+        %To conclude, observe that the section $s$ induces a map on fundamental groups $s_* : \pi_1(\Conf_n(\R^d)/\Sigma_n) \to \pi_1(\Conf_n(\R^d))$ such that $q_* \circ s_* = \id$.
+        %However, this is not possible since $q_*$ is not surjective.
+        %Therefore we conclude that there no continuous canonicalization of $\R^{d \times n}$ with respect to $\Sigma_n$.
     \end{proof}
 \end{theorem}
 
-\cite{zhang2020fspoollearningsetrepresentations} proved this using a metric argument, but observe that the proof of theorem \ref{thm:no-Sigman-canon-for-dxn} generalizes to any manifold of dimension at least 2. %TODO: verify this claim!
 
 \begin{remark}
     For completeness, we note that for $d = 1$, sorting is a canonicalization, and for $n = 1$ the identity is a canonicalization.
