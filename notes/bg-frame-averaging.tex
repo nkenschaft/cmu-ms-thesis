@@ -1,0 +1,249 @@
+\section{Background}\label{sec:bg-frame-averaging}
+\begin{definition}
+    Given a $G$-space $X$, a \emph{frame} is a set-valued function $\FF : X \to 2^G \sminus \set{\emp}$.
+\end{definition}
+
+\begin{definition}
+    A frame $\FF$ is \emph{$G$-equivariant} if for all $g \in G$ and $x \in X$,
+    \[
+        \FF(gx) = g\FF(x) = \set{gh : h \in \FF(x)}
+    \]
+    or \emph{$G$-invariant} if for all $g \in G$ and $x \in X$,
+    \[
+        \FF(gx) = \FF(x).
+    \]
+    Note that this corresponds to our usual definition of equivariance/invariance with $G$ acting on $2^G$ element-wise.
+\end{definition}
+
+\begin{definition}
+    Let $X,Y$ be $G$-spaces where $G$ acts linearly.
+    A frame $\FF$ on is \emph{bounded} over $K \sub X$ if there exists $c > 0$ such that for all $x \in K$,
+    \[
+        \sup_{g \in \FF(x)} \norm{g \cdot -}_{op}
+        = \sup_{g \in \FF(x)} \sup_{y \in Y} \norm{gy}
+        \leq c.
+    \]
+\end{definition}
+
+\begin{definition}
+    A frame $\FF$ is \emph{finite} if for all $x \in X$, $\card(\FF(x))$ is finite.
+    More generally, the \emph{cardinality} of $\FF$ is $\card(\FF) := \sup_{x \in X} \card(\FF(x))$.
+\end{definition}
+
+\begin{proposition}\label{prop:invariant-frame-average}
+    (Theorem 1 of \cite{puny2022frameaveraginginvariantequivariant})
+    Let $\FF$ be a finite equivariant frame and let $f : X \to Y$ where $Y$ is a vector space.
+    Then the function $\II_\FF(f) : X \to Y$ given by
+    \[
+        \II_\FF (f) (x) := \f{1}{\card(\FF(x))} \sum_{g \in \FF(x)} f(\inv{g} x)
+    \]
+    is $G$-invariant.
+    \begin{proof}
+        Let $x \in X$ and $h \in G$.
+        Then
+        \begin{align*}
+            \II_\FF (f) (hx)
+            &= \f{1}{\card(\FF(hx))} \sum_{g \in \FF(hx)} f(\inv{g} hx) \\
+            &= \f{1}{\card(h\FF(x))} \sum_{g \in h\FF(x)} f(\inv{g} hx) \\
+            &= \f{1}{\card(\FF(x))} \sum_{g \in \FF(x)} f(\inv{(hg)} hx) \\
+            &= \f{1}{\card(\FF(x))} \sum_{g \in \FF(x)} f(\inv{g} x) \\
+            &= \II_\FF (f) (x).
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}\label{prop:equivariant-frame-average}
+    (Theorem 2 of \cite{puny2022frameaveraginginvariantequivariant})
+    Let $\FF$ be a finite equivariant frame and let $f : X \to Y$ where $Y$ is a vector space.
+    Then the function $\EE_\FF (f) : X \to Y$ given by
+    \[
+        \EE_\FF (f) (x) = \f{1}{\card(\FF(x))} g\sum_{g \in \FF(x)} f(\inv{g} x)
+    \]
+    is $G$-equivariant.
+    \begin{proof}
+        Let $x \in X$ and $h \in G$.
+        Then
+        \begin{align*}
+            \EE_\FF (f) (hx)
+            &= \f{1}{\card(\FF(hx))} \sum_{g \in \FF(hx)} gf(\inv{g} hx) \\
+            &= \f{1}{\card(h\FF(x))} \sum_{g \in h\FF(x)} gf(\inv{g} hx) \\
+            &= \f{1}{\card(\FF(x))} \sum_{g \in \FF(x)} gf(\inv{(hg)} hx) \\
+            &= \f{1}{\card(\FF(x))} \sum_{g \in \FF(x)} gf(\inv{g} x) \\
+            &= \EE_\FF (f) (x).
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    (Theorem 3 of \cite{puny2022frameaveraginginvariantequivariant})
+    Let $\FF$ be an equivariant frame and let $x \in X$.
+    Then $\FF(x)$ is a (disjoint) union of orbits $G_x g \in \FF(x) / G_x$.
+    \begin{proof}
+        Observe that it suffices to show that $hg \in \FF(x)$ for all $g \in \FF(x)$ and $h \in G_x$.
+        So, fix some $h \in G_x$ and we conclude that $hg \in h\FF(x) = \FF(hx) = \FF(x)$.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    Given an equivariant frame $\FF$ and function $f : X \to Y$, we can instead compute the averages in propositions \ref{prop:invariant-frame-average} and \ref{prop:equivariant-frame-average} as
+    \[
+        \II_\FF (f) (x) = \f{\card(G_x)}{\card(\FF(x))} \sum_{G_x g \in \FF(x) / G_x} f(\inv{g}x)
+    \]
+    and
+    \[
+        \EE_\FF (f) (x) = \f{\card(G_x)}{\card(\FF(x))} \sum_{G_x g \in \FF(x) / G_x} gf(\inv{g}x)
+    \]
+    respectively.
+\end{corollary}
+
+\begin{corollary}\label{cor:frame-card-lower-bound}
+    Given an equivariant frame $\FF$ and $x \in X$, $\card(\FF(x)) \geq \card(G_x)$.
+    In particular, the cardinality of $\FF$ is at least $\sup_{x \in X} \card(G_x)$.
+\end{corollary}
+
+\begin{remark}\label{rem:frame-card-upper-bound}
+    Clearly the largest possible equivariant frame is $\FF(x) = G$ for all $x \in X$, so the cardinality of $\FF$ is at most $\card{G}$.
+\end{remark}
+
+
+\begin{theorem}
+    (Theorem 2.8 of \cite{dym2024equivariant})
+    Let $G$ be a finite group acting continuously on a locally connected Hausdorff space $X$, and let $\FF$ be an equivariant frame such that $\II_\FF (f)$ is continuous for every map $f : X \to Y$ where $Y$ is some non-trivial (real) vector space.
+    If $X_{free}$ is connected, then $\FF(x) = G$ for all $x \in \clo{X_{free}}$.
+    \begin{proof}
+        Define $U = \set{x \in X_{free} : e \in \FF(x)}$ and $V = X_{free} \sminus U$.
+        Since $G$ is finite and acts freely on $X_{free}$, for all $x \in X_{free}$ we can find connected open sets $U_x \ni x$ such that $gU_x \cap U_x = \emp$ for $g \neq e$.
+        Fixing some non-zero vector $y \in Y$, there are then continuous maps $f_x : X_{free} \to Y$ such that $f_x[U_x] = y$ and $f_x[gU_x] = 0$ for $g \neq e$.
+        Fixing $x \in X_{free}$, we know that $\II_\FF (f_x)$ is continuous, and additionally for $v \in U_X$ we have
+        \begin{align*}
+            \II_\FF (f_x) (v)
+            &= \f{1}{\card(\FF{v})} \sum_{g \in \FF(v)} f_x(\inv{g} v) \\
+            &= \f{1}{\card(\FF{v})} \sum_{g \in \FF(v)} \delta_{e,g} y \\
+            &= \f{y}{\card(\FF{v})} \ind_{\FF(v)}(e)
+        \end{align*}
+        Then if $X \in U$ (i.e. $e \in \FF(x)$) we have that $\II_\FF(f_x)(x) = \f{y}{\card(\FF(x))}$, and consequently $\II_\FF (f_x) [U_x] = \f{y}{\card(\FF(x))}$ since $U_x$ is connected and $\II_\FF (f_x)$ is continuous.
+        In particular, this means $e \in \FF{v}$ for all $v \in U_x$, so $U_x \sub U$.
+        Then $U = \cup_{x \in U} U_x$, so we have that $U$ is open.
+        Similarly, if $x \in V$ then $\II_\FF (f_x) [U_x] = 0$ leading to the fact that $V$ is open as well.
+
+        Since $X_{free}$ is connected, we must have that either $U$ or $V$ is empty.
+        To see that $U$ is non-empty, let $x \in X_{free}$ be arbitrary and fix some $g \in \FF(x)$.
+        Since $\FF$ is equivariant we then have that $e \in \FF(\inv{g} x)$, so $\inv{g} x \in U$.
+        Hence, we conclude that $U = X_{free}$ and $e \in \FF(x)$ for all $x \in X_{free}$.
+        
+        With this, we can easily show that $\FF(x) = G$ for all $x \in X_{free}$.
+        Let $x \in X_{free}$ and $g \in G$, and we know that $e \in \FF(\inv{g} x)$ so $g \in \FF(x)$ by equivariance of $\FF$.
+        Hence, $\FF(x) = G$ for all $x \in X_{free}$.
+        
+        To conclude, let $x \in \clo{X_{free}}$, and we can find a connected open set $U \ni x$ such that $gU \cap U \neq \emp$ if and only if $g \in G_x$.
+        Then there is a continuous map $f : X \to Y$ such that $f[U] = y$ and $f[gU] = 0$ if $g \not\in G_x$.
+        Then for $v \in U$ we have as before that
+        \begin{align*}
+            \II_\FF (f) (v)
+            &= \f{1}{\card(\FF(v))} \sum_{g \in \FF(v)} f(\inv{g} v) \\
+            &= \f{1}{\card(\FF(v))} \sum_{g \in \FF(v)} \ind_{G_x}(g) y \\
+            &= \f{\card(G_x \cap \FF(v))}{\card(\FF(v))} y.
+        \end{align*}
+        Then by continuity and connectivity we have that $\II_\FF (f)$ is constant on $U$.
+        Since $x \in \clo{X_{free}}$, let $\net{x} \sub X_{free}$ be a net such that $x_d \to x$.
+        There is then some $d' \in D$ such that for all $d \geq d'$, $x_d \in U$, and $e \in \FF(U)$ so $\II_\FF (f) (x_d) = \f{\card(G_x \cap \FF(x_d))}{\card(\FF(x_d))}y = \f{\card(G_x)}{\card(G)}y \neq 0$.
+        Then by continuity of $\II_\FF (f)$ we have that $\II_\FF (f) (x) = \lim_{d \in D} \II_\FF (f) (x_d) \neq 0$ so $G_x \cap \FF(x) \neq 0$.
+        Letting $g \in G_x \cap \FF(x)$, we have that $e \in \inv{g}\FF(x) = \FF(\inv{g}x) = \FF(x)$.
+        This shows that $e \in \FF(x)$ for all $x \in \clo{X_{free}}$.
+        Finally, for $x \in \clo{X_{free}}$ and $g \in G$, and we know that $e \in \FF(\inv{g} x)$ so $g \in \FF(x)$ by equivariance of $\FF$.
+        Therefore $\FF(x) = G$ for all $x \in \clo{X_{free}}$.
+    \end{proof}
+\end{theorem}
+
+\begin{corollary}
+    (Corrollary 2.9 in \cite{dym2024equivariant})
+    Let $d,n > 1$ and consider $\Sigma_n$ acting on $\R^{d \times n}$.
+    If $\FF$ is a continuity-preserving equivariant frame, then $\FF(A) = \Sigma_n$ for all $A \in \R^{d \times n}$.
+    Note that this provides an alternate proof of theorem \ref{thm:no-Sigman-canon-for-dxn}, since a canonicalization is a frame with cardinality 1.
+\end{corollary}
+
+\begin{lemma}
+    Let $X$ be a $G$-space such that the quotient $q : X \to X/G$ is a principal $G$-bundle (for instance, $G$ is a compact Lie group acting freely on $X$).
+    Then there exists a section $s : X/G \to X$ of $q$ if and only if there exists a $G$-equivariant map $\varphi : X \to_G G$.
+    \begin{proof}
+        First, assume we have a section $s$ of $q$.
+        For two elements $x,y \in X$ in the same $G$ orbit, let $g \in G$ be the unique element such that $gy = x$ (this is well-defined since $G$ acts freely), we then define $x/y = g$.
+        Now define the function $\varphi : X \to G$ via $\varphi(x) = x/(s \circ q)(x)$.
+        Observe that $\varphi$ is $G$-equivariant since $x \mapsto x$ is clearly equivariant and $(s \circ q)(x)$ is invariant.
+        To see that $\varphi$ is continuous, let $U \sub G$ be open.
+        Then
+        \begin{align*}
+            \inv{\varphi}[U]
+            &= \set{x \in X : x/(s \circ q)(x) \in U} \\
+            &= \set{x \in X : \exists g \in U, g (s \circ q)(x) = x} \\
+            &= \set{x \in X : (s \circ q)(x) \in \inv{U} x} \\
+            &= \inv{(s \circ q)}[\inv{U}x].
+        \end{align*}
+        Observe that $\inv{U}$ is open since $\inv{(-)}$ is a homeomorphism on any topological group, then $\inv{U}x$ is open as well since $q$ is a principal $G$-bundle.
+        Hence, $\inv{\varphi}[U]$ is open since $s \circ q$ is continuous, so we conclude that $\varphi$ is a continuous equivariant map.
+        
+        Conversely, assume $\varphi$ is an equivariant map.
+        Then we can define $s : X/G \to X$ via $s(Gx) = \inv{\varphi(x)} x$.
+        Observe that $s$ is indeed a well-defined map since
+        \[
+            s(Ggx)
+            = \inv{\varphi(gx)}gx
+            = \inv{g\varphi(x)}gx
+            = \inv{\varphi(x)}\inv{g}gx
+            = \inv{\varphi(x)}x
+            = s(Gx).
+        \]
+        Then $s$ is continuous by the continuity of $\varphi$ and $\pinv{-}$ and the definition of the quotient topology, so we are done.
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}\label{lem:cont-preserving-frame-is-cont}
+    Let $X$ be a $G$-space with compact $G$ such that $q : X \to X/G$ is a principal $G$-bundle and let $F : X \to G^n/\Sigma_n$.
+    If $\II_F (f) (x) = \f{1}{n} \Sigma_{g \in F(x)} f(\inv{g} x)$ is continuous for all $f : X \to \R$, then $F$ is continuous.
+    \begin{proof}
+        \Afsoc there is some $x_0 \in X$ such that $F$ is not continuous, so we can find a net $\net{x} \sub X$ with $x_d \to x_0$ such that $F(x_d) \not\to F(x_0)$.
+        Since $G$ is compact, without loss of generality we can assume that $F(x_d) \to L \neq F(x_0)$ by passing to a subnet.
+        Now since $q$ is a principal $G$-bundle, there exists an open neighborhood $U$ of $q(x_0)$ such that $\inv{q}[U] \cong G \times U$.
+        This homeomorphism is demonstrated by a section $s : X/G \to X$ of $q$ so we have the map $x \mapsto h \cdot s(q(x))$ for some unique $h \in G$ (this is continuous and well-defined since $q$ is a principal $G$-bundle).
+        We can then find a continuous function $\varphi : G \to \R$ such that $\sum_{g \in L} \varphi(\inv{g}h) \neq \sum_{g \in F(x_0)} \varphi(\inv{g}h)$ where $x_0 = h \cdot s(q(x_0))$.
+        Then by Urysohn's lemma there is some $\psi : X \to \R$ such that $\psi(x_0) = 1$ and $\psi[X \sminus \inv{q}[U]] = 0$, so the function $f : X \to \R$ defined by
+        \[
+            f(x)
+            = \begin{cases}
+                \psi(x) \varphi(g) &\tif x = g \cdot s(q(x)) \in \inv{q}[U] \\
+                0 &\totherwise
+            \end{cases}
+        \]
+        is well-defined and continuous.
+        Then by assumption we have that
+        \[
+            \II_F (f)(x_d)
+            \to \II_F (f) (x_0)
+            = \f{1}{n} \sum_{g \in F(x_0)} f(\inv{g} x_0)
+            = \f{1}{n} \sum_{g \in F(x_0)} \varphi(\inv{g}h).
+        \]
+        However, the map from $G^n/\Sigma_n$ to $\R$ given by
+        \[
+            \set{g_1,...,g_n} \mapsto \f{1}{n} \sum_i f(\inv{g_i} x)
+        \]
+        for any fixed $f : X \to R$ and $x \in X$ is also continuous by the definition of the quotient topology, so we have
+        \[
+            \II_F (f) (x_d)
+            = \f{1}{n} \sum_{g \in F(x_d)} f(\inv{g} x_d)
+            \to \f{1}{n} \sum_{g \in L} f(\inv{g} x_0) %TODO: check this
+            = \f{1}{n} \sum_{g \in L} \varphi(\inv{g}h).
+        \]
+        This is a contradiction since these limits are not equal, so we conclude that $F$ must be continuous.
+    \end{proof}
+\end{lemma}
+
+\begin{theorem}
+    (Theorem 2.10 of \cite{dym2024equivariant})
+    Let $n \geq 2$ and let $\FF$ be a continuity-preserving equivariant frame for $\SO(2)$ acting on $X := \R^{2 \times n} \sminus 0$.
+    Then $\card(\FF) = \infty$.
+    \begin{proof}
+        \Afsoc that we have some finite continuity-preserving frame $\FF$.
+        Without loss of generality, we may assume that $\card(\FF(x)) = \card(\FF) =: N$ for all $x \in X$, since if not we may simply repeat elements.
+        This means $\FF$ can be thought of as a function from $X \to \SO(2)^N / \Sigma_N$.
+    \end{proof}
+\end{theorem}
