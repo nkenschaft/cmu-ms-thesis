@@ -1,4 +1,4 @@
-\section{Background}\label{sec:bg-frame-averaging}
+\subsection{Frame Averaging}\label{sec:bg-frame-averaging}
 \begin{definition}
     Given a $G$-space $X$, a \emph{frame} is a set-valued function $\FF : X \to 2^G \sminus \set{\emp}$.
 \end{definition}
@@ -74,7 +74,7 @@
     \end{proof}
 \end{proposition}
 
-\begin{proposition}
+\begin{proposition}\label{prop:frame-is-orbit-union}
     (Theorem 3 of \cite{puny2022frameaveraginginvariantequivariant})
     Let $\FF$ be an equivariant frame and let $x \in X$.
     Then $\FF(x)$ is a (disjoint) union of orbits $G_x g \in \FF(x) / G_x$.
@@ -245,5 +245,162 @@
         \Afsoc that we have some finite continuity-preserving frame $\FF$.
         Without loss of generality, we may assume that $\card(\FF(x)) = \card(\FF) =: N$ for all $x \in X$, since if not we may simply repeat elements.
         This means $\FF$ can be thought of as a function from $X \to \SO(2)^N / \Sigma_N$.
+    \end{proof}
+\end{theorem}
+
+\begin{definition}
+    Let $\mu$ be a Borel measure on a topological group $G$, and let $g \in G$.
+    Then the \emph{pushforward measure} $g_* \mu$ is defined for Borel sets $E \sub G$ as $g_* \mu(E) := \mu(\inv{g}E)$.
+\end{definition}
+
+\begin{definition}
+    Let $\mu$ be a Borel measure on a topological group $G$ which acts on $X$, and let $x \in X$.
+    Then the measure $\angles{\mu}_x$ is defined for Borel sets $E \sub G$ by
+    \[
+        \angles{\mu}_x(E)
+        := \int_{g \in G_x} g_* \mu(E) dg
+        = \int_{g \in G_x} \mu(\inv{g}E) dg
+    \]
+    where the integral is with respect to the Haar measure of $G_x$.
+\end{definition}
+
+\begin{definition}
+    Given a $G$-space $X$, a \emph{weighted frame} is a function $\mu_\bullet : X \to \PP(G)$ where $\PP(G)$ is the space of Borel probability measures on $G$
+    For $x \in X$ we write $\mu_x = \mu_\bullet(x)$ and $\Bar{\mu_x} := \angles{\mu_x}_x$.
+\end{definition}
+
+\begin{definition}
+    A weighted frame $\mu_\bullet$ is \emph{equivariant} at $x \in X$ if for all $g \in G$, $\mu_{gx} = g_* \mu_x$.
+    $\mu_\bullet$ is \emph{equivariant} if it is equivariant at all $x \in X$.
+\end{definition}
+
+\begin{definition}
+    A weighted frame $\mu_\bullet$ is \emph{weakly equivariant} at $x \in X$ if for all $g \in G$, $\Bar{\mu_{gx}} = g_* \Bar{\mu_x}$.
+    $\mu_\bullet$ is \emph{weakly equivariant} if it is weakly equivariant at all $x \in X$.
+\end{definition}
+
+\begin{remark}
+    If a weighted frame $\mu_\bullet$ is equivariant at $x\in X$, then it is weakly equivariant at $x$.
+    \begin{proof}
+        Let  $g \in G$ and let $E \sub G$ be a Borel set.
+        Then
+        \begin{align*}
+            \Bar{\mu_{gx}}(E)
+            &= \angles{\mu_{gx}}_{gx} (E) \\
+            &= \int_{h \in G_{gx}} h_* \mu_{gx} (E) dh \\
+            &= \int_{h \in G_{gx}} \mu_{gx} (\inv{h} E) dh \\
+            &= \int_{h \in G_{gx}} g_* \mu_x (\inv{h} E) dh \\
+            &= \int_{h \in G_{gx}} \mu_x (\inv{g} \inv{h} E) dh \\
+            &= \int_{h \in gG_x \inv{g}} \mu_x (\inv{g} \inv{h} E) dh \\
+            &= \int_{h \in G_x} \mu_x (\inv{h}\inv{g} E) dh \\
+            &= g_* \int_{h \in G_x} h_* \mu_x(E) dh \\
+            &= g_*\angles{\mu_x}_x (E) \\
+            &= g_* \Bar{\mu_x} (E).
+        \end{align*}
+    \end{proof}
+\end{remark}
+
+\begin{remark}
+    If a weighted frame $\mu_\bullet$ is weakly equivariant at $x\in X$ and $G_x$ is trivial, then it is equivariant at $x$.
+    \begin{proof}
+        Let  $g \in G$ and let $E \sub G$ be a Borel set.
+        Then
+        \begin{align*}
+            \mu_{gx} (E)
+            &= e_* \mu_{gx} (E) \\
+            &= \int_{h \in G_x} h_* \mu_{gx} (E) dh \\
+            &= \int_{h \in G_{gx}} h_* \mu_{gx} (E) dh \\
+            &= \Bar{\mu_{gx}} \\
+            &= g_* \Bar{\mu_x} \\
+            &= g_* \int_{h \in G_x} h_* \mu_x (E) dh \\
+            &= g_* \mu_x (E).
+        \end{align*}
+    \end{proof}
+\end{remark}
+
+\begin{proposition}
+    (Proposition 3.3 in \cite{dym2024equivariant})
+    Let $\mu_\bullet$ be a weakly equivariant weight frame.
+    Then for any Borel function $f : X \to Y$, the function $\II_\mu (f)$ given by
+    \[
+        \II_\mu (f) (x) := \int_G f(\inv{g} x) d\mu_x(g)
+    \]
+    is $G$-invariant.
+    \begin{proof}
+        First, we observe
+        \begin{align*}
+            \II_\mu (f) (x)
+            &= \int_G f(\inv{g} x) d\mu_x (g) \\
+            &= \int_{G_x} \int_G f(\inv{g} x) d\mu_x (g) dh \\
+            &= \int_{G_x} \int_G f(\inv{g} \inv{h} x) d\mu_x (g) dh \\
+            &= \int_{G_x} \int_G f(\inv{g} x) dh_* \mu_x (g) dh \\
+            &= \int_G f(\inv{g} x) d\bigp{\int_{G_x} h_* \mu_x (g) dh} \\
+            &= \int_G f(\inv{g} x) d\Bar{\mu_x} (g).
+        \end{align*}
+        Then we simply compute
+        \begin{align*}
+            \II_\mu (f) (hx)
+            &= \int_G f(\inv{g} h x) d\Bar{\mu_{hx}}(g) \\
+            &= \int_G f(\inv{g} h x) dh_* \Bar{\mu_x}(g) \\
+            &= \int_G f(\inv{g} h x) d \Bar{\mu_x}(\inv{h}g) \\
+            &= \int_G f(\inv{hg} h x) d \Bar{\mu_x}(g) \\
+            &= \int_G f(\inv{g} x) d \Bar{\mu_x}(g) \\
+            &= \II_\mu (f) (x).
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    A weakly equivariant weighted frame $\mu_\bullet$ continuous at $x$ if given any sequence $\seq{x} \sub X$ converging to $x$, we have $\angles{\mu_{x_n}}_x \wto \angles{\mu_x}_x$, i.e. for all $f : G \to \R$
+    \[
+        \int_{G} f d\angles{\mu_{x_n}}_x
+        \to \int_{G} f d\angles{\mu_{x}}_x
+        = \int_{G} f d\Bar{\mu_{x}}
+    \]
+    or equivalently
+    \[
+        \int_{G_x} \int_{G} f dh_*\mu_{x_n} dh
+        \to \int_{G_x} \int_{G} f dh_*\mu_{x} dh.
+    \]
+    
+    A \emph{robust frame} is a continuous weakly equivariant weight frame.
+\end{definition}
+
+\begin{theorem}
+    (Proposition 3.6 in \cite{dym2024equivariant})
+    If $\mu_\bullet$ is a robust frame for a compact group $G$ acting on a space $X$, then $\II_\mu$ preserves continuity.
+    \begin{proof}
+        Let $x \in X$ with $\seq{x} \sub X$ such that $x_n \to x$; we wish to show that $\II_\mu (f) (x_n) \to \II_\mu (f) (x)$ for any function $f : X \to R$.
+        \begin{align*}
+            \abs{\II_\mu (f) (x_n) - \II_\mu (f) (x)}
+            &= \abs{\int_G f(\inv{g} x_n) d\mu_{x_n} (g) - \int_G f(\inv{g} x) d\mu_{x} (g)} \\
+            &= \abs{\int_G f(\inv{g} x_n) d\mu_{x_n} (g) - \int_G f(\inv{g} x) d\angles{\mu_{x}}_x (g)} \\
+            &\leq \abs{\int_G f(\inv{g} x_n) d\mu_{x_n} (g) - \int_G f(\inv{g} x) d\angles{\mu_{x_n}}_x (g)} \\
+            &\quad + \abs{\int_G f(\inv{g} x) d\angles{\mu_{x_n}}_x (g) - \int_G f(\inv{g} x) d\angles{\mu_{x}}_x (g)}.
+        \end{align*}
+        Now observe that the latter term in this last expression has
+        \[
+            \abs{\int_G f(\inv{g} x) d\angles{\mu_{x_n}}_x (g) - \int_G f(\inv{g} x) d\angles{\mu_{x}}_x (g)} \to 0
+        \]
+        since $\mu_\bullet$ is robust, so it remains to study the former term.
+        Then we have
+        \begin{align*}
+            \int_G f(\inv{g} x) d\angles{\mu_{x_n}}_x (g)
+            &= \int_{G_x} \int_G f(\inv{g} x) d h_* \mu_{x_n} (g) dh \\
+            &= \int_{G_x} \int_G f(\inv{g} \inv{h} x) d \mu_{x_n} (g) dh \\
+            &= \int_{G_x} \int_G f(\inv{g} x) d\mu_{x_n} (g) dh \\
+            &= \int_G f(\inv{g} x) d\mu_{x_n} (g)
+        \end{align*}
+        so the former term is
+        \begin{align*}
+            \abs{\int_G f(\inv{g} x_n) d\mu_{x_n} (g) - \int_G f(\inv{g} x) d\angles{\mu_{x_n}}_x (g)}
+            &= \abs{\int_G f(\inv{g} x_n) d\mu_{x_n} (g) - \int_G f(\inv{g} x) d\mu_{x_n} (g)} \\
+            &= \abs{\int_G (f(\inv{g} x_n)  - f(\inv{g} x)) d\mu_{x_n} (g)} \\
+            &\leq \int_G \abs{f(\inv{g} x_n)  - f(\inv{g} x)} d\mu_{x_n} (g) \\
+            &\leq \mu_{x_n}(G) \max_{g \in G} \abs{f(\inv{g} x_n) - f(\inv{g} x)} \\
+            &= \max_{g \in G} \abs{f(\inv{g} x_n) - f(\inv{g} x)} \\
+            &\to 0.
+        \end{align*}
+        Therefore we conclude that $\abs{\II_\mu (f) (x_n) - \II_\mu (f) (x)} \to 0$ and $\II_\mu (f)$ is continuous.
     \end{proof}
 \end{theorem}

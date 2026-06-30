@@ -1,0 +1,56 @@
+\subsection{Frame Canonicalization}\label{sec:bg-frame-canonicalization}
+This material comes primarily from \cite{ma2024canonicalizationperspectiveinvariantequivariant}.
+\begin{definition}
+    Given a $G$-set $X$, a \emph{frame canonicalization} is a $G$-invariant function $\CC : X \to 2^X \sminus \set{\emp}$.
+\end{definition}
+
+\begin{proposition}
+    Given a frame canonicalization $\CC$ and map $f : X \to \R$, the function $\II_\CC (f)$ given by
+    \[
+        \II_\CC (f) (x)
+        = \f{1}{\card(\CC(x))} \sum_{c \in \CC(x)} f(c)
+    \]
+    is $G$-invariant.
+    \begin{proof}
+        Let $x \in X$ and $g \in G$, and we immediately have
+        \[
+            \II_\CC (f) (gx)
+            = \f{1}{\card(\CC(gx))} \sum_{c \in \CC(gx)} f(c)
+            = \f{1}{\card(\CC(x))} \sum_{c \in \CC(x)} f(c)
+            = \II_\CC (f) (x).
+        \]
+    \end{proof}
+\end{proposition}
+
+\begin{theorem}
+    (Theorem 3.1 of \cite{ma2024canonicalizationperspectiveinvariantequivariant})
+    For every equivariant frame $\FF$, there exists a frame canonicalization $\CC$ such that $\II_\FF = \II_\CC$.
+    Conversely, for every frame canonicalization $\CC$ there exists an equivariant frame $\FF$ such that $\II_\CC = \II_\FF$.
+    In both cases, for all $x \in X$ we have
+    \[
+        \card(\CC(x)) \card(G_x) = \card(\FF(x)).
+    \]
+    \begin{proof}
+        To begin, let $\FF$ be an equivariant frame.
+        Then for all $x \in X$, we define $\CC(x) = \set{g x : g \in \FF(x)}$, which is invariant since
+        \[
+            \CC(hx)
+            = \set{g h x : g \in \FF(hx)}
+            = \set{g h x : g \in h \FF(x)}
+            = \set{g x : g \in \FF(x)}
+            = \CC(x).
+        \]
+        
+        For the other direction, let $\CC$ be a frame canonicalization.
+        Then for all $x \in X$, we define $\FF(x) = \set{g \in G : \inv{g} x \in \CC(x)}$, which is equivariant since
+        \begin{align*}
+            \FF(hx)
+            &= \set{g \in G : \inv{g} h x \in \CC(h x)} \\
+            &= \set{g \in G : \inv{g} h x \in \CC(x)} \\
+            &= h \set{g \in G : \inv{g} x \in \CC(x)} \\
+            &= h \FF(x).
+        \end{align*}
+
+        In both cases, it follows from proposition \ref{prop:frame-is-orbit-union} that $\II_\CC = \II_\FF$ and $\card(\CC(x)) \card(G_x) = \card(\FF(x))$.
+    \end{proof}
+\end{theorem}
