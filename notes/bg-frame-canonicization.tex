@@ -1,11 +1,11 @@
 \subsection{Frame Canonicalization}\label{sec:bg-frame-canonicalization}
 This material comes primarily from \cite{ma2024canonicalizationperspectiveinvariantequivariant}.
 \begin{definition}
-    Given a $G$-set $X$, a \emph{frame canonicalization} is a $G$-invariant function $\CC : X \to 2^X \sminus \set{\emp}$.
+    Given a $G$-set $X$, a \emph{canonicalization frame} is a $G$-invariant function $\CC : X \to 2^X \sminus \set{\emp}$.
 \end{definition}
 
 \begin{proposition}
-    Given a frame canonicalization $\CC$ and map $f : X \to \R$, the function $\II_\CC (f)$ given by
+    Given a canonicalization frame $\CC$ and map $f : X \to \R$, the function $\II_\CC (f)$ given by
     \[
         \II_\CC (f) (x)
         = \f{1}{\card(\CC(x))} \sum_{c \in \CC(x)} f(c)
@@ -24,8 +24,8 @@ This material comes primarily from \cite{ma2024canonicalizationperspectiveinvari
 
 \begin{theorem}
     (Theorem 3.1 of \cite{ma2024canonicalizationperspectiveinvariantequivariant})
-    For every equivariant frame $\FF$, there exists a frame canonicalization $\CC$ such that $\II_\FF = \II_\CC$.
-    Conversely, for every frame canonicalization $\CC$ there exists an equivariant frame $\FF$ such that $\II_\CC = \II_\FF$.
+    For every equivariant frame $\FF$, there exists a canonicalization frame $\CC$ such that $\II_\FF = \II_\CC$.
+    Conversely, for every canonicalization frame $\CC$ there exists an equivariant frame $\FF$ such that $\II_\CC = \II_\FF$.
     In both cases, for all $x \in X$ we have
     \[
         \card(\CC(x)) \card(G_x) = \card(\FF(x)).
@@ -41,7 +41,7 @@ This material comes primarily from \cite{ma2024canonicalizationperspectiveinvari
             = \CC(x).
         \]
         
-        For the other direction, let $\CC$ be a frame canonicalization.
+        For the other direction, let $\CC$ be a canonicalization frame.
         Then for all $x \in X$, we define $\FF(x) = \set{g \in G : \inv{g} x \in \CC(x)}$, which is equivariant since
         \begin{align*}
             \FF(hx)
