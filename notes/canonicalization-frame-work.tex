@@ -1,0 +1,139 @@
+\subsection{Extending Canonicalization Frames}\label{sec:canon-frame-work}
+
+% TODO: compute cardinality bounds for canonicalization frames
+
+% TODO: extend results on frame cardinalities and robust frames here
+Following \cite{dym2024equivariant}, we make the following definitions in the context of canonicalization frames.
+
+\begin{definition}
+    Given a $G$-space $X$, a \emph{weighted canonicalization frame} is a function $\nu_\bullet : X \to \PP(X)$ where $\PP(X)$ is the space of Borel probability measures on $X$.
+\end{definition}
+
+\begin{definition}
+    A weighted canonicalization frame $\nu_\bullet$ is \emph{orbital} if $\nu_x(X \sminus Gx) = 0$ for all $x \in X$.
+\end{definition}
+
+\begin{definition}
+    A weighted canonicalization frame $\nu_\bullet$ is \emph{invariant} if $\nu_gx = \nu_x$ for all $x \in X$ and $g \in G$.
+\end{definition}
+
+% Going forward, we will assume that all weighted canonicalizations are orbital and invariant and thus not specify them as such.
+
+\begin{proposition}
+    Let $\nu_\bullet$ be an invariant weighted canonicalization frame.
+    Then for any Borel function $f : X \to Y$, the function $\II_\nu (f)$ given by
+    \[
+        \II_\nu (f) (x) := \int_X f d \nu_x
+    \]
+    is $G$-invariant.
+    \begin{proof}
+        Let $g \in G$ and $x \in X$, and we simply compute
+        \[
+            \II_\nu (f) (gx)
+            = \int_X f d \nu_{gx}
+            = \int_X f d \nu_x
+            = \II_\nu (f) (x).
+        \]
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    An invariant orbital weighted canonicalization frame $\nu_\bullet$ is continuous at $x$ if for any sequence $\seq{x} \sub X$ converging to $x$, we have $\nu_{x_n} \wto \nu_x$, i.e. for all $f : X \to \R$
+    \[
+        \int_X f d \nu_{x_n} \to \int_X f d \nu_x.
+    \]
+    A \emph{robust canonicalization frame} is a continuous invariant orbital weighted canonicalization frame.
+\end{definition}
+
+\begin{theorem}
+    A weighted canonicalization frame $\nu_\bullet$ is continuous if and only if $\II_\nu$ preserves continuity.
+    \begin{proof}
+        First assume that $\nu_\bullet$ is continuous and let $x \in X$ with $\seq{x} \sub X$ such that $x_n \to x$.
+        Then for any map $f : X \to \R$, we immediately have
+        \[
+            \II_\nu (f) (x_n)
+            = \int_X f d \nu_{x_n}
+            \to \int_X f d \nu_x
+            = \II_\nu (f) (x)
+        \]
+        so we conclude that $\II_\nu$ preserves continuity.
+        
+        Now instead assume that $\II_\nu$ preserves continuity, let $f : X \to \R$ be a Borel function, and let $x \in X$ with $\seq{x} \sub X$ such that $x_n \to x$.
+        Then by continuity of $\II_\nu (f)$ we have
+        \[
+            \int_X f d \nu_{x_n}
+            = \II_\nu (f) (x_n)
+            \to \II_\nu (f) (x)
+            = \int_X f d \nu_x
+        \]
+        so we are done.
+    \end{proof}
+\end{theorem}
+
+
+Similar to theorem \ref{thm:frame-equivalence}, we have a correspondence between weighted frames and weighted canonicalization frames.
+
+\begin{theorem}\label{thm:weight-frame-equivalence}
+    Let $X$ be a $G$-space.
+    Then there exists a bijective correspondence between weighted frames and weighted canonicalization frames.
+    In particular, this correspondence sends weakly equivariant weighted frames to invariant orbital weighted canonicalization frames and vice versa, and preserves continuity.
+    \begin{proof}
+        To begin, let $\mu_\bullet$ be a weakly equivariant weighted frame.
+        We define a weighted canonicalization frame $\nu_\bullet$ for Borel sets $E \sub X$ by
+        \[
+            \nu_x (E)
+            = \Bar{\mu}_x(\set{g \in G : \inv{g}x \in E}).
+        \]
+        Then $\nu_\bullet$ is orbital and invariant since
+        \[
+            \nu_x (X \sminus Gx)
+            = \Bar{\mu}_x(\set{g \in G : \inv{g}x \not\in Gx})
+            = \Bar{\mu}_x(\emp) = 0.
+        \]
+        and
+        \begin{align*}
+            \nu_{hx} (E)
+            &= \Bar{\mu}_{hx}(\set{g \in G : \inv{g}hx \in E}) \\
+            &= \Bar{\mu}_x(\inv{h}\set{g \in G : \inv{g}hx \in E}) \\
+            &= \Bar{\mu}_x(\set{g \in G : \pinv{hg}hx = \inv{g}x \in E}) \\
+            &= \nu_x (E).
+        \end{align*}
+        Now assume $\mu_\bullet$ is continuous, and we wish to show that $\II_\nu (f)$ is continuous for any continuous $f$.
+        To see this, first let $E \sub X$ be a Borel set and observe
+        \[
+            \int_X \chi_E d \nu_x
+            = \nu_x (E)
+            = \Bar{\mu}_x (\set{g \in G : \inv{g}x \in E})
+            = \int_G \chi_E (\inv{g} x) d \Bar{\mu}_x (g).
+        \]
+        Since any Borel function $f : X \to \R$ can be approximated by simple functions, the Lebesgue Dominated Convergence Theorem gives us that 
+        \[
+            \int_X f d\nu_x = \int_G f(\inv{g} x) d \Bar{\mu}_x (g).
+        \]
+        But recall by lemma \ref{lem:weighted-frame-integral-equivalence} that 
+        \[
+            \int_G f(\inv{g} x) d \Bar{\mu}_x (g)
+            = \int_G f(\inv{g} x) d \mu_x (g)
+        \]
+        so we have that $\II_\nu (f) = \II_\mu (f)$ and hence $\nu_\bullet$ is continuous.
+        
+        For the other direction, let $\nu_\bullet$ be an invariant orbital weighted canonicalization frame.
+        We define a weighted frame $\mu_\bullet$ for Borel sets $E \sub G$ by
+        \[
+            \mu_x (E)
+            = \nu_x (\inv{E}x).
+        \]
+        Then $\mu_\bullet$ is equivariant since
+        \begin{align*}
+            \mu_{hx} (E)
+            &= \nu_{hx} (\inv{E}hx) \\
+            &= \nu_x (\set{\inv{g}hx : g \in E}) \\
+            &= \nu_x (\set{\inv{g}x : g \in \inv{h}E}) \\
+            &= \nu_x (\pinv{\inv{h} E}x) \\
+            &= \mu_x (\inv{h} E) \\
+            &= h_* \mu_x.
+        \end{align*}
+    \end{proof}
+\end{theorem}
+
+% TODO: construct (weighted) canonicalization frames for specific groups/spaces

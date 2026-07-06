@@ -10,6 +10,8 @@ from matplotlib.ticker import MaxNLocator, AutoMinorLocator
 
 import pickle
 
+from datetime import datetime
+
 
 def sym(A : torch.Tensor) -> torch.Tensor:
     return A.mT @ A
@@ -155,8 +157,8 @@ def load_losses(filename : str) -> None:
 
 if __name__ == "__main__":
     # torch.manual_seed(42)
-    d = 2
-    num_epochs = 5
+    d = 20
+    num_epochs = 500
     batch_size = 250
     mlp_hidden_dims = (d**2,d**2)
     polynomial = (0,1,1,)
@@ -214,6 +216,8 @@ if __name__ == "__main__":
     fig.supylabel('MSE Loss')
     # figure title
     fig.suptitle("Train vs Test vs Rotated Test Loss")
+    # set subtitle to include training specs in italics
+    fig.text(0.5, 0.01, f"d={d}, epochs={num_epochs}, batch_size={batch_size}, mlp_hidden_dims={mlp_hidden_dims}, polynomial={polynomial}", ha='center', fontsize=10)
     # enable legends and grid lines
     ax1.legend()
     ax2.legend()
@@ -226,12 +230,18 @@ if __name__ == "__main__":
     ax3.grid(which='minor', linestyle=':', alpha=0.5)
 
     # grid formatting, shared since sharey=True
-    # ax1.set_yscale("log")
-    ax1.set_ylim(bottom=0)
     ax1.yaxis.set_major_locator(MaxNLocator(nbins=20))
-    ax1.yaxis.set_minor_locator(AutoMinorLocator(5))
+    log = True
+    if log:
+        ax1.set_yscale("log")
+    else:
+        ax1.set_ylim(bottom=0)
+        ax1.yaxis.set_minor_locator(AutoMinorLocator(5))
 
-    filename = f"piecewise-canonicalization/{d}-d_{num_epochs}-epochs_{polynomial}-poly"
+    # get current date for subdirectory
+    timestamp = datetime.now().strftime("%Y-%m-%d")
+
+    filename = f"piecewise-canonicalization/{timestamp}-{d}-d_{num_epochs}-epochs_{polynomial}-poly"
     save_losses(
         losses_tuple=(train_losses, test_losses, rotated_test_losses,
                       ctrain_losses, ctest_losses, crotated_test_losses,
@@ -239,4 +249,3 @@ if __name__ == "__main__":
         filename=filename+".pkl")
     plt.savefig(filename+".png")
     plt.show()
-    

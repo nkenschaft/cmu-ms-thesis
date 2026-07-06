@@ -266,7 +266,7 @@
 
 \begin{definition}
     Given a $G$-space $X$, a \emph{weighted frame} is a function $\mu_\bullet : X \to \PP(G)$ where $\PP(G)$ is the space of Borel probability measures on $G$
-    For $x \in X$ we write $\mu_x = \mu_\bullet(x)$ and $\Bar{\mu_x} := \angles{\mu_x}_x$.
+    For $x \in X$ we write $\mu_x = \mu_\bullet(x)$ and $\Bar{\mu}_x := \angles{\mu_x}_x$.
 \end{definition}
 
 \begin{definition}
@@ -275,7 +275,7 @@
 \end{definition}
 
 \begin{definition}
-    A weighted frame $\mu_\bullet$ is \emph{weakly equivariant} at $x \in X$ if for all $g \in G$, $\Bar{\mu_{gx}} = g_* \Bar{\mu_x}$.
+    A weighted frame $\mu_\bullet$ is \emph{weakly equivariant} at $x \in X$ if for all $g \in G$, $\Bar{\mu}_{gx} = g_* \Bar{\mu}_x$.
     $\mu_\bullet$ is \emph{weakly equivariant} if it is weakly equivariant at all $x \in X$.
 \end{definition}
 
@@ -285,7 +285,7 @@
         Let  $g \in G$ and let $E \sub G$ be a Borel set.
         Then
         \begin{align*}
-            \Bar{\mu_{gx}}(E)
+            \Bar{\mu}_{gx}(E)
             &= \angles{\mu_{gx}}_{gx} (E) \\
             &= \int_{h \in G_{gx}} h_* \mu_{gx} (E) dh \\
             &= \int_{h \in G_{gx}} \mu_{gx} (\inv{h} E) dh \\
@@ -295,7 +295,7 @@
             &= \int_{h \in G_x} \mu_x (\inv{h}\inv{g} E) dh \\
             &= g_* \int_{h \in G_x} h_* \mu_x(E) dh \\
             &= g_*\angles{\mu_x}_x (E) \\
-            &= g_* \Bar{\mu_x} (E).
+            &= g_* \Bar{\mu}_x (E).
         \end{align*}
     \end{proof}
 \end{remark}
@@ -310,13 +310,34 @@
             &= e_* \mu_{gx} (E) \\
             &= \int_{h \in G_x} h_* \mu_{gx} (E) dh \\
             &= \int_{h \in G_{gx}} h_* \mu_{gx} (E) dh \\
-            &= \Bar{\mu_{gx}} \\
-            &= g_* \Bar{\mu_x} \\
+            &= \Bar{\mu}_{gx} \\
+            &= g_* \Bar{\mu}_x \\
             &= g_* \int_{h \in G_x} h_* \mu_x (E) dh \\
             &= g_* \mu_x (E).
         \end{align*}
     \end{proof}
 \end{remark}
+
+\begin{lemma}\label{lem:weighted-frame-integral-equivalence}
+    For any Borel function $f : X \to \R$, we have
+    \[
+        \II_\mu (f) (x)
+        = \int_G f(\inv{g} x) d\mu_x (g)
+        = \int_G f(\inv{g} x) d\Bar{\mu}_x (g).
+    \]
+    \begin{proof}
+        We simply compute
+        \begin{align*}
+            \II_\mu (f) (x)
+            &= \int_G f(\inv{g} x) d\mu_x (g) \\
+            &= \int_{G_x} \int_G f(\inv{g} x) d\mu_x (g) dh \\
+            &= \int_{G_x} \int_G f(\inv{g} \inv{h} x) d\mu_x (g) dh \\
+            &= \int_{G_x} \int_G f(\inv{g} x) dh_* \mu_x (g) dh \\
+            &= \int_G f(\inv{g} x) d\bigp{\int_{G_x} h_* \mu_x (g) dh} \\
+            &= \int_G f(\inv{g} x) d\Bar{\mu}_x (g).
+        \end{align*}
+    \end{proof}
+\end{lemma}
 
 \begin{proposition}
     (Proposition 3.3 in \cite{dym2024equivariant})
@@ -327,24 +348,14 @@
     \]
     is $G$-invariant.
     \begin{proof}
-        First, we observe
-        \begin{align*}
-            \II_\mu (f) (x)
-            &= \int_G f(\inv{g} x) d\mu_x (g) \\
-            &= \int_{G_x} \int_G f(\inv{g} x) d\mu_x (g) dh \\
-            &= \int_{G_x} \int_G f(\inv{g} \inv{h} x) d\mu_x (g) dh \\
-            &= \int_{G_x} \int_G f(\inv{g} x) dh_* \mu_x (g) dh \\
-            &= \int_G f(\inv{g} x) d\bigp{\int_{G_x} h_* \mu_x (g) dh} \\
-            &= \int_G f(\inv{g} x) d\Bar{\mu_x} (g).
-        \end{align*}
-        Then we simply compute
+        Using lemma \ref{lem:weighted-frame-integral-equivalence}, we simply compute
         \begin{align*}
             \II_\mu (f) (hx)
-            &= \int_G f(\inv{g} h x) d\Bar{\mu_{hx}}(g) \\
-            &= \int_G f(\inv{g} h x) dh_* \Bar{\mu_x}(g) \\
-            &= \int_G f(\inv{g} h x) d \Bar{\mu_x}(\inv{h}g) \\
-            &= \int_G f(\inv{hg} h x) d \Bar{\mu_x}(g) \\
-            &= \int_G f(\inv{g} x) d \Bar{\mu_x}(g) \\
+            &= \int_G f(\inv{g} h x) d\Bar{\mu}_{hx}(g) \\
+            &= \int_G f(\inv{g} h x) dh_* \Bar{\mu}_x(g) \\
+            &= \int_G f(\inv{g} h x) d \Bar{\mu}_x(\inv{h}g) \\
+            &= \int_G f(\inv{hg} h x) d \Bar{\mu}_x(g) \\
+            &= \int_G f(\inv{g} x) d \Bar{\mu}_x(g) \\
             &= \II_\mu (f) (x).
         \end{align*}
     \end{proof}
@@ -355,7 +366,7 @@
     \[
         \int_{G} f d\angles{\mu_{x_n}}_x
         \to \int_{G} f d\angles{\mu_{x}}_x
-        = \int_{G} f d\Bar{\mu_{x}}
+        = \int_{G} f d\Bar{\mu}_{x}
     \]
     or equivalently
     \[
@@ -363,14 +374,14 @@
         \to \int_{G_x} \int_{G} f dh_*\mu_{x} dh.
     \]
     
-    A \emph{robust frame} is a continuous weakly equivariant weight frame.
+    A \emph{robust frame} is a continuous weakly equivariant weighted frame.
 \end{definition}
 
 \begin{theorem}
     (Proposition 3.6 in \cite{dym2024equivariant})
     If $\mu_\bullet$ is a robust frame for a compact group $G$ acting on a space $X$, then $\II_\mu$ preserves continuity.
     \begin{proof}
-        Let $x \in X$ with $\seq{x} \sub X$ such that $x_n \to x$; we wish to show that $\II_\mu (f) (x_n) \to \II_\mu (f) (x)$ for any function $f : X \to R$.
+        Let $x \in X$ with $\seq{x} \sub X$ such that $x_n \to x$; we wish to show that $\II_\mu (f) (x_n) \to \II_\mu (f) (x)$ for any function $f : X \to \R$.
         \begin{align*}
             \abs{\II_\mu (f) (x_n) - \II_\mu (f) (x)}
             &= \abs{\int_G f(\inv{g} x_n) d\mu_{x_n} (g) - \int_G f(\inv{g} x) d\mu_{x} (g)} \\

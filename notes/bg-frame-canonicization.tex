@@ -1,8 +1,15 @@
-\subsection{Frame Canonicalization}\label{sec:bg-frame-canonicalization}
+\subsection{Canonicalization Frames}\label{sec:bg-frame-canonicalization}
 This material comes primarily from \cite{ma2024canonicalizationperspectiveinvariantequivariant}.
 \begin{definition}
-    % TODO: come up with a better name
     Given a $G$-set $X$, a \emph{canonicalization frame} is a $G$-invariant function $\CC : X \to 2^X \sminus \set{\emp}$.
+\end{definition}
+
+\begin{definition}
+    A canonicalization frame $\CC$ is \emph{invariant} if for all $x \in X$ and $g \in G$, $\CC(gx) = \CC(x)$.
+\end{definition}
+
+\begin{definition}
+    A canonicalization frame $\CC$ is \emph{orbital} if for all $x \in X$, $\CC(x) \sub Gx$.
 \end{definition}
 
 \begin{proposition}
@@ -23,7 +30,7 @@ This material comes primarily from \cite{ma2024canonicalizationperspectiveinvari
     \end{proof}
 \end{proposition}
 
-\begin{theorem}
+\begin{theorem}\label{thm:frame-equivalence}
     (Theorem 3.1 of \cite{ma2024canonicalizationperspectiveinvariantequivariant})
     For every equivariant frame $\FF$, there exists a canonicalization frame $\CC$ such that $\II_\FF = \II_\CC$.
     Conversely, for every canonicalization frame $\CC$ there exists an equivariant frame $\FF$ such that $\II_\CC = \II_\FF$.
@@ -56,8 +63,3 @@ This material comes primarily from \cite{ma2024canonicalizationperspectiveinvari
     \end{proof}
 \end{theorem}
 
-% TODO: extend results on frame cardinalities and robust frames here
-
-% TODO: compute cardinality bounds for canonicalization frames
-
-% TODO: construct canonicalization frames for specific groups/spaces
