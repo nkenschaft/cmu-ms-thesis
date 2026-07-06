@@ -584,10 +584,35 @@ This case turns out to me markedly more difficult to study, as we now must consi
     \end{proof}
 \end{theorem}
 
+% TODO: clean these up
+\begin{theorem}
+    Let $q : \R^{d \times n}_* \to \R^{d \times n}_* / O(d)$ be the quotient map.
+    Then $\secat(q) < \infty$.
+    \begin{proof}
+        First consider $p : \R^{d \times n}_*/\Rp \to (\R^{d \times n}_*/O(d))/\Rp \cong \Gr_k(\R^n)$
+        Recall from before the $p$ is a principle $O(d)$-bundle, so for all $x \in \Gr_k(\R^n)$ we can find a local section $s_x : U_x \to \R^{d \times n}_*/\Rp$ of $p$ where $U_x \ni x$ is open.
+        % TODO: cite source for compactness
+        Then by compactness of $\Gr_k(\R^n)$, there exists some finite collection $\set{x_i}_{1 \leq i \leq m} \sub \Gr_k(\R^n)$ such that $\Gr_k(\R^n) = \cup_i U_{x_i}$.
+        To conclude, observe that $\R^{d \times n}_*/O(d) = \cup_{i} \Rp U_{x_i}$ and we have local sections $r_i : \Rp U_i \to \R^{d \times n}_*$  given by $r_i(tx) = ts_i([x])$ where $\norm{x} = 1$.
+        Therefore by definition we have that $\secat(q) \leq m < \infty$.
+    \end{proof}
+\end{theorem}
+
+\begin{theorem}
+    Let $q : \R^{d \times n}_* \to \R^{d \times n}_* / SO(d)$ be the quotient map.
+    Then $\secat(q) < \infty$.
+    \begin{proof}
+        This follows exactly the same way as the previous theorem.
+    \end{proof}
+\end{theorem}
+
 % TODO: put some graphs of the bounds
 
 We might also wish to giver an upper bound for the sectional category of the two quotient maps considered above.
 Unfortunately, I could not find a way to do this.
 % TODO: find a piecewise canonicalization
 
+I think it may actually be impossible to find \emph{any} collection of local sections for the entire space $\R^{d \times n}$.
+If we have $A \in \R^{d \times n}$ with $\rank(A) \leq d-1$ (maybe $\rank(A) \leq d-2$?) any open set $U \sub \R^{d \times n}/O(d)$ containing $O(d)A$ will also contain $O(d)L$ for some $L \in \R^{d \times n}_*$ by density, and this seems like it should cause problems.
+% TODO: flesh this out
 
