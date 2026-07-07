@@ -74,9 +74,9 @@ Following \cite{dym2024equivariant}, we make the following definitions in the co
 Similar to theorem \ref{thm:frame-equivalence}, we have a correspondence between weighted frames and weighted canonicalization frames.
 
 \begin{theorem}\label{thm:weight-frame-equivalence}
-    Let $X$ be a $G$-space.
-    Then there exists a bijective correspondence between weighted frames and weighted canonicalization frames.
-    In particular, this correspondence sends weakly equivariant weighted frames to invariant orbital weighted canonicalization frames and vice versa, and preserves continuity.
+    Let $X$ be a Polish space with a continuous left $G$-action.
+    Then every weighted frame induces a weighted canonicalization frame and vice versa (though not necessarily via a bijection).
+    In particular, this correspondence sends weakly equivariant weighted frames to invariant orbital weighted canonicalization frames and weighted canonicalization frames to equivariant weighted frames, and both directions preserve continuity.
     \begin{proof}
         To begin, let $\mu_\bullet$ be a weakly equivariant weighted frame.
         We define a weighted canonicalization frame $\nu_\bullet$ for Borel sets $E \sub X$ by
@@ -118,21 +118,21 @@ Similar to theorem \ref{thm:frame-equivalence}, we have a correspondence between
         so we have that $\II_\nu (f) = \II_\mu (f)$ and hence $\nu_\bullet$ is continuous.
         
         For the other direction, let $\nu_\bullet$ be an invariant orbital weighted canonicalization frame.
-        We define a weighted frame $\mu_\bullet$ for Borel sets $E \sub G$ by
+        We define a weighted frame $\mu_\bullet$ as follows.
+        \footnote{This construction was given by Claude via \href{https://claude.ai/share/1bbec844-7ccc-452b-86cb-46641341f6ea}{this chat}.}
+        First, observe that the quotient map $q : Gx \to G/G_x$ is a homeomorphism.
+        Then by Kuratowski-Ryll-Nardzewski Measurable Selection Theorem % TODO: check this
+        there exists a measurable (i.e. Borel) section $s : G/G_x \to Gx$ of $q$.
+        Letting $\Hat{s_x} : G/G_x \times G_x \to G$ be the map $\Hat{s}(g,h) = s(g)h$ and $m_x$ be the Haar measure on $G_x$, we now define $\mu_x = \Hat{s}_* ((q_* \nu_x) \otimes m_x)$, i.e. for any Borel function $f : G \to \R$ we have.
         \[
-            \mu_x (E)
-            = \nu_x (\inv{E}x).
+            \int_G f d\mu_x = \int_{G/G_x} \int_{G_x} f(s(q(g)) \cdot h) d m_x (h) d \nu_x (g).
         \]
-        Then $\mu_\bullet$ is equivariant since
-        \begin{align*}
-            \mu_{hx} (E)
-            &= \nu_{hx} (\inv{E}hx) \\
-            &= \nu_x (\set{\inv{g}hx : g \in E}) \\
-            &= \nu_x (\set{\inv{g}x : g \in \inv{h}E}) \\
-            &= \nu_x (\pinv{\inv{h} E}x) \\
-            &= \mu_x (\inv{h} E) \\
-            &= h_* \mu_x.
-        \end{align*}
+        Note that $\mu_x$ is independent of the choice of $s$. % TODO: check this
+        To see that $\mu_\bullet$ is equivariant, let $g \in G$ and $x \in X$ and observe
+        \[
+            \mu_{gx}
+            = 
+        \]
     \end{proof}
 \end{theorem}
 
