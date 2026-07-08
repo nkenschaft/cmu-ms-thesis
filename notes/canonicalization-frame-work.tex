@@ -119,21 +119,56 @@ Similar to theorem \ref{thm:frame-equivalence}, we have a correspondence between
         
         For the other direction, let $\nu_\bullet$ be an invariant orbital weighted canonicalization frame.
         We define a weighted frame $\mu_\bullet$ as follows.
-        \footnote{This construction was given by Claude via \href{https://claude.ai/share/1bbec844-7ccc-452b-86cb-46641341f6ea}{this chat}.}
-        First, observe that the quotient map $q : Gx \to G/G_x$ is a homeomorphism.
-        Then by Kuratowski-Ryll-Nardzewski Measurable Selection Theorem % TODO: check this
-        there exists a measurable (i.e. Borel) section $s : G/G_x \to Gx$ of $q$.
-        Letting $\Hat{s_x} : G/G_x \times G_x \to G$ be the map $\Hat{s}(g,h) = s(g)h$ and $m_x$ be the Haar measure on $G_x$, we now define $\mu_x = \Hat{s}_* ((q_* \nu_x) \otimes m_x)$, i.e. for any Borel function $f : G \to \R$ we have.
+        \footnote{The idea for this construction was suggested in part by Claude via \href{https://claude.ai/share/d975e47f-d488-4821-8653-ae7bbac49887}{this chat}.}
+        First, fix some $x \in X$, and define a linear map $T_x : \cont{G}{\R} \to \cont{G/G_x}{\R}$ on continuous functions by
         \[
-            \int_G f d\mu_x = \int_{G/G_x} \int_{G_x} f(s(q(g)) \cdot h) d m_x (h) d \nu_x (g).
+            T_x (f) (G_x g) := \int_{G_x} f(hg) dh
         \]
-        Note that $\mu_x$ is independent of the choice of $s$. % TODO: check this
-        To see that $\mu_\bullet$ is equivariant, let $g \in G$ and $x \in X$ and observe
+        where the integral is with respect to the Haar measure on $G_x$.
+        Observe that this is well-defined since for $g' = h'g$ with $h' \in G_x$ we have
         \[
-            \mu_{gx}
-            = 
+            T_x (f) (G_x g')
+            = \int_{G_x} f(hg') dh
+            = \int_{G_x} f(hh'g) dh
+            = \int_{G_x} f(hg) dh
+            = T_x (f) (G_x g)
         \]
+        by the left-invariance of the Haar measure, and the integral is well-defined since $G$ is compact (hence all continuous functions are integrable).
+        Additionally, $T_x$ is clearly linear by linearity of integration.
+        Next, define a linear functional $L_x : \cont{G}{\R} \to \R$ by
+        \[
+            L_x (f) := \int_{Gx} T_x (f \circ q) d \nu_x
+        \]
+        where $q : Gx \to G/G_x$ is the quotient map.
+        Observe that $L_x$ is indeed linear since $(f + g) \circ q = f \circ q + g \circ q$, and we have already established that $T_x$ is linear.
+        Then by the Riesz-Markov-Kakutani Representation Theorem, there exists a unique Borel measure $\mu_x$ such that
+        \[
+            \int_G f d \mu_x = L_x (f) = \int_{Gx} T_x(f \circ q) d \nu_x,
+        \]
+        so we take all such $\mu_x$'s to be our $\mu_\bullet$.
+        To show that $\mu_\bullet$ is equivariant, let $g \in G$ and $x \in X$.
+        Then observe
+        \begin{align*}
+            T_{gx} (f) (G_x g')
+            &= \int_{G_{gx}} f(h g') dh \\
+            &= \int_{g G_x \inv{g}} f(h g') dh \\
+            &= \int_{G_x} f(g h \inv{g}  g') dh \\
+            &= \int_{G_x} (f(g h g'))  dh \\
+            &= T_x (f(g \cdot -))(G_x g')
+        \end{align*}
+        so we have
+        \begin{align*}
+            \int_G f d \mu_{gx}
+            &= \int_{Ggx} T_{gx} (f \circ q) d \nu_{gx} \\
+            &= \int_{Gx} T_{gx} (f(q(u))) d \nu_x (u) \\
+            &= \int_{Gx} T_x(f(g \cdot q(u))) d \nu_x(u) \\
+            % FILL IN HERE
+            &= \int_G f (g \cdot u) d \mu_x (u) \\
+            &= \int_G f d g_* \mu_x
+        \end{align*}
     \end{proof}
 \end{theorem}
+
+% TODO: consider free G-action case
 
 % TODO: construct (weighted) canonicalization frames for specific groups/spaces
