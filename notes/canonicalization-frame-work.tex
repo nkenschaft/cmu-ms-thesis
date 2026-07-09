@@ -74,9 +74,9 @@ Following \cite{dym2024equivariant}, we make the following definitions in the co
 Similar to theorem \ref{thm:frame-equivalence}, we have a correspondence between weighted frames and weighted canonicalization frames.
 
 \begin{theorem}\label{thm:weight-frame-equivalence}
-    Let $X$ be a Polish space with a continuous left $G$-action.
+    Let $X$ be a $G$-space.
     Then every weighted frame induces a weighted canonicalization frame and vice versa (though not necessarily via a bijection).
-    In particular, this correspondence sends weakly equivariant weighted frames to invariant orbital weighted canonicalization frames and weighted canonicalization frames to equivariant weighted frames, and both directions preserve continuity.
+    In particular, this correspondence sends weakly equivariant weighted frames to invariant orbital weighted canonicalization frames and weighted canonicalization frames to equivariant weighted frames, and both directions preserve the continuity of the frame.
     \begin{proof}
         To begin, let $\mu_\bullet$ be a weakly equivariant weighted frame.
         We define a weighted canonicalization frame $\nu_\bullet$ for Borel sets $E \sub X$ by
@@ -84,13 +84,13 @@ Similar to theorem \ref{thm:frame-equivalence}, we have a correspondence between
             \nu_x (E)
             = \Bar{\mu}_x(\set{g \in G : \inv{g}x \in E}).
         \]
-        Then $\nu_\bullet$ is orbital and invariant since
+        Then $\nu_\bullet$ is orbital since
         \[
             \nu_x (X \sminus Gx)
             = \Bar{\mu}_x(\set{g \in G : \inv{g}x \not\in Gx})
-            = \Bar{\mu}_x(\emp) = 0.
+            = \Bar{\mu}_x(\emp) = 0
         \]
-        and
+        and invariant since
         \begin{align*}
             \nu_{hx} (E)
             &= \Bar{\mu}_{hx}(\set{g \in G : \inv{g}hx \in E}) \\
@@ -120,55 +120,77 @@ Similar to theorem \ref{thm:frame-equivalence}, we have a correspondence between
         For the other direction, let $\nu_\bullet$ be an invariant orbital weighted canonicalization frame.
         We define a weighted frame $\mu_\bullet$ as follows.
         \footnote{The idea for this construction was suggested in part by Claude via \href{https://claude.ai/share/d975e47f-d488-4821-8653-ae7bbac49887}{this chat}.}
-        First, fix some $x \in X$, and define a linear map $T_x : \cont{G}{\R} \to \cont{G/G_x}{\R}$ on continuous functions by
+        To begin, fix some $x \in X$ and define a linear function $T_x : \cont{G}{\R} \to \cont{G/G_x}{\R}$ via
         \[
-            T_x (f) (G_x g) := \int_{G_x} f(hg) dh
+            T_x(f)(gG_x) := \int_{G_x} f(\pinv{gs}) ds
         \]
-        where the integral is with respect to the Haar measure on $G_x$.
-        Observe that this is well-defined since for $g' = h'g$ with $h' \in G_x$ we have
+        where this integral is with respect to the unique left-invariant normalized Haar measure on $G_x$.
+        To verify that this is a well-defined function, let $g' \in G$ such that $g'G_x = gG_x$, i.e. $g' = gs'$ for some $s' \in G_x$.
+        Then we have
         \[
-            T_x (f) (G_x g')
-            = \int_{G_x} f(hg') dh
-            = \int_{G_x} f(hh'g) dh
-            = \int_{G_x} f(hg) dh
-            = T_x (f) (G_x g)
+            T_x(f)(g'G_x)
+            = \int_{G_x} f(\pinv{g's}) ds
+            = \int_{G_x} f(\pinv{gs's}) ds
+            = \int_{G_x} f(\pinv{gs}) ds
+            = T_x(f)(gG_x)
         \]
-        by the left-invariance of the Haar measure, and the integral is well-defined since $G$ is compact (hence all continuous functions are integrable).
-        Additionally, $T_x$ is clearly linear by linearity of integration.
-        Next, define a linear functional $L_x : \cont{G}{\R} \to \R$ by
+        where the third equality is by the left-invariance of the Haar measure.
+        Observe that $T_x$ is also linear by the linearity of integration.
+        Using $T_x$, we now define a linear functional $L_x : \cont{G/G_x}{\R} \to \R$ via
         \[
-            L_x (f) := \int_{Gx} T_x (f \circ q) d \nu_x
+            L_x(f) := \int_{Gx} f \circ q_x d \nu_x
         \]
-        where $q : Gx \to G/G_x$ is the quotient map.
-        Observe that $L_x$ is indeed linear since $(f + g) \circ q = f \circ q + g \circ q$, and we have already established that $T_x$ is linear.
-        Then by the Riesz-Markov-Kakutani Representation Theorem, there exists a unique Borel measure $\mu_x$ such that
+        where $q_x : Gx \to G/G_x$ is the quotient map.
+        Observe that $L_x$ is clearly linear, again by the linearity of integration.
+        Then $L_x \circ T_x : \cont{G;\R} \to \R$ is a linear functional since $L_x$ and $T_x$ are both linear, and $G$ is compact, so the Riesz-Markov-Kakutani Representation Theorem gives us that there is a unique Borel measure $\mu_x$ on $G$ such that for any Borel function $f : G \to R$,
         \[
-            \int_G f d \mu_x = L_x (f) = \int_{Gx} T_x(f \circ q) d \nu_x,
+            \int_G f d \mu_x
+            = (L_x \circ T_x) (f).
         \]
-        so we take all such $\mu_x$'s to be our $\mu_\bullet$.
-        To show that $\mu_\bullet$ is equivariant, let $g \in G$ and $x \in X$.
-        Then observe
+        Define $\mu_\bullet$ as the collection of these $\mu_x$'s, and note that $\mu_x$ is indeed a probability measure since
+        \[
+            T_x(1)(gG_x)
+            = \int_{G_x} 1 ds
+            = 1
+        \]
+        so
+        \[
+            \mu_x (G)
+            = \int_G 1 d\mu_x
+            = (L_x \circ T_x) (1)
+            = \int_{Gx} (T_x(1) \circ q_x) d \nu_x 
+            = \int_{Gx} 1 d \nu_x 
+            = 1
+        \]
+        To see that $\mu_\bullet$ is equivariant, let $h \in G$ and $x \in X$.
+        Then we compute
         \begin{align*}
-            T_{gx} (f) (G_x g')
-            &= \int_{G_{gx}} f(h g') dh \\
-            &= \int_{g G_x \inv{g}} f(h g') dh \\
-            &= \int_{G_x} f(g h \inv{g}  g') dh \\
-            &= \int_{G_x} (f(g h g'))  dh \\
-            &= T_x (f(g \cdot -))(G_x g')
+            \int_G f d \mu_{hx}
+            &= \int_{G hx} T_{hx} (f) (q_{hx}(c)) d \nu_{hx} (c) \\
+            &= \int_{G x} T_{hx} (f) (q_{hx}(c)) d \nu_{x} (c) \\
+            &= \int_{G x} \int_{G_{hx}} f(\pinv{gs}) ds d \nu_x (c) \tag{$\exists g \in G, c = ghx \implies q_{hx}(c) = gG_{hx}$} \\
+            &= \int_{G x} \int_{h G_x \inv{h}} f(\pinv{gs}) ds d \nu_x (c) \\
+            &= \int_{G x} \int_{G_x} f(\pinv{ghs\inv{h}}) ds d \nu_x (c) \\
+            &= \int_{G x} \int_{G_x} f(h\pinv{(gh)s}) ds d \nu_x (c) \\
+            &= \int_{G x} (T_x(f \circ (h \cdot -)) (q_x(c))) d \nu_x (c) \tag{$c = ghx \implies q_x(c) = ghG_x$} \\
+            &= \int_G (f \circ (h \cdot -)) d \mu_x \\
+            &= \int_G f d h_* \mu_x
         \end{align*}
-        so we have
+        and we thus conclude that $\mu_{hx} = h_* \mu_x$.
+        Lastly, assume $\nu_\bullet$ is continuous, and we wish to show that $\II_\mu (f)$ is continuous for any map $f : X \to \R$.
+        To see this, we simply compute
         \begin{align*}
-            \int_G f d \mu_{gx}
-            &= \int_{Ggx} T_{gx} (f \circ q) d \nu_{gx} \\
-            &= \int_{Gx} T_{gx} (f(q(u))) d \nu_x (u) \\
-            &= \int_{Gx} T_x(f(g \cdot q(u))) d \nu_x(u) \\
-            % FILL IN HERE
-            &= \int_G f (g \cdot u) d \mu_x (u) \\
-            &= \int_G f d g_* \mu_x
+            \II_\mu (f) (x)
+            &= \int_G f(\inv{g} x) d \mu_x \\
+            &= \int_G f_\inv{x}(g) d \mu_x \tag{$f_\inv{x} (g) := f(\inv{g} x)$} \\
+            &= \int_{Gx} \int_{G_x} f_\inv{x} (\pinv{gs}) ds d\nu_x \\
+            &= \int_{Gx} \int_{G_x} f(gsx) ds d\nu_x \\
+            &= \int_{Gx} \int_{G_x} f(gx) ds d\nu_x \\
+            &= \int_{Gx} f(gx) d\nu_x \\
+            &= \II_\nu (f) (x)
         \end{align*}
     \end{proof}
 \end{theorem}
-
 % TODO: consider free G-action case
 
 % TODO: construct (weighted) canonicalization frames for specific groups/spaces

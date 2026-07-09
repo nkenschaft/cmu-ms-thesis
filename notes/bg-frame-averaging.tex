@@ -379,9 +379,9 @@
 
 \begin{theorem}
     (Proposition 3.6 in \cite{dym2024equivariant})
-    If $\mu_\bullet$ is a robust frame for a compact group $G$ acting on a space $X$, then $\II_\mu$ preserves continuity.
+    A weakly equivariant frame $\mu_bullet$ is continuous (i.e. robust) if and only if $\II_\mu$ preserves continuity.
     \begin{proof}
-        Let $x \in X$ with $\seq{x} \sub X$ such that $x_n \to x$; we wish to show that $\II_\mu (f) (x_n) \to \II_\mu (f) (x)$ for any function $f : X \to \R$.
+        For the forward direction, assume $\mu_\bullet$ is continuous and let $x \in X$ with $\seq{x} \sub X$ such that $x_n \to x$; we wish to show that $\II_\mu (f) (x_n) \to \II_\mu (f) (x)$ for any function $f : X \to \R$.
         \begin{align*}
             \abs{\II_\mu (f) (x_n) - \II_\mu (f) (x)}
             &= \abs{\int_G f(\inv{g} x_n) d\mu_{x_n} (g) - \int_G f(\inv{g} x) d\mu_{x} (g)} \\
@@ -413,6 +413,47 @@
             &\to 0.
         \end{align*}
         Therefore we conclude that $\abs{\II_\mu (f) (x_n) - \II_\mu (f) (x)} \to 0$ and $\II_\mu (f)$ is continuous.
+        
+        Conversely, assume $\II_\mu$ preserves continuity and let $\seq{x} \sub X$ be some sequence with $x_n \to x \in X$.
+        We now wish to show that
+        \[
+            \int_G f d\angles{\mu_{x_n}}_x 
+            \to \int_G f d\angles{\mu_x}_x
+        \]
+        for any continuous $f : G \to \R$.
+        To see this, define $f_x : G/G_x \to \R$ by
+        \[
+            f_x (g G_x) := \int_{G_x} f(gs) ds
+        \]
+        where the integral is with respect to the left-invariant Haar measure on $G_x$.
+        This is well-defined since for $g' = gs'$ with $s' \in G_x$ we have
+        \[
+            f_x (g' G_x)
+            = \int_{G_x} f(g's) ds
+            = \int_{G_x} f(gs's) ds
+            = \int_{G_x} f(gs) ds
+            = f_x (g G_x)
+        \]
+        where the third equality follows from the left-invariance of the Haar measure on $G_x$.
+        Now let $q_x : G \to G/G_x$ and $p_x : Gx \to G/G_x$ be the quotient and projection maps, and observe that $p_x$ is a homeomorphism.
+        Then we compute
+        \begin{align*}
+            \int_G f d\angles{\mu_{x_n}}_x 
+            &= \int_{G_x} \int_G f(g) d s_* \mu_{x_n} ds \\
+            &= \int_{G_x} \int_G f(sg) d \mu_{x_n} ds \\
+            &= \int_G \int_{G_x} f(sg) ds d \mu_{x_n} \\
+            &= \int_G f_x (q_x(g)) d \mu_{x_n} \\
+            &= \int_{G/G_x} f_x d (q_x)_* \mu_{x_n} \\
+            &= \int_{Gx} (f_x \circ p_x) d (\inv{p_x})_* (q_x)_* \mu_{x_n}
+        \end{align*}
+        \begin{align*}
+            \II_\mu (f) (x_n)
+            &\to \II_\mu (f) (x_n) \\
+            \int_G f(\inv{g} x) d\mu_{x_n}
+            &= \int_{G_x} \int_G f(\inv{g} x) ds_*\mu_{x_n} ds
+            \to
+            \int_G f(\inv{g} x) d\mu_{x}
+        \end{align*}
     \end{proof}
 \end{theorem}
 
