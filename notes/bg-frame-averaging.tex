@@ -377,9 +377,82 @@
     A \emph{robust frame} is a continuous weakly equivariant weighted frame.
 \end{definition}
 
+
+\begin{lemma}\label{lem:max-cpt-cont}
+    \footnote{I couldn't find a standard reference for this lemma, but it is fairly elementary and a special case of Berge's Maximum Theorem.}
+    Let $K$ and $X$ be topological spaces with $K$ compact, and let $f : K \times X \to \R$ be continuous.
+    Then fixing some $x_0 \in X$, the map $M : X \to \R$ given by
+    \[
+        M(x) := \max_{k \in K} \abs{f(k,x_0) - f(k,x)}
+    \]
+    is continuous.
+    \begin{proof}
+        First, define the map $D : K \times X \to \R$ by $D(k,x) := \abs{f(k,x_0) - f(k,x)}$, which is clearly continuous, and note that $M(x) = \max_{k \in K} D(k,x)$.
+        To show that $M$ is continuous we will show that it is continuous at all $x \in X$.
+        So, fix some $x \in X$ and let $\eps > 0$.
+        By continuity of $D$, for each $k \in K$ we can find an open set of the form $U_k \times V_k \sub K \times X$ such that $(k,x) \in U_k \times V_k$ and $\abs{D(k,x) - D(h,y)} < \eps/2$ for all $(h,y) \in U_k \times V_k$.
+
+        Clearly $K = \cup_{k \in K} U_k$, so by compactness we can find finitely many $k_1,...,k_n \in K$ such that $K = \cup_{i \leq n} U_{k_i}$.
+        We then define $V = \cap_{i \leq n} V_{k_i}$, which is open and non-empty since $x \in V_{k_i}$ for all $i \leq n$.
+        Now fix $y \in V$ and let $h \in K$, and observe that there is some $k_i$ such that $h \in U_{k_i}$ so we have that $(h,y) \in U_{k_i} \times V \sub U_{k_i} \times V_{k_i}$ and hence
+        \[
+            \abs{D(h,x) - D(h,y)}
+            \leq \abs{D(h,x) - D(k_i,x)} + \abs{D(k_i,x) - D(h,y)}
+            < \eps.
+        \]
+        This means that for all $y \in V$ we have $\max_{k \in K} \abs{D(k,x) - D(k,y)} < \eps$ and hence
+        \[
+            \abs{M(x) - M(y)}
+            = \abs{\max_{k \in K} D(k,x) - \max_{k \in K} D(k,y)}
+            \leq \max_{k \in K} \abs{D(k,x) -  D(k,y)}
+            < \eps.
+        \]
+        We therefore conclude that $M$ is continuous at $x$, and since $x$ was arbitrary it follows that $M$ is continuous on all of $X$.
+    \end{proof}
+\end{lemma}
+
+
+\begin{lemma}\label{lem:pres-cont-integral-convergence}
+    Let $\mu_\bullet$ be a frame such that $\II_\mu$ preserves continuity.
+    Then for any continuous function $f : X \to \R$, we have
+    \[
+        \int_G f(\inv{g} x) d \mu_{x_n}
+        \to \int_G f(\inv{g} x) d \mu_x.
+    \]
+    \begin{proof}
+        We first compute
+        \begin{alignat*}{2}
+            &\abs{\int_G f(\inv{g} x) d \mu_{x_n} - \int_G f(\inv{g} x) d \mu_x} \\
+            &\leq \abs{\int_G f(\inv{g} x) d \mu_{x_n} - \int_G f(\inv{g} x_n) d \mu_{x_n}}
+            &&+ \abs{\int_G f(\inv{g} x_n) d \mu_{x_n} - \int_G f(\inv{g} x) d \mu_x} \\
+            &= \abs{\int_G (f(\inv{g} x) - f(\inv{g} x_n)) d \mu_{x_n}}
+            &&+ \abs{\II_\mu (f) (x_n) - \II_\mu (f) (x)} \\
+            &\leq \int_G \abs{f(\inv{g} x) - f(\inv{g} x_n)} d \mu_{x_n}
+            &&+ \abs{\II_\mu (f) (x_n) - \II_\mu (f) (x)} \\
+            &\leq \mu_{x_n} (G) \sup_{g \in G} \abs{f(\inv{g} x) - f(\inv{g} x_n)}
+            &&+ \abs{\II_\mu (f) (x_n) - \II_\mu (f) (x)} \\
+            &= \max_{g \in G} \abs{f(\inv{g} x) - f(\inv{g} x_n)}
+            &&+ \abs{\II_\mu (f) (x_n) - \II_\mu (f) (x)}.
+        \end{alignat*}
+        Now clearly $\abs{\II_\mu (f) (x_n) - \II_\mu (f) (x)} \to 0$ since $\II_\mu$ preserves continuity, and by lemma \ref{lem:max-cpt-cont} we also know that
+        \[
+            \max_{g \in G} \abs{f(\inv{g} x) - f(\inv{g} x_n)}
+            \to \max_{g \in G} \abs{f(\inv{g} x) - f(\inv{g} x)}
+            = 0
+        \]
+        since $(g,x) \mapsto f(\inv{g}x)$ is continuous and $G$ is compact.
+        We therefore conclude as desired that
+        \[
+            \abs{\int_G f(\inv{g} x) d \mu_{x_n} - \int_G f(\inv{g} x) d \mu_x} \to 0.
+        \]
+    \end{proof}
+\end{lemma}
+
+
 \begin{theorem}
     (Proposition 3.6 in \cite{dym2024equivariant})
-    A weakly equivariant frame $\mu_bullet$ is continuous (i.e. robust) if and only if $\II_\mu$ preserves continuity.
+    Let $G$ be a compact group acting continuously on a Hausdorff space $X$.
+    A frame $\mu_\bullet$ is continuous if and only if $\II_\mu$ preserves continuity.
     \begin{proof}
         For the forward direction, assume $\mu_\bullet$ is continuous and let $x \in X$ with $\seq{x} \sub X$ such that $x_n \to x$; we wish to show that $\II_\mu (f) (x_n) \to \II_\mu (f) (x)$ for any function $f : X \to \R$.
         \begin{align*}
@@ -414,6 +487,7 @@
         \end{align*}
         Therefore we conclude that $\abs{\II_\mu (f) (x_n) - \II_\mu (f) (x)} \to 0$ and $\II_\mu (f)$ is continuous.
         
+        % TODO: this part of the proof is new. take some credit for it?
         Conversely, assume $\II_\mu$ preserves continuity and let $\seq{x} \sub X$ be some sequence with $x_n \to x \in X$.
         We now wish to show that
         \[
@@ -421,39 +495,56 @@
             \to \int_G f d\angles{\mu_x}_x
         \]
         for any continuous $f : G \to \R$.
-        To see this, define $f_x : G/G_x \to \R$ by
+        To see this, define $f_x : G \to \R$ by
         \[
-            f_x (g G_x) := \int_{G_x} f(gs) ds
+            f_x (g) := \int_{G_x} f(sg) ds
         \]
-        where the integral is with respect to the left-invariant Haar measure on $G_x$.
-        This is well-defined since for $g' = gs'$ with $s' \in G_x$ we have
+        where the integral is with respect to the right-invariant Haar measure on $G_x$.
+        Observe that $f_x$ induces a map $\Hat{f_x} : G/G_x \to \R$ since for any $h \in G_x$ we have
         \[
-            f_x (g' G_x)
-            = \int_{G_x} f(g's) ds
-            = \int_{G_x} f(gs's) ds
-            = \int_{G_x} f(gs) ds
-            = f_x (g G_x)
+            f_x(hg)
+            = \int_{G_x} f(shg) ds
+            = \int_{G_x} f(sg) ds
+            = f_x(g)
         \]
-        where the third equality follows from the left-invariance of the Haar measure on $G_x$.
-        Now let $q_x : G \to G/G_x$ and $p_x : Gx \to G/G_x$ be the quotient and projection maps, and observe that $p_x$ is a homeomorphism.
-        Then we compute
+        where the second equality is by the right-invariance of the Haar measure.
+        We now compute
         \begin{align*}
-            \int_G f d\angles{\mu_{x_n}}_x 
-            &= \int_{G_x} \int_G f(g) d s_* \mu_{x_n} ds \\
+            \int_G f d \angles{\mu_{x_n}}
+            &= \int_{G_x} \int_G f d s_* \mu_{x_n} ds \\
             &= \int_{G_x} \int_G f(sg) d \mu_{x_n} ds \\
             &= \int_G \int_{G_x} f(sg) ds d \mu_{x_n} \\
-            &= \int_G f_x (q_x(g)) d \mu_{x_n} \\
-            &= \int_{G/G_x} f_x d (q_x)_* \mu_{x_n} \\
-            &= \int_{Gx} (f_x \circ p_x) d (\inv{p_x})_* (q_x)_* \mu_{x_n}
+            &= \int_G f_x d \mu_{x_n} \\
+            &= \int_G (\Hat{f_x} \circ q_x) d \mu_{x_n}
         \end{align*}
-        \begin{align*}
-            \II_\mu (f) (x_n)
-            &\to \II_\mu (f) (x_n) \\
-            \int_G f(\inv{g} x) d\mu_{x_n}
-            &= \int_{G_x} \int_G f(\inv{g} x) ds_*\mu_{x_n} ds
-            \to
-            \int_G f(\inv{g} x) d\mu_{x}
-        \end{align*}
+        where $q_x : G \to G/G_x$ is the quotient map.
+        
+        Next, we define a map $F : Gx \to \R$ by $F(gx) := f_x(\inv{g})$.
+        Note that $F$ is indeed well-defined since for any $h \in G_x$, we have
+        \[
+            F(ghx)
+            = f_x (\inv{h}\inv{g})
+            = \int_{G_x} f(s \inv{h} \inv{g}) ds
+            = \int_{G_x} f(s \inv{g}) ds
+            = F(gx)
+        \]
+        where the third equality is from the right-invariance of the Haar measure on $G_x$.
+        Since $Gx$ is closed ($Gx$ is compact and $X$ is Hausdorff), the Tietze Extension Theorem guarantees the existence of some map $F' : X \to R$ such that $F'|_{Gx} = F$; for simplicity, we will not relabel and just consider $F$ as a map from $X$ to $\R$.
+        Observe that by construction we have
+        \[
+            \int_G F(\inv{g}x) d \mu
+            = \int_G f_x (g) d \mu
+        \]
+        for any measure $\mu$ on $G$, so by lemma \ref{lem:pres-cont-integral-convergence} we conclude that
+        \[
+            \int_G f d\angles{\mu_{x_n}}_x
+            = \int_G f_x d \mu_{x_n}
+            = \int_G F(\inv{g}x) d \mu_{x_n}
+            \to \int_G F(\inv{g}x) d \mu_{x}
+            = \int_G f_x d \mu_x
+            = \int_G f d \angles{\mu_{x}}_x.
+            \]
+        Therefore $\mu_\bullet$ is continuous.
     \end{proof}
 \end{theorem}
 
