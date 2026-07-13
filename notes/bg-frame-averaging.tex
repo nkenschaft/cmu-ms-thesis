@@ -379,7 +379,9 @@
 
 
 \begin{lemma}\label{lem:max-cpt-cont}
-    \footnote{I couldn't find a standard reference for this lemma, but it is fairly elementary and a special case of Berge's Maximum Theorem.}
+    \footnote{I couldn't find a standard reference for this lemma, but it is fairly elementary and a special case of Berge's Maximum Theorem.
+    Additionally, Lemma C.1 of \cite{dai2026maximalstretchlipschitzmaps} proves the case where $X$ is a metric space.
+    }
     Let $K$ and $X$ be topological spaces with $K$ compact, and let $f : K \times X \to \R$ be continuous.
     Then fixing some $x_0 \in X$, the map $M : X \to \R$ given by
     \[
@@ -449,9 +451,9 @@
 \end{lemma}
 
 
-\begin{theorem}
+\begin{theorem}\label{thm:frame-cont-iff-preserves-cont}
     (Proposition 3.6 in \cite{dym2024equivariant})
-    Let $G$ be a compact group acting continuously on a Hausdorff space $X$.
+    Let $G$ be a compact group acting continuously on a normal Hausdorff space $X$.
     A frame $\mu_\bullet$ is continuous if and only if $\II_\mu$ preserves continuity.
     \begin{proof}
         For the forward direction, assume $\mu_\bullet$ is continuous and let $x \in X$ with $\seq{x} \sub X$ such that $x_n \to x$; we wish to show that $\II_\mu (f) (x_n) \to \II_\mu (f) (x)$ for any function $f : X \to \R$.

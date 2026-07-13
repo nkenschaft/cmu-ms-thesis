@@ -3,15 +3,22 @@
 % TODO: compute cardinality bounds for canonicalization frames
 
 % TODO: extend results on frame cardinalities and robust frames here
+
 Following \cite{dym2024equivariant}, we make the following definitions in the context of canonicalization frames.
 
 \begin{definition}
     Given a $G$-space $X$, a \emph{weighted canonicalization frame} is a function $\nu_\bullet : X \to \PP(X)$ where $\PP(X)$ is the space of Borel probability measures on $X$.
 \end{definition}
 
-\begin{definition}
+\begin{definition}\label{def:weighted-canon-frame}
     A weighted canonicalization frame $\nu_\bullet$ is \emph{orbital} if $\nu_x(X \sminus Gx) = 0$ for all $x \in X$.
 \end{definition}
+
+
+\begin{remark}
+    As per \cite{dym2024equivariant}, definition \ref{def:weighted-canon-frame} makes sense for arbitrary measures, but we will be primarily concerned with finite atomic measures of the form $\nu_x = \sum_{i} \alpha_i \delta_{x_i}$ where $\alpha_i \in [0,1]$ and $\sum_i \alpha_i = 1$.
+\end{remark}
+
 
 \begin{definition}
     A weighted canonicalization frame $\nu_\bullet$ is \emph{invariant} if $\nu_gx = \nu_x$ for all $x \in X$ and $g \in G$.
@@ -45,7 +52,7 @@ Following \cite{dym2024equivariant}, we make the following definitions in the co
     A \emph{robust canonicalization frame} is a continuous invariant orbital weighted canonicalization frame.
 \end{definition}
 
-\begin{theorem}
+\begin{theorem}\label{thm:canon-frame-cont-iff-preserves-cont}
     A weighted canonicalization frame $\nu_\bullet$ is continuous if and only if $\II_\nu$ preserves continuity.
     \begin{proof}
         First assume that $\nu_\bullet$ is continuous and let $x \in X$ with $\seq{x} \sub X$ such that $x_n \to x$.
@@ -74,7 +81,7 @@ Following \cite{dym2024equivariant}, we make the following definitions in the co
 Similar to theorem \ref{thm:frame-equivalence}, we have a correspondence between weighted frames and weighted canonicalization frames.
 
 \begin{theorem}\label{thm:weight-frame-equivalence}
-    Let $X$ be a $G$-space.
+    Let $X$ be a normal $G$-space.
     Then every weighted frame induces a weighted canonicalization frame and vice versa (though not necessarily via a bijection).
     In particular, this correspondence sends weakly equivariant weighted frames to invariant orbital weighted canonicalization frames and weighted canonicalization frames to equivariant weighted frames, and both directions preserve the continuity of the frame.
     \begin{proof}
@@ -115,7 +122,7 @@ Similar to theorem \ref{thm:frame-equivalence}, we have a correspondence between
             \int_G f(\inv{g} x) d \Bar{\mu}_x (g)
             = \int_G f(\inv{g} x) d \mu_x (g)
         \]
-        so we have that $\II_\nu (f) = \II_\mu (f)$ and hence $\nu_\bullet$ is continuous.
+        so we have that $\II_\nu (f) = \II_\mu (f)$ and hence $\nu_\bullet$ is continuous by theorem \ref{thm:canon-frame-cont-iff-preserves-cont}.
         
         For the other direction, let $\nu_\bullet$ be an invariant orbital weighted canonicalization frame.
         We define a weighted frame $\mu_\bullet$ as follows.
@@ -146,6 +153,7 @@ Similar to theorem \ref{thm:frame-equivalence}, we have a correspondence between
         \[
             \int_G f d \mu_x
             = (L_x \circ T_x) (f).
+            %= \int_{Gx} \int_{G_x} f (\pinv{q_x(c)s}) ds d \nu_x (c).
         \]
         Define $\mu_\bullet$ as the collection of these $\mu_x$'s, and note that $\mu_x$ is indeed a probability measure since
         \[
@@ -181,17 +189,103 @@ Similar to theorem \ref{thm:frame-equivalence}, we have a correspondence between
         To see this, we simply compute
         \begin{align*}
             \II_\mu (f) (x)
-            &= \int_G f(\inv{g} x) d \mu_x \\
-            &= \int_G f_\inv{x}(g) d \mu_x \tag{$f_\inv{x} (g) := f(\inv{g} x)$} \\
-            &= \int_{Gx} \int_{G_x} f_\inv{x} (\pinv{gs}) ds d\nu_x \\
-            &= \int_{Gx} \int_{G_x} f(gsx) ds d\nu_x \\
-            &= \int_{Gx} \int_{G_x} f(gx) ds d\nu_x \\
-            &= \int_{Gx} f(gx) d\nu_x \\
-            &= \II_\nu (f) (x).
+            &= \int_G f (\inv{g} x) d \mu_x \\
+            &= \int_G \inv{f}_x (g) d \mu_x \tag{$\inv{f}_x (g) := f(\inv{g} x)$} \\
+            &= (L_x \circ T_x) (\inv{f}_x) \\
+            &= \int_{Gx} (T_x (\inv{f}_x) \circ q_x) (c)  d \nu_x(c) \\
+            &= \int_{Gx} \int_{G_x} \inv{f}_x (\pinv{g s}) ds d \nu_x(c) \tag{$c = gx$} \\
+            &= \int_{Gx} \int_{G_x} f (g s x) ds d \nu_x (c) \\
+            &= \int_{Gx} \int_{G_x} f (g x) ds d \nu_x (c) \\
+            &= \int_{Gx} f (c) d \nu_x (c) \\
+            &= \int_X f (c) d \nu_x (c) \\
+            &= \II_\nu (f).
         \end{align*}
-        This means that $\II_\mu$ preserves continuity, so we have that $\mu_\bullet$ is continuous.
+        This means that $\II_\mu$ preserves continuity, so we have that $\mu_\bullet$ is continuous by theorem \ref{thm:frame-cont-iff-preserves-cont}.
+
+        Lastly, we will show that each direction of this process is (essentially) invertible.
+        First, consider some weakly equivariant weighted frame $\mu_\bullet$; let $\nu_\bullet$ be the invariant orbital weight canonicalization frame induced by $\mu_\bullet$; and let $\lambda_\bullet$ be the equivariant weighted frame induced by $\nu_\bullet$.
+        We now wish to show that $\lambda_x = \Bar{\mu}_x$ for any $x \in X$, so let $f : G \to \R$ be Borel and observe
+        \begin{align*}
+            \int_G f d \lambda_x
+            &= \int_{Gx} (T_x (f) \circ q_x) d \nu_x \\
+            &= \int_G (T_x (f) \circ q_x) (\inv{g} x) d \Bar{\mu}_x \\
+            &= \int_G (T_x (f) \circ q_x) (\inv{g} x) d \mu_x \tag{lemma \ref{lem:weighted-frame-integral-equivalence}} \\
+            &= \int_G (T_x (f) \circ q_x) (\inv{g} x) d \mu_x \\
+            &= \int_G \int_{G_x} f (\pinv{\inv{g} s}) ds d \mu_x \\
+            &= \int_G \int_{G_x} f (\inv{s} g) ds d \mu_x \\
+            &= \int_G \int_{G_x} f (s g) ds d \mu_x \\
+            &= \int_G f d \Bar{\mu}_x.
+        \end{align*}
+        Since $f$ was arbitrary, we have that $\lambda_x = \Bar{\mu}_x$.
+        
+        For the other direction, consider some invariant orbital weighted canonicalization frame $\nu_\bullet$; let $\mu_\bullet$ be the equivariant weight frame induced by $\nu_\bullet$; and let $\upsilon_\bullet$ be the invariant orbital weighted canonicalization frame induced by $\mu_\bullet$.
+        We now wish to show that $\upsilon_x = \nu_x$ for any $x \in X$, so let $f : X \to \R$ be Borel and observe
+        \begin{align*}
+            \int_X f d \upsilon_x
+            &= \int_G f (\inv{g} x) d \Bar{\mu}_x \\
+            &= \int_G f (\inv{g} x) d \mu_x \\
+            &= \II_{\mu} (f) (x) \\
+            &= \II_{\nu} (f) (x) \\
+            &= \int_X f d \nu_x.
+        \end{align*}
+        Since $f$ was arbitrary, we have that $\upsilon_x = \nu_x$.
     \end{proof}
 \end{theorem}
-% TODO: consider free G-action case
+
+
+\begin{remark}
+    If the action of $G$ is free, the correspondence in theorem \ref{thm:frame-equivalence} is much simpler since every integral over $G_x$ reduces to a single value.
+\end{remark}
+
+% TODO: Richter-Tchakaloff idea
+\begin{theorem}[Richter-Tchakaloff]\label{thm:richter-tchakaloff}
+    (Theorem 1.24 of \cite{schmudgen2017momentproblem})
+    Let $(X,\mu)$ be a measure space and let $V \sub L^1(X)$ be a finite dimensional subspace with $\dim V = k$.
+    Then there exists a $k$-atomic measure $\nu = \sum_{i \leq k} \alpha_i \delta_{x_i}$ on $X$ such that for every $f \in V$,
+    \[
+        \int_X f d \mu
+        = \int_X f d \nu
+        = \sum_{i \leq k} \alpha_i f(x_i).
+    \]
+\end{theorem}
+
+
+\begin{corollary}\label{cor:richter-tchakaloff-frame}
+    Let $X$ be a $G$-space where $X$ and $G$ are equipped with some Borel measures $\nu$ and $\mu$ respectively, and let $V \sub L^1(X)$ be a finite dimensional subspace with $\dim V = k$.
+    Then for each $x \in X$, there exists a $k$-atomic measure $\upsilon_x = \sum_{i \leq k} \alpha_i \delta_{x_i}$ on $G$ such that for every $f \in V$,
+    \[
+        \int_G f (\inv{g} x) d \mu
+        = \int_G f (\inv {g} x) d \upsilon_x
+        = \sum_{i \leq k} \alpha_i f(\inv{g} x_i).
+    \]
+    \begin{proof}
+        Since $V$ is finite dimensional, we can find $\set{e_i}_{i \leq k} \sub L^1(X)$ with $\Span \set{e_i}_{i \leq k} = V$.
+        We can then define $\Hat{e}_i \in L^1(G)$ for $i \leq k$ by $\Hat{e}_i (g) := e(\inv{g} x)$.
+        Now let $f \in V$, writing $f = \sum_{i \leq k} \alpha_i e_i$, and define $\Hat{f}(g) = f(\inv{g} x)$.
+        So then setting $W := \Span \set{\Hat{e}_i} \sub L^1 (G)$, we have that $\dim W \leq \dim V$.
+        We then have
+        \[
+            \Hat{f}(g)
+            = f(\inv{g} x)
+            = \sum_{i \leq k} \alpha_i e_i(\inv{g} x)
+            = \sum_{i \leq k} \alpha_i \Hat{e}_i(g),
+        \]
+        so $\Hat{f} \in W$ for any $f \in V$.
+        Hence, by theorem \ref{thm:richter-tchakaloff} there exists some $k$-atomic measure $\upsilon_x = \sum_i \alpha_i \delta_{g_i}$ on $G$ such that
+        \[
+            \int_G f(\inv{g} x) d \mu
+            = \int_G \Hat{f}(g) d \mu
+            = \int_G \Hat{f}(g) d \upsilon_x
+            = \sum_i \alpha_i \Hat{f}(g_i)
+            = \sum_i \alpha_i f(\inv{g_i} x).
+        \]
+    \end{proof}
+\end{corollary}
+
+
+\begin{remark}
+    Note that the measures $\upsilon_x$ produced in corollary \ref{cor:richter-tchakaloff-frame} can be taken to be a weighted frame $\upsilon_\bullet$ which is automatically continuous and weakly equivariant.
+    % TODO: check this
+\end{remark}
 
 % TODO: construct (weighted) canonicalization frames for specific groups/spaces
