@@ -63,3 +63,21 @@ This material comes primarily from \cite{ma2024canonicalizationperspectiveinvari
     \end{proof}
 \end{theorem}
 
+
+\begin{corollary}
+    Let $G$ be a finite group acting continuously on a locally connected Hausdorff space $X$, and let $\CC$ be an equivariant frame such that $\II_\CC (f)$ is continuous for every map $f : X \to Y$ where $Y$ is some non-trivial (real) vector space.
+    If $X_{free}$ is connected, then $\CC(x) = G$ for all $x \in \clo{X_{free}}$.
+    \begin{proof}
+        This follows directly from theorems \ref{thm:finite-group-metric-frame} and \ref{thm:frame-equivalence} since $\card(G_x) = 1$ for all $x \in X$.
+    \end{proof}
+\end{corollary}
+
+
+\begin{corollary}
+    Let $n \geq 2$ and let $\CC$ be a continuity-preserving canonicalization frame for $\SO(2)$ acting on $X := \R^{2 \times n} \sminus 0$.
+    Then $\card(\CC) = \infty$.
+    \begin{proof}
+        This follows directly from theorems \ref{thm:SO-frame-infinite-card} and \ref{thm:frame-equivalence} since $\card(G_x) = 1$ for all $x \in X$.
+    \end{proof}
+\end{corollary}
+
