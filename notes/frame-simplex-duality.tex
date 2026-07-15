@@ -1,0 +1,42 @@
+\subsection{Weighted Frames and Equivariant Maps into Simplices}\label{sec:frame-simplex-duality}
+
+In this section, we will explore the duality between (continuous) weighted frames and certain equivariant maps into simplices.
+In particular, consider the setting of a $G$-space $X$ where $G$ is finite.
+Then $\PP(G)$, the space of probability measures of $G$, is just the $(\card{G}-1)$-simplex, since we can label the standard basis vectors of $\R^{\card{G}}$ as $e_g$ for $g \in G$ and then write
+\[
+    \Delta^{\card{G}} = \set{\sum_{g \in G} x_g e_g \in \R^{\card{G}} : \sum_{g \in G} x_g = 1}
+\]
+which gives us the bijection
+\[
+    \PP(G) \ni \mu \mapsto \sum_{g \in G} \mu(g) e_g \in \Delta^{\card{G}}.
+\]
+Because of this, I will treat measures $\mu \in \PP(G)$ as vectors in $\R^{\card{G}}$.
+Similarly, a function $f : G \to \R$ is equivalently a vector $f \in \R^{\card{G}}$.
+This gives us that
+\[
+    \int_G f d \mu
+    = \sum_{g \in G} \mu(g) f(g)
+    = \mu \cdot f
+\]
+where $\cdot$ is the standard Euclidean dot product.
+
+Going forward, we will assume that $G$ acts freely on $X$, which means that $\mu_x = \angles{\mu_x}_y$ for any weighted frame $\mu_\bullet$ and $x,y \in X$ since $G_y = \set{e}$.
+In particular, for some convergent sequence $x_n \to x \in X$, this means $\angles{\mu_{x_n}}_x \wto \angles{\mu_x}_x$ if and only if $\mu_{x_n} \wto \mu_x$.
+But this means that for all $f \in \R^{\card{G}}$, $\mu_{x_n} \cdot f \to \mu_x \cdot f$, and thus $\mu_{x_n} \to \mu_x$ under the usual Euclidean topology.
+Hence, continuity of the weighted frame $\mu_\bullet$ is equivalent to continuity of the map $x \mapsto \mu_x$.
+In summary, a continuous weighted frame for $G$ acting on $X$ is simply a continuous map from $X$ into $\Delta^{\card{G}}$ when $G$ is finite and acts freely on $X$.
+
+We also want (weakly) equivariant weighted frames, which in this case are weighted frames such that $\mu_{hx} (g) = \mu_x (\inv{h} g)$ (equivariant and weakly equivariant frames are the same when $G$ acts freely).
+Now let $\phi : G \to \Sym(G)$ be the injective group homomorphism $\varphi(g) = \inv{g} \cdot -$ where $\Sym(G)$ is the symmetric group on $G$, so we want $\mu_{hx}(g) = \mu_x (\varphi(h) g)$.
+But $\Sym(G)$ acts naturally on $\Delta^{\card{G}}$ via permutation, so an equivariant weighted frame is really just a $G$-equivariant map from $X$ to $\Delta^{\card{G}}$ where $G$ acts on $x \in \Delta^{\card{G}}$ by $g \cdot x := \varphi(g) x$.
+
+We would generally like to construct equivariant frames that are computationally efficient, so we make the following definition.
+
+\begin{definition}
+    The \emph{cardinality} of a weighted frame $\mu_\bullet$ is
+    \[
+        \card{\mu_\bullet} := \sup_{x \in X} \min \set{n \in \N: \exists x_1,...,x_n \in X, \alpha_1,...,\alpha_n \in \R, \mu_x = \sum_{i \leq n} \alpha_i \delta_{x_i} \tand \sum_{i \leq n} \alpha_i = 1}.
+    \]
+    In other words, $\card{\mu_\bullet}$ is the minimum number of Dirac measures needed to represent $\mu_x$ for any $x$.
+    We say that $\card{\mu_\bullet} = \infty$ if $\mu_x$ cannot be written as a sum of Dirac measures.
+\end{definition}

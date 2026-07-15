@@ -16,15 +16,15 @@ This material comes primarily from \cite{ma2024canonicalizationperspectiveinvari
     Given a canonicalization frame $\CC$ and map $f : X \to \R$, the function $\II_\CC (f)$ given by
     \[
         \II_\CC (f) (x)
-        = \f{1}{\card(\CC(x))} \sum_{c \in \CC(x)} f(c)
+        = \f{1}{\card{\CC(x)}} \sum_{c \in \CC(x)} f(c)
     \]
     is $G$-invariant.
     \begin{proof}
         Let $x \in X$ and $g \in G$, and we immediately have
         \[
             \II_\CC (f) (gx)
-            = \f{1}{\card(\CC(gx))} \sum_{c \in \CC(gx)} f(c)
-            = \f{1}{\card(\CC(x))} \sum_{c \in \CC(x)} f(c)
+            = \f{1}{\card{\CC(gx)}} \sum_{c \in \CC(gx)} f(c)
+            = \f{1}{\card{\CC(x)}} \sum_{c \in \CC(x)} f(c)
             = \II_\CC (f) (x).
         \]
     \end{proof}
@@ -36,7 +36,7 @@ This material comes primarily from \cite{ma2024canonicalizationperspectiveinvari
     Conversely, for every canonicalization frame $\CC$ there exists an equivariant frame $\FF$ such that $\II_\CC = \II_\FF$.
     In both cases, for all $x \in X$ we have
     \[
-        \card(\CC(x)) \card(G_x) = \card(\FF(x)).
+        \card{\CC(x)} \card{G_x} = \card{\FF(x)}.
     \]
     \begin{proof}
         To begin, let $\FF$ be an equivariant frame.
@@ -59,7 +59,7 @@ This material comes primarily from \cite{ma2024canonicalizationperspectiveinvari
             &= h \FF(x).
         \end{align*}
 
-        In both cases, it follows from proposition \ref{prop:frame-is-orbit-union} that $\II_\CC = \II_\FF$ and $\card(\CC(x)) \card(G_x) = \card(\FF(x))$.
+        In both cases, it follows from proposition \ref{prop:frame-is-orbit-union} that $\II_\CC = \II_\FF$ and $\card{\CC(x)} \card{G_x} = \card{\FF(x)}$.
     \end{proof}
 \end{theorem}
 
@@ -68,16 +68,16 @@ This material comes primarily from \cite{ma2024canonicalizationperspectiveinvari
     Let $G$ be a finite group acting continuously on a locally connected Hausdorff space $X$, and let $\CC$ be an equivariant frame such that $\II_\CC (f)$ is continuous for every map $f : X \to Y$ where $Y$ is some non-trivial (real) vector space.
     If $X_{free}$ is connected, then $\CC(x) = G$ for all $x \in \clo{X_{free}}$.
     \begin{proof}
-        This follows directly from theorems \ref{thm:finite-group-metric-frame} and \ref{thm:frame-equivalence} since $\card(G_x) = 1$ for all $x \in X$.
+        This follows directly from theorems \ref{thm:finite-group-metric-frame} and \ref{thm:frame-equivalence} since $\card{G_x} = 1$ for all $x \in X$.
     \end{proof}
 \end{corollary}
 
 
 \begin{corollary}
     Let $n \geq 2$ and let $\CC$ be a continuity-preserving canonicalization frame for $\SO(2)$ acting on $X := \R^{2 \times n} \sminus 0$.
-    Then $\card(\CC) = \infty$.
+    Then $\card{\CC} = \infty$.
     \begin{proof}
-        This follows directly from theorems \ref{thm:SO-frame-infinite-card} and \ref{thm:frame-equivalence} since $\card(G_x) = 1$ for all $x \in X$.
+        This follows directly from theorems \ref{thm:SO-frame-infinite-card} and \ref{thm:frame-equivalence} since $\card{G_x} = 1$ for all $x \in X$.
     \end{proof}
 \end{corollary}
 

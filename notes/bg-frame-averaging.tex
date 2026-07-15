@@ -26,8 +26,8 @@
 \end{definition}
 
 \begin{definition}
-    A frame $\FF$ is \emph{finite} if for all $x \in X$, $\card(\FF(x))$ is finite.
-    More generally, the \emph{cardinality} of $\FF$ is $\card(\FF) := \sup_{x \in X} \card(\FF(x))$.
+    A frame $\FF$ is \emph{finite} if for all $x \in X$, $\card{\FF(x)}$ is finite.
+    More generally, the \emph{cardinality} of $\FF$ is $\card{\FF} := \sup_{x \in X} \card{\FF(x)}$.
 \end{definition}
 
 \begin{proposition}\label{prop:invariant-frame-average}
@@ -35,7 +35,7 @@
     Let $\FF$ be a finite equivariant frame and let $f : X \to Y$ where $Y$ is a vector space.
     Then the function $\II_\FF(f) : X \to Y$ given by
     \[
-        \II_\FF (f) (x) := \f{1}{\card(\FF(x))} \sum_{g \in \FF(x)} f(\inv{g} x)
+        \II_\FF (f) (x) := \f{1}{\card{\FF(x)}} \sum_{g \in \FF(x)} f(\inv{g} x)
     \]
     is $G$-invariant.
     \begin{proof}
@@ -43,10 +43,10 @@
         Then
         \begin{align*}
             \II_\FF (f) (hx)
-            &= \f{1}{\card(\FF(hx))} \sum_{g \in \FF(hx)} f(\inv{g} hx) \\
-            &= \f{1}{\card(h\FF(x))} \sum_{g \in h\FF(x)} f(\inv{g} hx) \\
-            &= \f{1}{\card(\FF(x))} \sum_{g \in \FF(x)} f(\inv{(hg)} hx) \\
-            &= \f{1}{\card(\FF(x))} \sum_{g \in \FF(x)} f(\inv{g} x) \\
+            &= \f{1}{\card{\FF(hx)}} \sum_{g \in \FF(hx)} f(\inv{g} hx) \\
+            &= \f{1}{\card{h\FF(x)}} \sum_{g \in h\FF(x)} f(\inv{g} hx) \\
+            &= \f{1}{\card{\FF(x)}} \sum_{g \in \FF(x)} f(\inv{(hg)} hx) \\
+            &= \f{1}{\card{\FF(x)}} \sum_{g \in \FF(x)} f(\inv{g} x) \\
             &= \II_\FF (f) (x).
         \end{align*}
     \end{proof}
@@ -57,7 +57,7 @@
     Let $\FF$ be a finite equivariant frame and let $f : X \to Y$ where $Y$ is a vector space.
     Then the function $\EE_\FF (f) : X \to Y$ given by
     \[
-        \EE_\FF (f) (x) = \f{1}{\card(\FF(x))} g\sum_{g \in \FF(x)} f(\inv{g} x)
+        \EE_\FF (f) (x) = \f{1}{\card{\FF(x)}} g\sum_{g \in \FF(x)} f(\inv{g} x)
     \]
     is $G$-equivariant.
     \begin{proof}
@@ -65,10 +65,10 @@
         Then
         \begin{align*}
             \EE_\FF (f) (hx)
-            &= \f{1}{\card(\FF(hx))} \sum_{g \in \FF(hx)} gf(\inv{g} hx) \\
-            &= \f{1}{\card(h\FF(x))} \sum_{g \in h\FF(x)} gf(\inv{g} hx) \\
-            &= \f{1}{\card(\FF(x))} \sum_{g \in \FF(x)} gf(\inv{(hg)} hx) \\
-            &= \f{1}{\card(\FF(x))} \sum_{g \in \FF(x)} gf(\inv{g} x) \\
+            &= \f{1}{\card{\FF(hx)}} \sum_{g \in \FF(hx)} gf(\inv{g} hx) \\
+            &= \f{1}{\card{h\FF(x)}} \sum_{g \in h\FF(x)} gf(\inv{g} hx) \\
+            &= \f{1}{\card{\FF(x)}} \sum_{g \in \FF(x)} gf(\inv{(hg)} hx) \\
+            &= \f{1}{\card{\FF(x)}} \sum_{g \in \FF(x)} gf(\inv{g} x) \\
             &= \EE_\FF (f) (x).
         \end{align*}
     \end{proof}
@@ -87,18 +87,18 @@
 \begin{corollary}
     Given an equivariant frame $\FF$ and function $f : X \to Y$, we can instead compute the averages in propositions \ref{prop:invariant-frame-average} and \ref{prop:equivariant-frame-average} as
     \[
-        \II_\FF (f) (x) = \f{\card(G_x)}{\card(\FF(x))} \sum_{G_x g \in \FF(x) / G_x} f(\inv{g}x)
+        \II_\FF (f) (x) = \f{\card{G_x}}{\card{\FF(x)}} \sum_{G_x g \in \FF(x) / G_x} f(\inv{g}x)
     \]
     and
     \[
-        \EE_\FF (f) (x) = \f{\card(G_x)}{\card(\FF(x))} \sum_{G_x g \in \FF(x) / G_x} gf(\inv{g}x)
+        \EE_\FF (f) (x) = \f{\card{G_x}}{\card{\FF(x)}} \sum_{G_x g \in \FF(x) / G_x} gf(\inv{g}x)
     \]
     respectively.
 \end{corollary}
 
 \begin{corollary}\label{cor:frame-card-lower-bound}
-    Given an equivariant frame $\FF$ and $x \in X$, $\card(\FF(x)) \geq \card(G_x)$.
-    In particular, the cardinality of $\FF$ is at least $\sup_{x \in X} \card(G_x)$.
+    Given an equivariant frame $\FF$ and $x \in X$, $\card{\FF(x)} \geq \card{G_x}$.
+    In particular, the cardinality of $\FF$ is at least $\sup_{x \in X} \card{G_x}$.
 \end{corollary}
 
 \begin{remark}\label{rem:frame-card-upper-bound}
@@ -117,11 +117,11 @@
         Fixing $x \in X_{free}$, we know that $\II_\FF (f_x)$ is continuous, and additionally for $v \in U_X$ we have
         \begin{align*}
             \II_\FF (f_x) (v)
-            &= \f{1}{\card(\FF{v})} \sum_{g \in \FF(v)} f_x(\inv{g} v) \\
-            &= \f{1}{\card(\FF{v})} \sum_{g \in \FF(v)} \delta_{e,g} y \\
-            &= \f{y}{\card(\FF{v})} \ind_{\FF(v)}(e)
+            &= \f{1}{\card{\FF(v)}} \sum_{g \in \FF(v)} f_x(\inv{g} v) \\
+            &= \f{1}{\card{\FF(v)}} \sum_{g \in \FF(v)} \delta_{e,g} y \\
+            &= \f{y}{\card{\FF(v)}} \ind_{\FF(v)}(e)
         \end{align*}
-        Then if $X \in U$ (i.e. $e \in \FF(x)$) we have that $\II_\FF(f_x)(x) = \f{y}{\card(\FF(x))}$, and consequently $\II_\FF (f_x) [U_x] = \f{y}{\card(\FF(x))}$ since $U_x$ is connected and $\II_\FF (f_x)$ is continuous.
+        Then if $X \in U$ (i.e. $e \in \FF(x)$) we have that $\II_\FF(f_x)(x) = \f{y}{\card{\FF(x)}}$, and consequently $\II_\FF (f_x) [U_x] = \f{y}{\card{\FF(x)}}$ since $U_x$ is connected and $\II_\FF (f_x)$ is continuous.
         In particular, this means $e \in \FF{v}$ for all $v \in U_x$, so $U_x \sub U$.
         Then $U = \cup_{x \in U} U_x$, so we have that $U$ is open.
         Similarly, if $x \in V$ then $\II_\FF (f_x) [U_x] = 0$ leading to the fact that $V$ is open as well.
@@ -140,13 +140,13 @@
         Then for $v \in U$ we have as before that
         \begin{align*}
             \II_\FF (f) (v)
-            &= \f{1}{\card(\FF(v))} \sum_{g \in \FF(v)} f(\inv{g} v) \\
-            &= \f{1}{\card(\FF(v))} \sum_{g \in \FF(v)} \ind_{G_x}(g) y \\
-            &= \f{\card(G_x \cap \FF(v))}{\card(\FF(v))} y.
+            &= \f{1}{\card{\FF(v)}} \sum_{g \in \FF(v)} f(\inv{g} v) \\
+            &= \f{1}{\card{\FF(v)}} \sum_{g \in \FF(v)} \ind_{G_x}(g) y \\
+            &= \f{\card{G_x \cap \FF(v)}}{\card{\FF(v)}} y.
         \end{align*}
         Then by continuity and connectivity we have that $\II_\FF (f)$ is constant on $U$.
         Since $x \in \clo{X_{free}}$, let $\net{x} \sub X_{free}$ be a net such that $x_d \to x$.
-        There is then some $d' \in D$ such that for all $d \geq d'$, $x_d \in U$, and $e \in \FF(U)$ so $\II_\FF (f) (x_d) = \f{\card(G_x \cap \FF(x_d))}{\card(\FF(x_d))}y = \f{\card(G_x)}{\card(G)}y \neq 0$.
+        There is then some $d' \in D$ such that for all $d \geq d'$, $x_d \in U$, and $e \in \FF(U)$ so $\II_\FF (f) (x_d) = \f{\card{G_x \cap \FF(x_d)}}{\card{\FF(x_d)}}y = \f{\card{G_x}}{\card{G}}y \neq 0$.
         Then by continuity of $\II_\FF (f)$ we have that $\II_\FF (f) (x) = \lim_{d \in D} \II_\FF (f) (x_d) \neq 0$ so $G_x \cap \FF(x) \neq 0$.
         Letting $g \in G_x \cap \FF(x)$, we have that $e \in \inv{g}\FF(x) = \FF(\inv{g}x) = \FF(x)$.
         This shows that $e \in \FF(x)$ for all $x \in \clo{X_{free}}$.
@@ -240,10 +240,10 @@
 \begin{theorem}\label{thm:SO-frame-infinite-card}
     (Theorem 2.10 of \cite{dym2024equivariant})
     Let $n \geq 2$ and let $\FF$ be a continuity-preserving equivariant frame for $\SO(2)$ acting on $X := \R^{2 \times n} \sminus 0$.
-    Then $\card(\FF) = \infty$.
+    Then $\card{\FF} = \infty$.
     %\begin{proof}
     %    \Afsoc that we have some finite continuity-preserving frame $\FF$.
-    %    Without loss of generality, we may assume that $\card(\FF(x)) = \card(\FF) =: N$ for all $x \in X$, since if not we may simply repeat elements.
+    %    Without loss of generality, we may assume that $\card{\FF(x)} = \card{\FF} =: N$ for all $x \in X$, since if not we may simply repeat elements.
     %    This means $\FF$ can be thought of as a function from $X \to \SO(2)^N / \Sigma_N$.
     %\end{proof}
 \end{theorem}
