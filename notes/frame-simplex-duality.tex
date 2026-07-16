@@ -27,7 +27,7 @@ Hence, continuity of the weighted frame $\mu_\bullet$ is equivalent to continuit
 In summary, a continuous weighted frame for $G$ acting on $X$ is simply a continuous map from $X$ into $\Delta^{\card{G}}$ when $G$ is finite and acts freely on $X$.
 
 We also want (weakly) equivariant weighted frames, which in this case are weighted frames such that $\mu_{hx} (g) = \mu_x (\inv{h} g)$ (equivariant and weakly equivariant frames are the same when $G$ acts freely).
-Now let $\phi : G \to \Sym(G)$ be the injective group homomorphism $\varphi(g) = \inv{g} \cdot -$ where $\Sym(G)$ is the symmetric group on $G$, so we want $\mu_{hx}(g) = \mu_x (\varphi(h) g)$.
+Now let $\varphi : G \to \Sym(G)$ be the injective group homomorphism $\varphi(g) = \inv{g} \cdot -$ where $\Sym(G)$ is the symmetric group on $G$, so we want $\mu_{hx}(g) = \mu_x (\varphi(h) g)$.
 But $\Sym(G)$ acts naturally on $\Delta^{\card{G}}$ via permutation, so an equivariant weighted frame is really just a $G$-equivariant map from $X$ to $\Delta^{\card{G}}$ where $G$ acts on $x \in \Delta^{\card{G}}$ by $g \cdot x := \varphi(g) x$.
 
 We would generally like to construct equivariant frames that are computationally efficient, so we make the following definition.
@@ -37,6 +37,14 @@ We would generally like to construct equivariant frames that are computationally
     \[
         \card{\mu_\bullet} := \sup_{x \in X} \min \set{n \in \N: \exists x_1,...,x_n \in X, \alpha_1,...,\alpha_n \in \R, \mu_x = \sum_{i \leq n} \alpha_i \delta_{x_i} \tand \sum_{i \leq n} \alpha_i = 1}.
     \]
-    In other words, $\card{\mu_\bullet}$ is the minimum number of Dirac measures needed to represent $\mu_x$ for any $x$.
-    We say that $\card{\mu_\bullet} = \infty$ if $\mu_x$ cannot be written as a sum of Dirac measures.
+    In other words, $\card{\mu_\bullet}$ is the minimum number of Dirac measures needed to represent $\mu_x$ for all $x \in X$.
+    We take $\card{\mu_\bullet} = \infty$ if $\mu_x$ cannot be written as a finite sum of Dirac measures for some $x \in X$.
 \end{definition}
+
+Observe then that $\card{\mu_\bullet} = k$ means that the image of $x \mapsto \mu_x$ lives in the $(k-1)$-skeleton of $\Delta^{\card{G} - 1}$, and notably is not fully contained in the $(k-2)$-skeleton.
+Hence, we have the following proposition.
+
+\begin{proposition}
+    Let $X$ be a free $G$-space for a finite group $G$.
+    Then there exists a continuous equivariant weighted frame $\mu_\bullet : X \to \PP(G)$ with $\card{\mu_\bullet} = k$ if and only if there exists a $G$-equivariant map $f : X \to_G (\Delta^{\card{G}-1})^{(k-1)}$.
+\end{proposition}
