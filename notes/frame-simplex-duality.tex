@@ -29,6 +29,36 @@ In summary, a continuous weighted frame for $G$ acting on $X$ is simply a contin
 We also want (weakly) equivariant weighted frames, which in this case are weighted frames such that $\mu_{hx} (g) = \mu_x (\inv{h} g)$ (equivariant and weakly equivariant frames are the same when $G$ acts freely).
 Now let $\varphi : G \to \Sym(G)$ be the injective group homomorphism $\varphi(g) = \inv{g} \cdot -$ where $\Sym(G)$ is the symmetric group on $G$, so we want $\mu_{hx}(g) = \mu_x (\varphi(h) g)$.
 But $\Sym(G)$ acts naturally on $\Delta^{\card{G}}$ via permutation, so an equivariant weighted frame is really just a $G$-equivariant map from $X$ to $\Delta^{\card{G}}$ where $G$ acts on $x \in \Delta^{\card{G}}$ by $g \cdot x := \varphi(g) x$.
+In this setting, we have the following theorem.
+
+
+\begin{theorem}\label{thm:equi-map-iff-sum}
+    A map $f : X \to \Delta^{\card{G}-1}$ is $G$-equivariant if and only if there is some map $\alpha : X \to [0,1]$ such that $\sum_{g \in G} \alpha(gx) = 1$ for all $x \in X$ and
+    \[
+        f(x) = \sum_{g \in G} \alpha(\inv{g} x) e_g.
+    \]
+    \begin{proof}
+        Note that the reverse direction is trivial, so we just prove the forward direction.
+        Since $\card{G} < \infty$, we must be able to write $f(x) = \sum_{g \in G} f_g(x) e_g$ for continuous $f_g : X \to [0,1]$ with $\sum_{g \in G} f_g(x) = 1$ at all $x \in X$.
+        Then the equivariance of $f$ gives us
+        \[
+            \sum_{g \in G} f_g(hx) e_g
+            = f(hx)
+            = h f(x)
+            = h \sum_{g \in G} f_g(x) e_g
+            = \sum_{g \in G} f_{\inv{h}g}(x) e_g.
+        \]
+        Hence, for each $g,h \in G$ and $x \in X$ we have $f_g(hx) = f_{\inv{h}g} (x)$, so we can take $\alpha := f_e$.
+        Observe that $\alpha$ is certainly continuous, and we conclude by computing
+        \[
+            \sum_{g \in G} \alpha(\inv{g} x)
+            = \sum_{g \in G} f_e (\inv{g} x)
+            = \sum_{g \in G} f_g (x)
+            = f(x).
+        \]
+    \end{proof}
+\end{theorem}
+
 
 We would generally like to construct equivariant frames that are computationally efficient, so we make the following definition.
 
