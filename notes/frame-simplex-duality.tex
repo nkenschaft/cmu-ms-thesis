@@ -4,11 +4,11 @@ In this section, we will explore the duality between (continuous) weighted frame
 In particular, consider the setting of a $G$-space $X$ where $G$ is finite.
 Then $\PP(G)$, the space of probability measures of $G$, is just the $(\card{G}-1)$-simplex, since we can label the standard basis vectors of $\R^{\card{G}}$ as $e_g$ for $g \in G$ and then write
 \[
-    \Delta^{\card{G}} = \set{\sum_{g \in G} x_g e_g \in \R^{\card{G}} : \sum_{g \in G} x_g = 1}
+    \Delta^G := \Delta^{\card{G} - 1} = \set{\sum_{g \in G} x_g e_g \in R^{\card{G}} : \forall g \in G, x_g \in [0,1] \tand \sum_{g \in G} x_g = 1}
 \]
 which gives us the bijection
 \[
-    \PP(G) \ni \mu \mapsto \sum_{g \in G} \mu(g) e_g \in \Delta^{\card{G}}.
+    \PP(G) \ni \mu \mapsto \sum_{g \in G} \mu(g) e_g \in \Delta^G.
 \]
 Because of this, I will treat measures $\mu \in \PP(G)$ as vectors in $\R^{\card{G}}$.
 Similarly, a function $f : G \to \R$ is equivalently a vector $f \in \R^{\card{G}}$.
@@ -24,16 +24,16 @@ Going forward, we will assume that $G$ acts freely on $X$, which means that $\mu
 In particular, for some convergent sequence $x_n \to x \in X$, this means $\angles{\mu_{x_n}}_x \wto \angles{\mu_x}_x$ if and only if $\mu_{x_n} \wto \mu_x$.
 But this means that for all $f \in \R^{\card{G}}$, $\mu_{x_n} \cdot f \to \mu_x \cdot f$, and thus $\mu_{x_n} \to \mu_x$ under the usual Euclidean topology.
 Hence, continuity of the weighted frame $\mu_\bullet$ is equivalent to continuity of the map $x \mapsto \mu_x$.
-In summary, a continuous weighted frame for $G$ acting on $X$ is simply a continuous map from $X$ into $\Delta^{\card{G}}$ when $G$ is finite and acts freely on $X$.
+In summary, a continuous weighted frame for $G$ acting on $X$ is simply a continuous map from $X$ into $\Delta^G$ when $G$ is finite and acts freely on $X$.
 
 We also want (weakly) equivariant weighted frames, which in this case are weighted frames such that $\mu_{hx} (g) = \mu_x (\inv{h} g)$ (equivariant and weakly equivariant frames are the same when $G$ acts freely).
 Now let $\varphi : G \to \Sym(G)$ be the injective group homomorphism $\varphi(g) = \inv{g} \cdot -$ where $\Sym(G)$ is the symmetric group on $G$, so we want $\mu_{hx}(g) = \mu_x (\varphi(h) g)$.
-But $\Sym(G)$ acts naturally on $\Delta^{\card{G}}$ via permutation, so an equivariant weighted frame is really just a $G$-equivariant map from $X$ to $\Delta^{\card{G}}$ where $G$ acts on $x \in \Delta^{\card{G}}$ by $g \cdot x := \varphi(g) x$.
+But $\Sym(G)$ acts naturally on $\Delta^G$ via permutation, so an equivariant weighted frame is really just a $G$-equivariant map from $X$ to $\Delta^G$ where $G$ acts on $x \in \Delta^G$ by $g \cdot x := \varphi(g) x$.
 In this setting, we have the following theorem.
 
 
 \begin{theorem}\label{thm:equi-map-iff-sum}
-    A map $f : X \to \Delta^{\card{G}-1}$ is $G$-equivariant if and only if there is some map $\alpha : X \to [0,1]$ such that $\sum_{g \in G} \alpha(gx) = 1$ for all $x \in X$ and
+    A map $f : X \to \Delta^G$ is $G$-equivariant if and only if there is some map $\alpha : X \to [0,1]$ such that $\sum_{g \in G} \alpha(gx) = 1$ for all $x \in X$ and
     \[
         f(x) = \sum_{g \in G} \alpha(\inv{g} x) e_g.
     \]
@@ -65,16 +65,38 @@ We would generally like to construct equivariant frames that are computationally
 \begin{definition}
     The \emph{cardinality} of a weighted frame $\mu_\bullet$ is
     \[
-        \card{\mu_\bullet} := \sup_{x \in X} \min \set{n \in \N: \exists x_1,...,x_n \in X, \alpha_1,...,\alpha_n \in \R, \mu_x = \sum_{i \leq n} \alpha_i \delta_{x_i} \tand \sum_{i \leq n} \alpha_i = 1}.
+        \card{\mu_\bullet} := \sup_{x \in X} \min \set{n \in \N: \exists g_1,...,g_n \in g, \alpha_1,...,\alpha_n \in \R, \mu_x = \sum_{i \leq n} \alpha_i \delta_{x_i} \tand \sum_{i \leq n} \alpha_i = 1}.
     \]
     In other words, $\card{\mu_\bullet}$ is the minimum number of Dirac measures needed to represent $\mu_x$ for all $x \in X$.
     We take $\card{\mu_\bullet} = \infty$ if $\mu_x$ cannot be written as a finite sum of Dirac measures for some $x \in X$.
 \end{definition}
 
-Observe then that $\card{\mu_\bullet} = k$ means that the image of $x \mapsto \mu_x$ lives in the $(k-1)$-skeleton of $\Delta^{\card{G} - 1}$, and notably is not fully contained in the $(k-2)$-skeleton.
+Observe then that $\card{\mu_\bullet} = k$ means that the image of $x \mapsto \mu_x$ lives in the $(k-1)$-skeleton of $\Delta^G$, and notably is not fully contained in the $(k-2)$-skeleton.
 Hence, we have the following proposition.
 
 \begin{proposition}
     Let $X$ be a free $G$-space for a finite group $G$.
-    Then there exists a continuous equivariant weighted frame $\mu_\bullet : X \to \PP(G)$ with $\card{\mu_\bullet} = k$ if and only if there exists a $G$-equivariant map $f : X \to_G (\Delta^{\card{G}-1})^{(k-1)}$.
+    Then there exists a continuous equivariant weighted frame $\mu_\bullet : X \to \PP(G)$ with $\card{\mu_\bullet} = k$ if and only if there exists a $G$-equivariant map $f : X \to_G (\Delta^G)^{(k-1)}$.
+\end{proposition}
+
+
+We now make an observation about how $G$ acts on $(\Delta^G)^{(k)}$ for various $k$.
+
+
+\begin{proposition}
+    $G$ acts freely on $(\Delta^G)^{(k)}$ if and only if $G$ has no nontrivial subgroup $H$ such that $\card{H} < k$.
+    \begin{proof}
+        First, assume there is some subgroup $H \sub G$ with $1 < \card{H} < k$ and fix some $h \in H$.
+        Observe that $\sum_{g \in H} \f{1}{\card{H}} e_{g} \in (\Delta^G)^{(k)}$ but
+        \[
+            h \cdot \sum_{g \in H} \f{1}{\card{H}} e_{g}
+            = \sum_{g \in H} \f{1}{\card{H}} e_{\inv{h}g}
+            = \sum_{g \in H} \f{1}{\card{H}} e_{g}
+        \]
+        so $\sum_{g \in H} \f{1}{\card{H}} e_{g}$ has nontrivial stabilizer (namely, its stabilizer is $H$).
+        
+        Conversely, assume that there is some $x = \sum_{g \in G} x_g e_g \in (\Delta^G)^{(k)}$ with nontrivial stabilizer.
+        But observe that we must have $\card{G_x} < k$ by the definition of the $G$-action on $\Delta^G$, so we immediately have the nontrivial subgroup that we desire.
+        % TODO: make more rigorous
+    \end{proof}
 \end{proposition}
