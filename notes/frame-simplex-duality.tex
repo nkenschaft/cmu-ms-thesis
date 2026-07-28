@@ -65,16 +65,30 @@ We would generally like to construct equivariant frames that are computationally
 \begin{definition}
     The \emph{cardinality} of a weighted frame $\mu_\bullet$ is
     \[
-        \card{\mu_\bullet} := \sup_{x \in X} \min \set{n \in \N: \exists g_1,...,g_n \in g, \alpha_1,...,\alpha_n \in \R, \mu_x = \sum_{i \leq n} \alpha_i \delta_{x_i} \tand \sum_{i \leq n} \alpha_i = 1}.
+        \card{\mu_\bullet} := \sup_{x \in X} \min \set{n \in \N: \exists g_1,...,g_n \in G, \alpha_1,...,\alpha_n \in \R, \mu_x = \sum_{i \leq n} \alpha_i \delta_{g_i} \tand \sum_{i \leq n} \alpha_i = 1}.
     \]
     In other words, $\card{\mu_\bullet}$ is the minimum number of Dirac measures needed to represent $\mu_x$ for all $x \in X$.
     We take $\card{\mu_\bullet} = \infty$ if $\mu_x$ cannot be written as a finite sum of Dirac measures for some $x \in X$.
 \end{definition}
 
+And we can make a similar definition for canonicalization frames.
+
+\begin{definition}
+    The \emph{cardinality} of a weighted canonicalization frame $\nu_\bullet$ is
+    \[
+        \card{\nu_\bullet} := \sup_{x \in X} \min \set{n \in \N: \exists x_1,...,x_n \in X, \alpha_1,...,\alpha_n \in \R, \mu_x = \sum_{i \leq n} \alpha_i \delta_{x_i} \tand \sum_{i \leq n} \alpha_i = 1}.
+    \]
+    We take $\card{\nu_\bullet} = \infty$ if $\nu_x$ cannot be written as a finite sum of Dirac measures for some $x \in X$.
+\end{definition}
+
+
+Note that the frames constructed in theorem \ref{thm:frame-equivalence} satisfy $\card{\mu_\bullet} = \card{\nu_\bullet}$ when $G$ acts freely on $X$, and this continues to hold when $G$ is infinite.
+
+
 Observe then that $\card{\mu_\bullet} = k$ means that the image of $x \mapsto \mu_x$ lives in the $(k-1)$-skeleton of $\Delta^G$, and notably is not fully contained in the $(k-2)$-skeleton.
 Hence, we have the following proposition.
 
-\begin{proposition}
+\begin{proposition}\label{prop:equi-frame-iff-equi-map}
     Let $X$ be a free $G$-space for a finite group $G$.
     Then there exists a continuous equivariant weighted frame $\mu_\bullet : X \to \PP(G)$ with $\card{\mu_\bullet} = k$ if and only if there exists a $G$-equivariant map $f : X \to_G (\Delta^G)^{(k-1)}$.
 \end{proposition}
@@ -83,7 +97,7 @@ Hence, we have the following proposition.
 We now make an observation about how $G$ acts on $(\Delta^G)^{(k)}$ for various $k$.
 
 
-\begin{proposition}
+\begin{proposition}\label{prop:free-on-simplex-skeleton-iff-no-small-subgroups}
     $G$ acts freely on $(\Delta^G)^{(k)}$ if and only if $G$ has no nontrivial subgroup $H$ such that $\card{H} < k$.
     \begin{proof}
         First, assume there is some subgroup $H \sub G$ with $1 < \card{H} < k$ and fix some $h \in H$.
@@ -96,7 +110,52 @@ We now make an observation about how $G$ acts on $(\Delta^G)^{(k)}$ for various 
         so $\sum_{g \in H} \f{1}{\card{H}} e_{g}$ has nontrivial stabilizer (namely, its stabilizer is $H$).
         
         Conversely, assume that there is some $x = \sum_{g \in G} x_g e_g \in (\Delta^G)^{(k)}$ with nontrivial stabilizer.
-        But observe that we must have $\card{G_x} < k$ by the definition of the $G$-action on $\Delta^G$, so we immediately have the nontrivial subgroup that we desire.
-        % TODO: make more rigorous
+        Note that $G$ acts on $x$ via cyclic permutations of the nonzero coordinates, of which there are less than $k$, so we must have that $\card{G_x} < k$.
+        Hence, $G_x$ is exactly the nontrivial subgroup we desire.
+    \end{proof}
+\end{proposition}
+
+
+\begin{theorem}[Dold's Theorem \cite{dold1983simpleproofsborsukulam}, as in Theorem 6.2.6 of \cite{matousek2007usingborsukulam}]\label{thm:dold}
+    Let $G$ be a nontrivial finite group, let $X$ be an $n$-connected $G$-space, and let $Y$ be a free $G$-space of dimension at most $n$.
+    Then there are no $G$-equivariant maps from $X$ to $Y$.
+\end{theorem}
+
+
+\begin{theorem}
+    Let $G$ be a nontrivial finite group, let $p$ be the least prime divisor of $\card{G}$, and let $X$ be an $n$-connected $G$-space for $n \geq p$.
+    Then there is no robust frame $\mu_\bullet : X \to \PP(G)$ with $\card{\mu_\bullet} < p$.
+    \begin{proof}
+        Since $p$ is the least prime divisor of $\card{G}$, there can be no subgroups $H$ of $G$ with $\card{H} < p$ and hence $G$ acts freely on $(\Delta^G)^{(k)}$ for any $k \leq p$ by proposition \ref{prop:free-on-simplex-skeleton-iff-no-small-subgroups}.
+        Clearly $\dim (\Delta^G)^{(k)} = k \leq p \leq n$, so by theorem \ref{thm:dold} we then have that there can be no $G$-equivariant map from $X$ to $(\Delta^G)^{(k)}$.
+        Finally, by proposition \ref{prop:equi-frame-iff-equi-map} we conclude that there can be no robust frame $\mu_\bullet : X \to \PP(G)$ with $\card{\mu_\bullet} = k+1$ for any $1 \leq k \leq p$.
+    \end{proof}
+\end{theorem}
+
+\begin{corollary}
+    If $X$ is simply connected then there are no nontrivial robust frames when $G = \Z_p$ for $p$ prime.
+\end{corollary}
+
+We now return to an idea from chapter \ref{ch:canonicalization} that finds new use.
+
+\begin{proposition}
+    Let $X$ be a $G$-space such that $X/G$ is locally compact and Hausdorff.
+    Furthermore, let $\set{U_i}_{i \leq n}$ for $n \in \N$ be a collection of open sets in $X/G$ such that $X/G = \cup_{i \leq n} U_i$ with local sections $s_i : U_i \to X$ of the quotient $q : X \to X/G$.
+    Then there exists a robust canonicalization frame $\nu_\bullet$ such that $\card{\nu_\bullet} \leq n$.
+    \begin{proof}
+        Since $X/G$ is locally compact and Hausdorff, there exists a partition of unity $\set{\varphi_i}_{i \leq n}$ subordinate to $\set{U_i}_{i \leq n}$.
+        We then define $\nu_\bullet : X \to \PP(X)$ by
+        \[
+            \nu_x = \sum_{i \leq n} \varphi_i(q(x)) \delta_{s_i(q(x))},
+        \]
+        noting that $\varphi_i(q(x)) = 0$ when the expression $s_i(q(x))$ doesn't make sense so we can ignore this case.
+        Observe that this is well-defined since $\sum_{i \leq n} \varphi_i (q(x)) = 1$ because $\set{\varphi_i}_{i \leq n}$ is a partition of unity.
+        Additionally, $\nu_\bullet$ is a canonicalization frame by construction since it only depends on $q(x)$, and for any continuous map $f : X \to \R$ we have
+        \[
+            \int_X f d\nu_x
+            = \sum_{i \leq n} \varphi_i(q(x)) f(s_i(q(x)))
+        \]
+        which is continuous as a composition of continuous functions, so $\nu_\bullet$ is a robust frame.
+        Lastly, by construction $\card{\nu_\bullet} \leq n$ so we are done.
     \end{proof}
 \end{proposition}
