@@ -122,7 +122,7 @@ We now make an observation about how $G$ acts on $(\Delta^G)^{(k)}$ for various 
 \end{theorem}
 
 
-\begin{theorem}
+\begin{theorem}\label{thm:frame-card-geq-min-prime-divisor}
     Let $G$ be a nontrivial finite group, let $p$ be the least prime divisor of $\card{G}$, and let $X$ be an $n$-connected $G$-space for $n \geq p$.
     Then there is no robust frame $\mu_\bullet : X \to \PP(G)$ with $\card{\mu_\bullet} < p$.
     \begin{proof}
@@ -138,7 +138,7 @@ We now make an observation about how $G$ acts on $(\Delta^G)^{(k)}$ for various 
 
 We now return to an idea from chapter \ref{ch:canonicalization} that finds new use.
 
-\begin{proposition}
+\begin{proposition}\label{prop:secat-induces-frame}
     Let $X$ be a $G$-space such that $X/G$ is locally compact and Hausdorff.
     Furthermore, let $\set{U_i}_{i \leq n}$ for $n \in \N$ be a collection of open sets in $X/G$ such that $X/G = \cup_{i \leq n} U_i$ with local sections $s_i : U_i \to X$ of the quotient $q : X \to X/G$.
     Then there exists a robust canonicalization frame $\nu_\bullet$ such that $\card{\nu_\bullet} \leq n$.
@@ -159,3 +159,76 @@ We now return to an idea from chapter \ref{ch:canonicalization} that finds new u
         Lastly, by construction $\card{\nu_\bullet} \leq n$ so we are done.
     \end{proof}
 \end{proposition}
+
+
+The author's of \cite{knudsen2024analogcategorycomplexity} give a more general definition of the underlying objects here and present essentially the same proof as proposition \ref{prop:secat-induces-frame}.
+
+
+\begin{definition}
+    Given a map $f : X \to Y$, we define
+    \[
+        \PP(f)
+        := \set{\mu \in \PP(X) : \card{f[\supp (\mu)]} = 1}.
+    \]
+    Then there is a natural projection $p_f : \PP(f) \to Y$ given by $p_f(\mu) = y$ where $y \in Y$ is the unique element such that $\set{y} = f[\supp (\mu)]$.
+\end{definition}
+
+
+\begin{definition}
+    For a space $X$, we define
+    \[
+        \PP_n(X) := \set{\mu \in \PP(X) : \card{\supp(\mu)} = n}
+    \]
+    and consequently for a map $f : X \to Y$ we define
+    \[
+        \PP_n(f) := \PP(f) \cap \PP_n(X).
+    \]
+\end{definition}
+
+
+\begin{definition}
+    For a map $f : X \to Y$, the \emph{analog sectional category} of $f$ is
+    \[
+        \asecat(f) := \min \set{n \in \Z : \exists s_f : Y \to \PP(f), \im (s_f) \sub \PP_n(f), p_f \circ s_f = \id_Y}.
+    \]
+    Note that this definition is offset by 1 from \cite{knudsen2024analogcategorycomplexity}'s.
+\end{definition}
+
+
+Essentially the same proof as proposition \ref{prop:secat-induces-frame} then gives the following result.
+
+
+\begin{theorem}[Corollary 5.5 of \cite{knudsen2024analogcategorycomplexity}]\label{thm:asecat-leq-secat}
+    If $X$ and $Y$ are spaces with $Y$ paracompact, then for any map $f : X \to Y$ we have $\asecat(f) \leq \ssecat(f)$.
+\end{theorem}
+
+
+\begin{remark}\label{rem:asecat-robust-frame-equivalence}
+    A robust canonicalization frame $\nu_\bullet : X \to \PP(X)$ corresponds exactly to a section of the projection $p_q : \PP(q) \to X/G$ when $q : X \to X/G$ is the quotient map.
+    \begin{proof}
+        
+    \end{proof}
+\end{remark}
+
+
+\begin{theorem}\label{thm:min-frame-leq-secat}
+    Let $X$ be a $G$-space such that $X/G$ is locally compact and Hausdorff.
+    Then letting $q : X \to X/G$ be the quotient, we have
+    \[
+        \min\set{n \in \Z : \exists \nu_\bullet : X \to \PP(X), \nu_\bullet \text{ is robust}, \card{\nu_\bullet} = n}
+        = \asecat(q)
+        \leq \ssecat(q).
+    \]
+    \begin{proof}
+        This follows immediately from proposition \ref{prop:secat-induces-frame}, or equivalently theorem \ref{thm:asecat-leq-secat}.
+    \end{proof}
+\end{theorem}
+
+
+\begin{corollary}
+    Let $G$ be a nontrivial finite group, let $p$ be the least prime divisor of $\card{G}$, and let $X$ be an $n$-connected $G$-space for $n \geq p$.
+    Then $\ssecat(q : X \to X/G) \geq p$.
+    \begin{proof}
+        This follow directly from remark \ref{rem:asecat-robust-frame-equivalence} and theorems \ref{thm:frame-card-geq-min-prime-divisor} and \ref{thm:min-frame-leq-secat}.
+    \end{proof}
+\end{corollary}
