@@ -161,6 +161,12 @@ We now return to an idea from chapter \ref{ch:canonicalization} that finds new u
 \end{proposition}
 
 
+\begin{remark}
+    In general, we cannot expect to start with a robust canonicalization frame and produce some local sections of the quotient $q : X \to X/G$.
+    For instance, the frame assigning the uniform distribution to every orbit has no clear way to extract open subsets of $X/G$ on which to define local sections, much less a way to construct the sections themselves.
+\end{remark}
+
+
 The author's of \cite{knudsen2024analogcategorycomplexity} give a more general definition of the underlying objects here and present essentially the same proof as proposition \ref{prop:secat-induces-frame}.
 
 
@@ -177,7 +183,7 @@ The author's of \cite{knudsen2024analogcategorycomplexity} give a more general d
 \begin{definition}
     For a space $X$, we define
     \[
-        \PP_n(X) := \set{\mu \in \PP(X) : \card{\supp(\mu)} = n}
+        \PP_n(X) := \set{\mu \in \PP(X) : \card{\supp(\mu)} \leq n}
     \]
     and consequently for a map $f : X \to Y$ we define
     \[
@@ -198,7 +204,7 @@ The author's of \cite{knudsen2024analogcategorycomplexity} give a more general d
 Essentially the same proof as proposition \ref{prop:secat-induces-frame} then gives the following result.
 
 
-\begin{theorem}[Corollary 5.5 of \cite{knudsen2024analogcategorycomplexity}]\label{thm:asecat-leq-secat}
+\begin{theorem}[Corollary 5.5 in \cite{knudsen2024analogcategorycomplexity}]\label{thm:asecat-leq-secat}
     If $X$ and $Y$ are spaces with $Y$ paracompact, then for any map $f : X \to Y$ we have $\asecat(f) \leq \ssecat(f)$.
 \end{theorem}
 
@@ -206,7 +212,18 @@ Essentially the same proof as proposition \ref{prop:secat-induces-frame} then gi
 \begin{remark}\label{rem:asecat-robust-frame-equivalence}
     A robust canonicalization frame $\nu_\bullet : X \to \PP(X)$ corresponds exactly to a section of the projection $p_q : \PP(q) \to X/G$ when $q : X \to X/G$ is the quotient map.
     \begin{proof}
+        First let $\nu_\bullet$ be a finite robust canonicalization frame with $\card{\nu_\bullet} = n$.
+        Recall that $\nu_\bullet$ is fixed on any orbit $Gx \sub X$, so we have an induced map $\Hat{\nu}_\bullet : X/G \to \PP(X)$.
+        Additionally, $\supp (\nu_x) \sub Gx$ for all $x \in X$ and $\card{\nu_\bullet} = n$, so we actually have that $\im (\Hat{\nu}_\bullet) \sub \PP_n(q)$.
+        Lastly, $p_q(\Hat{\nu_\bullet}(q(x))) = p_q(\nu_x) = q(x)$, so $\Hat{\nu}_\bullet$ is a section of $p_q$, as desired.
+        % TODO: show continuity? I think we're good actually
+
+        Conversely, let $s_q : X/G \to \PP(q)$ be a section of $p_q$ such that $\im(s_q) \sub \PP_n(q)$.
+        Then we can define $\nu_\bullet : X \to \PP(X)$ by $\nu_x = s_q (q(x))$.
+        Observe that $\nu_\bullet$ is an orbit canonicalization frame automatically, and $\nu_\bullet$ is also continuous since $s_q$ and $q$ are continuous.
+        Lastly, $\card{\nu_\bullet} \leq n$ since $\im(s_q) \sub \PP_n(q)$.
         
+
     \end{proof}
 \end{remark}
 
@@ -220,7 +237,7 @@ Essentially the same proof as proposition \ref{prop:secat-induces-frame} then gi
         \leq \ssecat(q).
     \]
     \begin{proof}
-        This follows immediately from proposition \ref{prop:secat-induces-frame}, or equivalently theorem \ref{thm:asecat-leq-secat}.
+        The equality follows from remark \ref{rem:asecat-robust-frame-equivalence}, and the inequality follows from proposition \ref{prop:secat-induces-frame} (or equivalently from theorem \ref{thm:asecat-leq-secat}).
     \end{proof}
 \end{theorem}
 
@@ -228,7 +245,11 @@ Essentially the same proof as proposition \ref{prop:secat-induces-frame} then gi
 \begin{corollary}
     Let $G$ be a nontrivial finite group, let $p$ be the least prime divisor of $\card{G}$, and let $X$ be an $n$-connected $G$-space for $n \geq p$.
     Then $\ssecat(q : X \to X/G) \geq p$.
+    In particular, if $G = \Z_p$ for some prime $p$ then $\ssecat(q : X \to X/G) \geq p$.
     \begin{proof}
-        This follow directly from remark \ref{rem:asecat-robust-frame-equivalence} and theorems \ref{thm:frame-card-geq-min-prime-divisor} and \ref{thm:min-frame-leq-secat}.
+        This follows directly from theorems \ref{thm:frame-card-geq-min-prime-divisor} and \ref{thm:min-frame-leq-secat}.
     \end{proof}
 \end{corollary}
+
+
+With theorem \ref{thm:min-frame-leq-secat} in hand, we have established a deep relationship between robust frames and canonicalization, tying chapters \ref{ch:canonicalization} and \ref{ch:frame-averaging} together nicely.
