@@ -367,11 +367,11 @@ With Casson's theorem in hand we can now rather quickly prove two of \cite{dym20
 
 \begin{proposition}\label{prop:SOd-secat-2}
     Let $\SO(d)$ act on the left of $\R^{d \times d}_*$ via matrix multiplication and let $q : \R^{d \times d}_* \to \R^{d \times d}_* / \SO(d)$ be the quotient map.
-    Then $\ssecat(q) = 2$.
+    Then $\ssecat(q) = 1$.
     \begin{proof}
         First, observe that by theorem \ref{thm:no-SOd-canon-for-dxn}, proposition \ref{prop:canon-is-section}, remark \ref{rem:secat1-iff-section}, and lemma \ref{lem:subsecat-leq-secat} we have that $\ssecat(q) > 1$.
         Hence, it remains to show that $\ssecat(q) \leq 2$.
-        By proposition \ref{prop:psd-iff-transpose-product} we know that $\R^{d \times d}_*/O(d)$ is homeomorphic to the (disjoint) union of full rank matrices in $\S^d_+$ and $\S^d_-$ (here denoted $S_+$ and $S_-$) via the map $q : \R^{d \times d}_* \to S_+ \sqcup S_-$ defined as follows:
+        By lemma \ref{lem:Od-cong-psd} we know that $\R^{d \times d}_*/\SO(d)$ is homeomorphic to the (disjoint) union of full rank matrices in $\S^d_+$ and $\S^d_-$ (here denoted $S_+$ and $S_-$) via the map $q : \R^{d \times d}_* \to S_+ \sqcup S_-$ defined as follows:
         \[
             q(A) = 
             \begin{cases}
@@ -382,24 +382,32 @@ With Casson's theorem in hand we can now rather quickly prove two of \cite{dym20
         Observe that this well-defined since $A^T A$ is always positive semi-definite with $\rank(A^T A) = \rank(A)$, so $A^T A \in S_+$ and $-A^T A \in S_-$.
         Additionally, $q$ is clearly continuous.
 
-        Next, we define $s_+ : S_+ \to \R^{d \times d}$ by $s_+(A) = A^{\f12}$ and $s_- : S_- \to \R^{d \times d}$ by $s_-(A) = T(-A)^{\f12}$, where $M^{\f12}$ denotes the matrix square root where $T$ is some orthogonal transformation that flips the sign of its input's determinant, i.e. $T \in O(d) \sminus SO(d)$.
-        Both of these maps are clearly well-defined and continuous by construction.
+        Next, we define $s : \R^{d \times d}_*/\SO(d) : \to \R^{d \times d}_*$ by
+        \[
+            s(A) = 
+            \begin{cases}
+                A^{\f12}        &\tif A \in S_+ \\
+                F(-A)^{\f12}    &\tif A \in S_-
+            \end{cases}
+        \]
+        where $M^{\f12}$ denotes the matrix square root where $F$ is some orthogonal transformation that flips the sign of its input's determinant, i.e. $F \in O(d) \sminus SO(d)$.
+        Observe that $s$ is well-defined and continuous since it is continuous on $S_+$ and $S_-$ which are disjoint open sets.
         For $A \in S_+$, we then compute
         \[
-            q(s_+(A))
+            q(s(A))
             = q(A^{\f12})
             = (A^{\f12})^T (A^{\f12})
             = A
         \]
         and similarly for $A \in S_-$ we have
         \[
-            q(s_-(A))
-            = q(T(-A)^{\f12})
-            = -(T(-A)^{\f12})^T (T(-A)^{\f12})
-            = -(-A)^{\f12} T^T T (-A)^{\f12}
+            q(s(A))
+            = q(F(-A)^{\f12})
+            = -(F(-A)^{\f12})^T (F(-A)^{\f12})
+            = -(-A)^{\f12} F^T F (-A)^{\f12}
             = A.
         \]
-        Therefore both $s_+$ and $s_-$ are local sections of $q$ one $S_+$ and $S_-$ respectively, and both $S_+$ and $S_-$ are open in the quotient by construction so we conclude that $\ssecat(q) \leq 2$.
+        Therefore $s$ is a section of $q$, so we conclude that $\ssecat(q) = 1$.
     \end{proof}
 \end{proposition}
 

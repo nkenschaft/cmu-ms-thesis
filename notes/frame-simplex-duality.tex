@@ -136,6 +136,50 @@ We now make an observation about how $G$ acts on $(\Delta^G)^{(k)}$ for various 
     If $X$ is simply connected then there are no nontrivial robust frames when $G = \Z_p$ for $p$ prime.
 \end{corollary}
 
+In \cite{ozaydin1987equivariantmaps}, \"Ozaydin provides the following useful result.
+
+
+\begin{theorem}[Lemma 4.1 of \cite{ozaydin1987equivariantmaps}]\label{thm:Ozaydin}
+    Let $X$ be a $(d+1)$-dimensional free $G$-CW complex and let $Y$ be a $(d-1)$-connected $G$-CW complex.
+    If $d = 1$ also assume that $\pi_1(Y)$ is Abelian.
+    Then there exists a $G$-equivariant map from $X$ into $Y$ if and only if there are $H$-equivariant maps from $X$ into $Y$ for every $p$-Sylow subgroup $H \sub G$.
+\end{theorem}
+
+
+\begin{lemma}\label{lem:subgroup-equi-skeleton-map}
+    Let $X$ be a $G$-space, let $H \sub G$ be a subgroup, and let $k \in \N$ such that $k + 1 \geq \card{H}$.
+    Then there exists an $H$-equivariant map from $X$ into $(\Delta^G)^{(k)}$.
+    \begin{proof}
+        Define the map $f : X \to (\Delta^G)^{(k)}$ for all $x \in X$ by
+        \[
+            f(x) = \sum_{h \in H} \f{1}{\card{H}} e_h.
+        \]
+        Observe that indeed $\im(f) \sub (\Delta^G)^{(k)}$ since $\card{H} \leq k + 1$.
+        Additionally, $f$ is $H$-equivariant since $f$ is constant and for any $g \in H$,
+        \[
+            g \cdot \sum_{h \in H} \f{1}{\card{H}} e_h
+            = \sum_{h \in H} \f{1}{\card{H}} e_{\inv{g} h}
+            = \sum_{h \in H} \f{1}{\card{H}} e_h
+        \]
+        so the single value $f$ takes is fixed by $H$.
+    \end{proof}
+\end{lemma}
+
+
+\begin{theorem}
+    Let $X$ be a free $G$-CW complex and let $k \in \N$ such that $k + 1 \geq \card{H}$ for every $p$-Sylow subgroup $H \sub G$.
+    Then there exists a $G$-equivariant map from $X$ to $(\Delta^G)^{(k)}$.
+    \begin{proof}
+        This follows directly from lemma \ref{lem:subgroup-equi-skeleton-map} and theorem \ref{thm:Ozaydin}.
+    \end{proof}
+\end{theorem}
+
+
+\begin{corollary}
+    Let $X$ be a free $G$-CW complex and let $k \in \N$ such that $k + 1 \geq \card{H}$ for every $p$-Sylow subgroup $H \sub G$.
+    Then there exists a robust frame $\mu_\bullet : X \to \PP(G)$ with $\card{\mu_\bullet} \leq k + 1$.
+\end{corollary}
+
 We now return to an idea from chapter \ref{ch:canonicalization} that finds new use.
 
 \begin{proposition}\label{prop:secat-induces-frame}
