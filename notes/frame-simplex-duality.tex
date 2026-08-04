@@ -98,10 +98,10 @@ We now make an observation about how $G$ acts on $(\Delta^G)^{(k)}$ for various 
 
 
 \begin{proposition}\label{prop:free-on-simplex-skeleton-iff-no-small-subgroups}
-    $G$ acts freely on $(\Delta^G)^{(k)}$ if and only if $G$ has no nontrivial subgroup $H$ such that $\card{H} < k$.
+    $G$ acts freely on $(\Delta^G)^{(k)}$ if and only if $G$ has no nontrivial subgroup $H$ such that $\card{H} \leq k+1$.
     \begin{proof}
-        First, assume there is some subgroup $H \sub G$ with $1 < \card{H} < k$ and fix some $h \in H$.
-        Observe that $\sum_{g \in H} \f{1}{\card{H}} e_{g} \in (\Delta^G)^{(k)}$ but
+        First, assume there is some subgroup $H \sub G$ with $2 \leq \card{H} \leq k+1$ and fix some $h \in H$.
+        Observe that $\sum_{g \in H} \f{1}{\card{H}} e_{g} \in (\Delta^G)^{(k)}$ since $\card{H} \leq k+1$ and
         \[
             h \cdot \sum_{g \in H} \f{1}{\card{H}} e_{g}
             = \sum_{g \in H} \f{1}{\card{H}} e_{\inv{h}g}
@@ -110,7 +110,7 @@ We now make an observation about how $G$ acts on $(\Delta^G)^{(k)}$ for various 
         so $\sum_{g \in H} \f{1}{\card{H}} e_{g}$ has nontrivial stabilizer (namely, its stabilizer is $H$).
         
         Conversely, assume that there is some $x = \sum_{g \in G} x_g e_g \in (\Delta^G)^{(k)}$ with nontrivial stabilizer.
-        Note that $G$ acts on $x$ via cyclic permutations of the nonzero coordinates, of which there are less than $k$, so we must have that $\card{G_x} < k$.
+        Note that $G$ acts on $x$ via cyclic permutations of the nonzero coordinates, of which there are at most $k+1$, so we must have that $\card{G_x} \leq k+1$.
         Hence, $G_x$ is exactly the nontrivial subgroup we desire.
     \end{proof}
 \end{proposition}
@@ -167,7 +167,7 @@ In \cite{ozaydin1987equivariantmaps}, \"Ozaydin provides the following useful re
 
 
 \begin{theorem}
-    Let $X$ be a free $G$-CW complex and let $k \in \N$ such that $k + 1 \geq \card{H}$ for every $p$-Sylow subgroup $H \sub G$.
+    Let $X$ be a free $G$-CW complex and let $k \in \N$ such that $k \geq \dim(X) - 2$ and $k + 1 \geq \card{H}$ for every $p$-Sylow subgroup $H \sub G$.
     Then there exists a $G$-equivariant map from $X$ to $(\Delta^G)^{(k)}$.
     \begin{proof}
         This follows directly from lemma \ref{lem:subgroup-equi-skeleton-map} and theorem \ref{thm:Ozaydin}.
@@ -179,6 +179,43 @@ In \cite{ozaydin1987equivariantmaps}, \"Ozaydin provides the following useful re
     Let $X$ be a free $G$-CW complex and let $k \in \N$ such that $k + 1 \geq \card{H}$ for every $p$-Sylow subgroup $H \sub G$.
     Then there exists a robust frame $\mu_\bullet : X \to \PP(G)$ with $\card{\mu_\bullet} \leq k + 1$.
 \end{corollary}
+
+
+\begin{lemma}\label{lem:subgroup-equi-map-simplex}
+    Let $X$ be a $G$-space and let $H \sub G$ be a subgroup such that there is some $H$-equivariant map from $X$ into $(\Delta^G)^{(k)}$.
+    Then there is a $H$ equivariant map from $X$ into $(\Delta^H)^{(k)}$.
+    \begin{proof}
+        Let $f : X \to (\Delta^G)^{(k)}$ be $H$-equivariant.
+        Then define $\Hat{f} : X \to (\Delta^H)^{(k)}$ by
+        \[
+            \Hat{f}(x)
+            := \sum_{g \in H} \f{f_g(x)}{\sum_{h \in H} f_h(x)} e_g.
+        \]
+        Observe that $\Hat{f}$ is well-defined and continuous from its construction.
+        To see that $\Hat{f}$ is $H$-equivariant, let $g_0 \in H$ and we compute
+        \begin{align*}
+            \Hat{f}(g_0x)
+            &= \sum_{g \in H} \f{f_g(g_0 x)}{\sum_{h \in H} f_h(g_0 x)} e_g \\
+            &= \sum_{g \in H} \f{f_{\inv{g_0}g}(x)}{\sum_{h \in H} f_{\inv{g_0} h}(x)} e_g \tag{by $G$-equivariance of $f$} \\
+            &= \sum_{g \in H} \f{f_{\inv{g_0}g}(x)}{\sum_{h \in H} f_{h}(x)} e_g \\
+            &= g_0 \Hat{f}(x).
+        \end{align*}
+        Therefore we conclude that $\Hat{f}$ is an $H$-equivariant map.
+    \end{proof}
+\end{lemma}
+
+
+\begin{theorem}
+    Let $X$ be a free $n$-connected $G$-CW complex of dimension $m$, and let $p$ be the maximum prime divisor of $\card{G}$.
+    % TODO: this is only possible if X is contractible lol
+    Then if $m - 1 \leq k \leq \min\set{p - 2,n}$, there is no $G$-equivariant map from $X$ into $(\Delta^G)^{(k)}$.
+    \begin{proof}
+        To begin, let $G_p \sub G$ be a $p$-Sylow subgroup, whose existence is guaranteed by Sylow's first theorem.
+        Observe that every subgroup $H \sub G_p$ must have $p | \card{H}$, but $k+1 \leq p-1$ so proposition \ref{prop:free-on-simplex-skeleton-iff-no-small-subgroups} gives us that $G_p$ must act freely on $(\Delta^{G_p})^{(k)}$.
+        Then by Dold's Theorem (theorem \ref{thm:dold}), we have that there is no $G_p$-equivariant map from $X$ into $(\Delta^{G_p})^{(k)}$ since $\dim ((\Delta^{G_p})^{(k)}) = k \leq n$.
+        Lemma \ref{lem:subgroup-equi-map-simplex} then implies that there is no $G_p$-equivariant map from $X$ into $(\Delta^G)^{(k)}$, so by \"Ozaydin's Theorem (theorem \ref{thm:Ozaydin}) we conclude that there is no $G$-equivariant map from $X$ into $(\Delta^G)^{(k)}$ since $(\Delta^{G})^{(k)}$ is $(k-1)$-connected and $k-1 \geq m-2$.
+    \end{proof}
+\end{theorem}
 
 We now return to an idea from chapter \ref{ch:canonicalization} that finds new use.
 
