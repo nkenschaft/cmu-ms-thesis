@@ -28,7 +28,14 @@ In summary, a continuous weighted frame for $G$ acting on $X$ is simply a contin
 
 We also want (weakly) equivariant weighted frames, which in this case are weighted frames such that $\mu_{hx} (g) = \mu_x (\inv{h} g)$ (equivariant and weakly equivariant frames are the same when $G$ acts freely).
 Now let $\varphi : G \to \Sym(G)$ be the injective group homomorphism $\varphi(g) = \inv{g} \cdot -$ where $\Sym(G)$ is the symmetric group on $G$, so we want $\mu_{hx}(g) = \mu_x (\varphi(h) g)$.
-But $\Sym(G)$ acts naturally on $\Delta^G$ via permutation, so an equivariant weighted frame is really just a $G$-equivariant map from $X$ to $\Delta^G$ where $G$ acts on $x \in \Delta^G$ by $g \cdot x := \varphi(g) x$.
+But $\Sym(G)$ acts naturally on $\Delta^G$ via permutation, so an equivariant weighted frame is really just a $G$-equivariant map from $X$ to $\Delta^G$ where $G$ acts on $\mu \in \Delta^G$ by
+\[
+    h \cdot \mu
+    := \sum_{g \in G} \mu(\varphi(h) g) e_g
+    = \sum_{g \in G} \mu(\inv{h} g) e_g.
+\]
+Note that for $\mu \in \Delta^G$, $\mu(g)$ denotes the coefficient of $e_g$.
+It will also be useful to observe that this means $(h \cdot \mu)(g) = \mu(\inv{h} g)$.
 In this setting, we have the following theorem.
 
 
@@ -39,21 +46,21 @@ In this setting, we have the following theorem.
     \]
     \begin{proof}
         Note that the reverse direction is trivial, so we just prove the forward direction.
-        Since $\card{G} < \infty$, we must be able to write $f(x) = \sum_{g \in G} f_g(x) e_g$ for continuous $f_g : X \to [0,1]$ with $\sum_{g \in G} f_g(x) = 1$ at all $x \in X$.
+        Since $\card{G} < \infty$, we must be able to write $f(x) = \sum_{g \in G} f(x)(g) e_g$ for continuous $f(-)(g) : X \to [0,1]$ with $\sum_{g \in G} f(x)(g) = 1$ at all $x \in X$.
         Then the equivariance of $f$ gives us
         \[
-            \sum_{g \in G} f_g(hx) e_g
+            \sum_{g \in G} f(hx)(g) e_g
             = f(hx)
             = h f(x)
-            = h \sum_{g \in G} f_g(x) e_g
-            = \sum_{g \in G} f_{\inv{h}g}(x) e_g.
+            = h \sum_{g \in G} f(x)(g) e_g
+            = \sum_{g \in G} f(x)(\inv{h}g) e_g.
         \]
-        Hence, for each $g,h \in G$ and $x \in X$ we have $f_g(hx) = f_{\inv{h}g} (x)$, so we can take $\alpha := f_e$.
+        Hence, for each $g,h \in G$ and $x \in X$ we have $f(hx)(g) = f(x)(\inv{h}g)$, so we can take $\alpha(x) := f(x)(e)$.
         Observe that $\alpha$ is certainly continuous, and we conclude by computing
         \[
             \sum_{g \in G} \alpha(\inv{g} x)
-            = \sum_{g \in G} f_e (\inv{g} x)
-            = \sum_{g \in G} f_g (x)
+            = \sum_{g \in G} f(\inv{g} x)(e)
+            = \sum_{g \in G} f(x)(g)
             = f(x).
         \]
     \end{proof}
@@ -104,14 +111,13 @@ We now make an observation about how $G$ acts on $(\Delta^G)^{(k)}$ for various 
         Observe that $\sum_{g \in H} \f{1}{\card{H}} e_{g} \in (\Delta^G)^{(k)}$ since $\card{H} \leq k+1$ and
         \[
             h \cdot \sum_{g \in H} \f{1}{\card{H}} e_{g}
-            = \sum_{g \in H} \f{1}{\card{H}} e_{\inv{h}g}
             = \sum_{g \in H} \f{1}{\card{H}} e_{g}
         \]
         so $\sum_{g \in H} \f{1}{\card{H}} e_{g}$ has nontrivial stabilizer (namely, its stabilizer is $H$).
         
-        Conversely, assume that there is some $x = \sum_{g \in G} x_g e_g \in (\Delta^G)^{(k)}$ with nontrivial stabilizer.
-        Note that $G$ acts on $x$ via cyclic permutations of the nonzero coordinates, of which there are at most $k+1$, so we must have that $\card{G_x} \leq k+1$.
-        Hence, $G_x$ is exactly the nontrivial subgroup we desire.
+        Conversely, assume that there is some $\mu = \sum_{g \in G} \mu(g) e_g \in (\Delta^G)^{(k)}$ with nontrivial stabilizer.
+        Note that $G$ acts on $\mu$ via cyclic permutations of the nonzero coordinates, of which there are at most $k+1$, so we must have that $\card{G_\mu} \leq k+1$.
+        Hence, $G_\mu$ is exactly the nontrivial subgroup we desire.
     \end{proof}
 \end{proposition}
 
@@ -133,7 +139,7 @@ We now make an observation about how $G$ acts on $(\Delta^G)^{(k)}$ for various 
 \end{theorem}
 
 \begin{corollary}
-    If $X$ is simply connected then there are no nontrivial robust frames when $G = \Z_p$ for $p$ prime.
+    If $X$ is $p$-connected for some prime $p$, then there are no nontrivial robust frames for $G = \Z_p$.
 \end{corollary}
 
 In \cite{ozaydin1987equivariantmaps}, \"Ozaydin provides the following useful result.
@@ -150,16 +156,16 @@ In \cite{ozaydin1987equivariantmaps}, \"Ozaydin provides the following useful re
     Let $X$ be a $G$-space, let $H \sub G$ be a subgroup, and let $k \in \N$ such that $k + 1 \geq \card{H}$.
     Then there exists an $H$-equivariant map from $X$ into $(\Delta^G)^{(k)}$.
     \begin{proof}
-        Define the map $f : X \to (\Delta^G)^{(k)}$ for all $x \in X$ by
+        Define the map $f : X \to (\Delta^G)^{(k)}$ for all $x \in X$ by $f(x)(h) = \f{1}{\card{H}}$ for $h \in G$ and $f(x)(g) = 0$ for $g \in G \sminus H$.
+        Equivalently,
         \[
             f(x) = \sum_{h \in H} \f{1}{\card{H}} e_h.
         \]
         Observe that indeed $\im(f) \sub (\Delta^G)^{(k)}$ since $\card{H} \leq k + 1$.
-        Additionally, $f$ is $H$-equivariant since $f$ is constant and for any $g \in H$,
+        Additionally, $f$ is $H$-equivariant, since $f$ is constant and for any $h \in H$,
         \[
-            g \cdot \sum_{h \in H} \f{1}{\card{H}} e_h
-            = \sum_{h \in H} \f{1}{\card{H}} e_{\inv{g} h}
-            = \sum_{h \in H} \f{1}{\card{H}} e_h
+            h \cdot \sum_{g \in H} \f{1}{\card{H}} e_g
+            = \sum_{g \in H} \f{1}{\card{H}} e_g
         \]
         so the single value $f$ takes is fixed by $H$.
     \end{proof}
@@ -170,7 +176,9 @@ In \cite{ozaydin1987equivariantmaps}, \"Ozaydin provides the following useful re
     Let $X$ be a free $G$-CW complex and let $k \in \N$ such that $k \geq \dim(X) - 2$ and $k + 1 \geq \card{H}$ for every $p$-Sylow subgroup $H \sub G$.
     Then there exists a $G$-equivariant map from $X$ to $(\Delta^G)^{(k)}$.
     \begin{proof}
-        This follows directly from lemma \ref{lem:subgroup-equi-skeleton-map} and theorem \ref{thm:Ozaydin}.
+        Let $H \sub G$ be any $p$-Sylow subgroup.
+        Then since $k + 1 \geq \card{H}$, by lemma \ref{lem:subgroup-equi-skeleton-map} we know there is some $H$-equivariant map from $X$ into $(\Delta^G)^{(k)}$.
+        To conclude, $(\Delta^G)^{(k)}$ is $k-1$ connected and $k-1 \geq \dim(X)-2$, so theorem \ref{thm:Ozaydin} guarantees the existence of a $G$-equivariant map from $X$ into $(\Delta^G)^{(k)}$.
     \end{proof}
 \end{theorem}
 
@@ -189,16 +197,17 @@ In \cite{ozaydin1987equivariantmaps}, \"Ozaydin provides the following useful re
         Then define $\Hat{f} : X \to (\Delta^H)^{(k)}$ by
         \[
             \Hat{f}(x)
-            := \sum_{g \in H} \f{f_g(x)}{\sum_{h \in H} f_h(x)} e_g.
+            := \sum_{g \in H} \f{f(x)(g)}{\sum_{h \in H} f(x)(h)} e_g.
         \]
         Observe that $\Hat{f}$ is well-defined and continuous from its construction.
-        To see that $\Hat{f}$ is $H$-equivariant, let $g_0 \in H$ and we compute
+        To see that $\Hat{f}$ is $H$-equivariant, let $h_0 \in H$ and we compute
         \begin{align*}
-            \Hat{f}(g_0x)
-            &= \sum_{g \in H} \f{f_g(g_0 x)}{\sum_{h \in H} f_h(g_0 x)} e_g \\
-            &= \sum_{g \in H} \f{f_{\inv{g_0}g}(x)}{\sum_{h \in H} f_{\inv{g_0} h}(x)} e_g \tag{by $G$-equivariance of $f$} \\
-            &= \sum_{g \in H} \f{f_{\inv{g_0}g}(x)}{\sum_{h \in H} f_{h}(x)} e_g \\
-            &= g_0 \Hat{f}(x).
+            \Hat{f}(h_0 x)
+            &= \sum_{g \in H} \f{f(h_0 x)(g)}{\sum_{h \in H} f(h_0 x)(h)} e_g \\
+            &= \sum_{g \in H} \f{h_0 f(x)(g)}{\sum_{h \in H} h_0 f(x)(h)} e_g \tag{by $G$-equivariance of $f$} \\
+            &= \sum_{g \in H} \f{f(x)(\inv{h_0} g)}{\sum_{h \in H} f(x)(\inv{h_0} h)} e_g \\
+            &= \sum_{g \in H} \f{f(x)(\inv{h_0} g)}{\sum_{h \in H} f(x)(h)} e_g \\
+            &= h_0 \Hat{f}(x).
         \end{align*}
         Therefore we conclude that $\Hat{f}$ is an $H$-equivariant map.
     \end{proof}
@@ -220,7 +229,7 @@ In \cite{ozaydin1987equivariantmaps}, \"Ozaydin provides the following useful re
 We now return to an idea from chapter \ref{ch:canonicalization} that finds new use.
 
 \begin{proposition}\label{prop:secat-induces-frame}
-    Let $X$ be a $G$-space such that $X/G$ is locally compact and Hausdorff.
+    Let $X$ be a $G$-space such that any open cover of $X/G$ admits a subordinate partition of unity (locally compact and Hausdorff suffices).
     Furthermore, let $\set{U_i}_{i \leq n}$ for $n \in \N$ be a collection of open sets in $X/G$ such that $X/G = \cup_{i \leq n} U_i$ with local sections $s_i : U_i \to X$ of the quotient $q : X \to X/G$.
     Then there exists a robust canonicalization frame $\nu_\bullet$ such that $\card{\nu_\bullet} \leq n$.
     \begin{proof}
@@ -242,13 +251,11 @@ We now return to an idea from chapter \ref{ch:canonicalization} that finds new u
 \end{proposition}
 
 
-\begin{remark}
-    In general, we cannot expect to start with a robust canonicalization frame and produce some local sections of the quotient $q : X \to X/G$.
-    For instance, the frame assigning the uniform distribution to every orbit has no clear way to extract open subsets of $X/G$ on which to define local sections, much less a way to construct the sections themselves.
-\end{remark}
+In general, we cannot expect to start with a robust canonicalization frame and produce some local sections of the quotient $q : X \to X/G$.
+For instance, the frame assigning the uniform distribution to every orbit has no clear way to extract open subsets of $X/G$ on which to define local sections, much less a way to construct the sections themselves.
 
 
-The author's of \cite{knudsen2024analogcategorycomplexity} give a more general definition of the underlying objects here and present essentially the same proof as proposition \ref{prop:secat-induces-frame}.
+The author's of \cite{knudsen2024analogcategorycomplexity} give a more general definition of some of the underlying objects in this section and present essentially the same proof as proposition \ref{prop:secat-induces-frame}.
 
 
 \begin{definition}
@@ -310,7 +317,7 @@ Essentially the same proof as proposition \ref{prop:secat-induces-frame} then gi
 
 
 \begin{theorem}\label{thm:min-frame-leq-secat}
-    Let $X$ be a $G$-space such that $X/G$ is locally compact and Hausdorff.
+    Let $X$ be a $G$-space such that any open cover of $X/G$ admits a subordinate partition of unity.
     Then letting $q : X \to X/G$ be the quotient, we have
     \[
         \min\set{n \in \Z : \exists \nu_\bullet : X \to \PP(X), \nu_\bullet \text{ is robust}, \card{\nu_\bullet} = n}
