@@ -24,38 +24,74 @@ def psd_matrix_sqrt(A : torch.Tensor) -> torch.Tensor:
     return Q * L_roots.unsqueeze(-2) @ Q.mT # recompose to get matrix square root
 
 
-def canonicalize(A : torch.Tensor) -> torch.Tensor:
-    assert A.shape[-1] == A.shape[-2], "canonicalize is currently only defined for square matrices"
-    # map into the quotient, recording sign
-    sign, _ = torch.linalg.slogdet(A)
-    symA = sym(A)
-    
-    # take the section back
-    T = torch.ones(A.shape[:-1])
-    return T.unsqueeze(-2) * psd_matrix_sqrt(symA)
+def canonicalize(A : torch.Tensor,
+                 special : bool = False, # whether to use the sections for the special orthogonal group or the orthogonal group
+                 randomize_columns : bool = False, # whether to randomly select d columns from the n columns of A when d < n or to take the first d columns of A
+                 ) -> torch.Tensor:
+    # square matrix case
+    b = A.shape[:-2]
+    d = A.shape[-2]
+    n = A.shape[-1]
+    if d == n:
+        # map into the quotient, recording sign
+        sign, _ = torch.linalg.slogdet(A)
+        symA = sym(A)
+        
+        # take the section back
+        F = torch.eye(d, device=A.device, dtype=A.dtype).expand(*b, -1, -1).clone()
+        if special:
+            F[...,-1,-1] = sign
+        return F @ psd_matrix_sqrt(symA)
+    elif d < n:
+        if randomize_columns:
+            # sample d unique columns from the n columns of A
+            alpha = torch.randperm(n)[:d]
+        else:
+            # take the first d columns of A
+            alpha = torch.arange(d)
+        A_alpha = A[..., alpha]
+        sign, _ = torch.linalg.slogdet(A_alpha)
+        symA_alpha = sym(A_alpha)
+        F = torch.eye(d, device=A.device, dtype=A.dtype).expand(*b, -1, -1).clone()
+        if special:
+            F[...,-1,-1] = sign
+        return F @ psd_matrix_sqrt(symA_alpha) @ A_alpha.mT @ A
+    else:
+        raise NotImplementedError("canonicalization is only implemented for square matrices and wide matrices")
 
 
-def quotient(A : torch.Tensor) -> torch.Tensor:
-    assert A.shape[-1] == A.shape[-2], "quotient is currently only defined for square matrices"
-    sign, _ = torch.linalg.slogdet(A)
-    return sign[:, None, None] * sym(A)
+def quotient(A : torch.Tensor,
+             special : bool = False, # whether to use the sections for the special orthogonal group or the orthogonal group
+             ) -> torch.Tensor:
+    if special:
+        sign, _ = torch.linalg.slogdet(A)
+        return sign[:, None, None] * sym(A)
+    else:
+        return sym(A)
 
 
 def martrix_polynomial(A : torch.Tensor, coefficients : tuple[float,...]):
     return sum(c * torch.linalg.matrix_power(A,n) for n, c in enumerate(coefficients))
 
 
-def generate_dataset(num_samples : int, d : int, polynomial : tuple[float,...]) -> tuple[torch.Tensor, torch.Tensor]:
-    X = torch.randn(num_samples, d, d)
-    # y = torch.linalg.matrix_power(sym(X), 3).diagonal(dim1=-2, dim2=-1).sum(dim=-1)
+def generate_dataset(num_samples : int,
+                     d : int,
+                     n : int,
+                     polynomial : tuple[float,...],
+                     ) -> tuple[torch.Tensor, torch.Tensor]:
+    X = torch.randn(num_samples, d, n)
     y = martrix_polynomial(sym(X), polynomial).diagonal(dim1=-2, dim2=-1).sum(dim=-1)
     return X, y
 
 
 class MLP(nn.Module):
-    def __init__(self, d, hidden_dims=(128,64)):
+    def __init__(self,
+                 d : int,
+                 n : int,
+                 hidden_dims : tuple[int] = (128,64),
+                 ):
         super().__init__()
-        input_dim = d * d
+        input_dim = d * n
         dims = (input_dim,)+hidden_dims
         self.mlp = nn.Sequential()
         for in_dim, out_dim in list(zip(dims[:-1], dims[1:])):
@@ -64,41 +100,62 @@ class MLP(nn.Module):
         self.mlp.append(nn.Linear(in_features=dims[-1], out_features=1))
     
     def forward(self, x : torch.Tensor):
-        x_flat = x.view(x.size(0), -1)
+        # x_flat = x.view(x.size(0), -1)
+        x_flat = torch.flatten(x, start_dim=1)
         predictions = self.mlp(x_flat)
         return self.mlp(x_flat).squeeze()
 
 
-def get_random_rotations(batch_size : int, d : int) -> torch.Tensor:
+def get_random_rotations(batch_size : int,
+                         d : int,
+                         special : bool = True, # whether to sample from the special orthogonal group or the orthogonal group
+                         ) -> torch.Tensor:
     A = torch.randn(batch_size, d, d)
     Q, R = torch.linalg.qr(A)
-    d_sign = torch.det(Q).sign()
-    Q[:,:,-1] *= d_sign[:, None] # multiply sign on last column to force determinant to be 1
+    if special:
+        d_sign = torch.det(Q).sign()
+        Q[:,:,-1] *= d_sign[:, None] # multiply sign on last column to force determinant to be 1
     return Q
 
 
-def train_test(d=4, num_epochs=1000, batch_size=128, mode="none", mlp_hidden_dims=None, polynomial=(0,2)):
-    if mlp_hidden_dims is None: mlp_hidden_dims=(d**2,)
+def train_test(d : int = 3,
+               n : int = 5,
+               num_epochs : int = 1000,
+               batch_size : int = 128,
+               mode : str = "none",
+               mlp_hidden_dims : tuple[int] = None,
+               polynomial : tuple[int] = (0,2),
+               special : bool = False,
+               ) -> tuple[list[float], list[float], list[float]]:
+    assert mode in ["none", "canonicalize", "quotient"], f"mode must be one of 'none', 'canonicalize', or 'quotient', but got {mode}"
+    if mlp_hidden_dims is None and mode == "quotient":
+        mlp_hidden_dims = (n*n, n*n)
+    else:
+        mlp_hidden_dims = (d*n, d*n)
     # generate data
-    X_train, y_train = generate_dataset(num_samples=8000, d=d, polynomial=polynomial)
-    X_test, y_test = generate_dataset(num_samples=1000, d=d, polynomial=polynomial)
-    R = get_random_rotations(len(X_test), d)
+    X, Y = generate_dataset(num_samples=10000, d=d, n=n, polynomial=polynomial)
+    X_train, y_train = X[:8000], Y[:8000]
+    X_test, y_test = X[8000:], Y[8000:]
+    R = get_random_rotations(len(X_test), d, special=special)
     X_test_rotated = R @ X_test
     if mode == "canonicalize":
-        X_train = canonicalize(X_train)
-        X_test = canonicalize(X_test)
-        X_test_rotated = canonicalize(X_test_rotated)
+        X_train = canonicalize(X_train, special=special)
+        X_test = canonicalize(X_test, special=special)
+        X_test_rotated = canonicalize(X_test_rotated, special=special)
     elif mode == "quotient":
-        X_train = quotient(X_train)
-        X_test = quotient(X_test)
-        X_test_rotated = quotient(X_test_rotated)
+        X_train = quotient(X_train, special=special)
+        X_test = quotient(X_test, special=special)
+        X_test_rotated = quotient(X_test_rotated, special=special)
 
     # X_test = sym(X_test)
     dataset = TensorDataset(X_train, y_train)
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     
     # initialize model
-    model = MLP(d=d, hidden_dims=mlp_hidden_dims)
+    if mode == "quotient":
+        model = MLP(d=n, n=n, hidden_dims=mlp_hidden_dims)
+    else:
+        model = MLP(d=d, n=n, hidden_dims=mlp_hidden_dims)
     criterion = nn.MSELoss()
     optimizer = optim.Adam(model.parameters(), lr=0.005)
     
@@ -157,37 +214,45 @@ def load_losses(filename : str) -> None:
 
 if __name__ == "__main__":
     # torch.manual_seed(42)
-    d = 20
-    num_epochs = 500
+    d = 3
+    n = 10
+    num_epochs = 100
     batch_size = 250
-    mlp_hidden_dims = (d**2,d**2)
+    mlp_hidden_dims = (d*n, d*n)
     polynomial = (0,1,1,)
+    special = False
     
     train_losses, test_losses, rotated_test_losses = train_test(
         d=d,
+        n=n,
         num_epochs=num_epochs,
         batch_size=batch_size,
-        mode=None,
+        mode="none",
         mlp_hidden_dims=mlp_hidden_dims,
-        polynomial=polynomial
+        polynomial=polynomial,
+        special=special,
     )
 
     ctrain_losses, ctest_losses, crotated_test_losses = train_test(
         d=d,
+        n=n,
         num_epochs=num_epochs,
         batch_size=batch_size,
         mode="canonicalize",
         mlp_hidden_dims=mlp_hidden_dims,
-        polynomial=polynomial
+        polynomial=polynomial,
+        special=special,
     )
 
     qtrain_losses, qtest_losses, qrotated_test_losses = train_test(
         d=d,
+        n=n,
         num_epochs=num_epochs,
         batch_size=batch_size,
         mode="quotient",
-        mlp_hidden_dims=mlp_hidden_dims,
-        polynomial=polynomial
+        mlp_hidden_dims=(n*n, n*n),
+        polynomial=polynomial,
+        special=special,
     )
 
     # graph performance
@@ -217,7 +282,7 @@ if __name__ == "__main__":
     # figure title
     fig.suptitle("Train vs Test vs Rotated Test Loss")
     # set subtitle to include training specs in italics
-    fig.text(0.5, 0.01, f"d={d}, epochs={num_epochs}, batch_size={batch_size}, mlp_hidden_dims={mlp_hidden_dims}, polynomial={polynomial}", ha='center', fontsize=10)
+    fig.text(0.5, 0.01, f"d={d}, n={n}, epochs={num_epochs}, batch_size={batch_size}, mlp_hidden_dims={mlp_hidden_dims}, polynomial={polynomial}", ha='center', fontsize=10)
     # enable legends and grid lines
     ax1.legend()
     ax2.legend()
@@ -241,7 +306,7 @@ if __name__ == "__main__":
     # get current date for subdirectory
     timestamp = datetime.now().strftime("%Y-%m-%d")
 
-    filename = f"piecewise-canonicalization/{timestamp}-{d}-d_{num_epochs}-epochs_{polynomial}-poly"
+    filename = f"piecewise-canonicalization/{timestamp}_{d}-d_{n}-n_{num_epochs}-epochs_{polynomial}-poly"
     save_losses(
         losses_tuple=(train_losses, test_losses, rotated_test_losses,
                       ctrain_losses, ctest_losses, crotated_test_losses,

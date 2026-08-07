@@ -365,7 +365,7 @@ With Casson's theorem in hand we can now rather quickly prove two of \cite{dym20
     \end{proof}
 \end{theorem}
 
-\begin{proposition}\label{prop:SOd-secat-2}
+\begin{proposition}\label{prop:SOd-secat-1}
     Let $\SO(d)$ act on the left of $\R^{d \times d}_*$ via matrix multiplication and let $q : \R^{d \times d}_* \to \R^{d \times d}_* / \SO(d)$ be the quotient map.
     Then $\ssecat(q) = 1$.
     \begin{proof}
@@ -614,12 +614,60 @@ This case turns out to me markedly more difficult to study, as we now must consi
     \end{proof}
 \end{theorem}
 
+
+We can actually provide much sharper bounds than this.
+
+
+\begin{theorem}\label{thm:Od-full-rank-secat-upper-bound}
+    Let $q : \R^{d \times n}_* \to \R^{d \times n}_* / \O(d)$ be the quotient map where $d \leq n$.
+    Then $\secat(q) \leq \binom{n}{d}$.
+    
+    \begin{proof}
+        \footnote{The idea for this construction was given by Claude.ai in \href{https://claude.ai/share/48cf83a5-596b-4b34-a528-11fade173839}{this conversation}.}
+        First, define $N^n_d := \set{\alpha \in [n]^d : \alpha_1 < \cdots < \alpha_d}$.
+        Observe that $N^n_d$ is just the collection of subsets of $[n]$ of size $d$, hence $\card{N^n_d} = \binom{n}{d}$.
+        Then for each $\alpha \in N^n_d$, we define $V_\alpha := \set{A \in \R^{d \times n}_* : \det (A_\alpha) \neq 0}$ where $A_\alpha$ denotes the matrix with columns from $A$ specified by the indices of $\alpha$ (i.e. $A_\alpha = [A_{\alpha_1} \cdots A_{\alpha_d}]$).
+        Observe that each $V_\alpha$ is indeed open with $\R^{d \times n}_* = \cup_{\alpha \in N^n_d} V_\alpha$.
+        Furthermore, $V_\alpha$ is $\O(d)$-invariant since for any $Q \in O(d)$ and $A \in V_\alpha$, we have $\det((QA)_\alpha) = \det(QA_\alpha) = \det(Q)\det(A_\alpha) \neq 0$.
+        This means we also have open sets $U_\alpha = q[V_\alpha] \sub \R^{d \times n}_* / \O(d)$ with $U_\alpha = \inv{q}[V_\alpha]$ and $\R^{d \times n}_* = \cup_{\alpha \in N^n_d} U_\alpha$.
+        
+        We now define $r_\alpha : V_\alpha \to \R^{d \times n}_*$ for each $\alpha \in N^n_d$ by $r_\alpha(A) := \bigp{(A_\alpha^T A_\alpha)^{\f{-1}{2}}}^T A_\alpha^T A$.
+        Note that $A_\alpha (A_\alpha^T A_\alpha)^{\f{-1}{2}} \in O(d)$ (see \cite{wikipedia:polar-decomposition}), so we also have
+        \[
+            \pinv{A_\alpha (A_\alpha^T A_\alpha)^{\f{-1}{2}}}
+            = \bigp{A_\alpha (A_\alpha^T A_\alpha)^{\f{-1}{2}}}^T
+            = \bigp{(A_\alpha^T A_\alpha)^{\f{-1}{2}}}^T A_\alpha^T \in O(d)
+        \]
+        and hence $r_\alpha(A) \in O(d)A$.
+        Additionally, for any $Q \in O(d)$ we have
+        \begin{align*}
+            r_\alpha (QA)
+            &= \bigp{((QA)_\alpha^T (QA)_\alpha)^{\f{-1}{2}}}^T (QA)_\alpha^T QA \\
+            &= \bigp{((QA_\alpha)^T Q A_\alpha)^{\f{-1}{2}}}^T (QA_\alpha)^T QA \\
+            &= \bigp{(A_\alpha^T Q^T Q A_\alpha)^{\f{-1}{2}}}^T A_\alpha^T Q^T QA \\
+            &= \bigp{(A_\alpha^T A_\alpha)^{\f{-1}{2}}}^T A_\alpha^T A \\
+            &= r_\alpha(A)
+        \end{align*}
+        so $r_\alpha$ is $O(d)$-invariant.
+        Putting these two facts together, we have that each $r_\alpha$ descends to a local section $s_\alpha : U_\alpha \to \R^{d \times n}_*$ of $q$.
+        Since there are $\binom{n}{d}$-many sets $U_\alpha$ with sections $s_\alpha$, we conclude that $\secat(q) \leq \binom{n}{d}$.
+    \end{proof}
+\end{theorem}
+
+
+\begin{theorem}\label{thm:SOd-full-rank-secat-upper-bound}
+    Let $q : \R^{d \times n}_* \to \R^{d \times n}_* / \SO(d)$ be the quotient map where $d \leq n$.
+    Then $\secat(q) \leq \binom{n}{d}$.
+    \begin{proof}
+        This follows from a combination of the arguments in proposition \ref{prop:SOd-secat-1} and \ref{thm:Od-full-rank-secat-upper-bound}.
+    \end{proof}
+\end{theorem}
+    
 % TODO: put some graphs of the bounds
 
 We might also wish to giver an upper bound for the sectional category of the two quotient maps considered above.
 Unfortunately, I could not find a way to do this.
 % TODO: find a piecewise canonicalization
-% Cite this https://claude.ai/share/48cf83a5-596b-4b34-a528-11fade173839
 
 I think it may actually be impossible to find \emph{any} collection of local sections for the entire space $\R^{d \times n}$.
 If we have $A \in \R^{d \times n}$ with $\rank(A) \leq d-1$ (maybe $\rank(A) \leq d-2$?) any open set $U \sub \R^{d \times n}/O(d)$ containing $O(d)A$ will also contain $O(d)L$ for some $L \in \R^{d \times n}_*$ by density, and this seems like it should cause problems.
