@@ -46,7 +46,7 @@ class MLP(nn.Module):
         return self.mlp(x_flat).squeeze()
 
 
-def sym(A : torch.Tensor) -> torch.Tensor:
+def self_transpose_product(A : torch.Tensor) -> torch.Tensor:
     return A.mT @ A
 
 
@@ -69,7 +69,7 @@ def canonicalize(A : torch.Tensor,
         if d == n:
             # map into the quotient, recording sign
             sign, _ = torch.linalg.slogdet(A)
-            symA = sym(A)
+            symA = self_transpose_product(A)
             
             # take the section back
             F = torch.eye(d, device=A.device, dtype=A.dtype).expand(*b, -1, -1).clone()
@@ -85,18 +85,24 @@ def canonicalize(A : torch.Tensor,
                 alpha = torch.arange(d)
             A_alpha = A[..., alpha]
             sign, _ = torch.linalg.slogdet(A_alpha)
-            symA_alpha = sym(A_alpha)
+            symA_alpha = self_transpose_product(A_alpha)
             F = torch.eye(d, device=A.device, dtype=A.dtype).expand(*b, -1, -1).clone()
             if group == Group.SPECIAL_ORTHOGONAL:
                 F[...,-1,-1] = sign
             return F @ psd_matrix_sqrt(symA_alpha) @ A_alpha.mT @ A
         else:
             raise NotImplementedError("canonicalization is only implemented for square matrices and wide matrices")
+    elif group == Group.SYMMETRIC:
+        col_norms = torch.linalg.norm(A, dim=-2)
+        order = torch.argsort(col_norms, dim=-1)
+        order_expanded = order.unsqueeze(1).expand(-1, A.size(1), -1)
+        A_sorted = torch.gather(A, dim=2, index=order_expanded)
+        return A_sorted
     else:
         raise NotImplementedError("canonicalization is currently only implemented for the orthogonal and special orthogonal groups")
 
 
-def quotient(A : torch.Tensor,
+def invariant_representation(A : torch.Tensor,
              group : Group,
              ) -> torch.Tensor:
     if group == Group.SPECIAL_ORTHOGONAL:
@@ -104,9 +110,10 @@ def quotient(A : torch.Tensor,
         A_alpha = A[..., :A.shape[-2]]
         sign, _ = torch.linalg.slogdet(A_alpha)
         torch.linalg.svd(A)
-        return sign[:, None, None] * sym(A)
+        return sign[:, None, None] * self_transpose_product(A)
     elif group == Group.ORTHOGONAL:
-        return sym(A)
+        return self_transpose_product(A)
+    # elif group == Group.SYMMETRIC:
     else:
         raise NotImplementedError("quotienting is currently only implemented for the orthogonal and special orthogonal groups")
 
@@ -122,7 +129,11 @@ def generate_dataset(num_samples : int,
                      group : Group,
                      ) -> tuple[torch.Tensor, torch.Tensor]:
     X = torch.randn(num_samples, d, n)
-    y = martrix_polynomial(quotient(X, group=group), polynomial).diagonal(dim1=-2, dim2=-1).sum(dim=-1)
+    if group in [Group.ORTHOGONAL, Group.SPECIAL_ORTHOGONAL]:
+        y = martrix_polynomial(invariant_representation(X, group=group), polynomial).diagonal(dim1=-2, dim2=-1).sum(dim=-1)
+    elif group == Group.SYMMETRIC:
+        # sum columns together for permutation invariance, then take self tranpose product and apply a matrix polynomial
+        y = martrix_polynomial(self_transpose_product(X.sum(dim=-1, keepdim=True)), polynomial).diagonal(dim1=-2, dim2=-1).sum(dim=-1)
     return X, y
 
 
@@ -137,8 +148,15 @@ def get_random_actions(batch_size : int,
             d_sign = torch.det(Q).sign()
             Q[:,:,-1] *= d_sign[:, None] # multiply sign on last column to force determinant to be 1
         return Q
+    elif group == Group.SYMMETRIC:
+        # get random column permutations as float matrices to apply to the b x d x n tensor of points on the right
+        perms = torch.stack([torch.randperm(n) for _ in range(batch_size)])
+        P = torch.zeros(batch_size, n, n)
+        for i in range(batch_size):
+            P[i] = torch.eye(n)[perms[i]]
+        return P
     else:
-        raise NotImplementedError("random actions are currently only implemented for the orthogonal and special orthogonal groups")
+        raise NotImplementedError("random actions are currently only implemented for the orthogonal, special orthogonal, and symmetric groups")
 
 
 def train_test(d : int = 3,
@@ -150,8 +168,8 @@ def train_test(d : int = 3,
                polynomial : tuple[int] = (0,2),
                group : Group = Group.ORTHOGONAL,
                ) -> tuple[list[float], list[float], list[float]]:
-    assert mode in ["none", "canonicalize", "quotient"], f"mode must be one of 'none', 'canonicalize', or 'quotient', but got {mode}"
-    if mlp_hidden_dims is None and mode == "quotient":
+    assert mode in ["none", "canonicalize", "invariant"], f"mode must be one of 'none', 'canonicalize', or 'invariant', but got {mode}"
+    if mlp_hidden_dims is None and mode == "invariant":
         mlp_hidden_dims = (n*n, n*n)
     else:
         mlp_hidden_dims = (d*n, d*n)
@@ -160,17 +178,20 @@ def train_test(d : int = 3,
     X_train, y_train = X[:8000], Y[:8000]
     X_test, y_test = X[8000:], Y[8000:]
     R = get_random_actions(len(X_test), d, group=group)
-    X_test_rotated = R @ X_test
+    if group in [Group.ORTHOGONAL, Group.SPECIAL_ORTHOGONAL]:
+        X_test_rotated = R @ X_test
+    elif group == Group.SYMMETRIC:
+        X_test_rotated = X_test @ R
     if mode == "canonicalize":
         X_train = canonicalize(X_train, group=group)
         X_test = canonicalize(X_test, group=group)
         X_test_rotated = canonicalize(X_test_rotated, group=group)
     elif mode == "quotient":
-        X_train = quotient(X_train, group=group)
-        X_test = quotient(X_test, group=group)
-        X_test_rotated = quotient(X_test_rotated, group=group)
+        X_train = invariant_representation(X_train, group=group)
+        X_test = invariant_representation(X_test, group=group)
+        X_test_rotated = invariant_representation(X_test_rotated, group=group)
 
-    # X_test = sym(X_test)
+    # X_test = self_transpose_product(X_test)
     dataset = TensorDataset(X_train, y_train)
     loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     
@@ -268,40 +289,48 @@ def generate_comparison(d : int = 3,
         group=group,
     )
 
-    qtrain_losses, qtest_losses, qrotated_test_losses = train_test(
-        d=d,
-        n=n,
-        num_epochs=num_epochs,
-        batch_size=batch_size,
-        mode="quotient",
-        mlp_hidden_dims=(n*n, n*n),
-        polynomial=polynomial,
-        group=group,
-    )
+    if group == Group.ORTHOGONAL:
+        qtrain_losses, qtest_losses, qrotated_test_losses = train_test(
+            d=d,
+            n=n,
+            num_epochs=num_epochs,
+            batch_size=batch_size,
+            mode="invariant",
+            mlp_hidden_dims=(n*n, n*n),
+            polynomial=polynomial,
+            group=group,
+        )
 
     # graph performance
     epochs = range(1, num_epochs + 1)
-    fig, (ax1, ax2, ax3) = plt.subplots(1, 3, sharey=True, figsize=(18,4))
+    if group == Group.ORTHOGONAL:
+        fig, (ax1, ax2, ax3) = plt.subplots(1, 3, sharey=True, figsize=(18,4))
+    elif group in [Group.SPECIAL_ORTHOGONAL, Group.SYMMETRIC]:
+        fig, (ax1, ax2) = plt.subplots(1, 2, sharey=True, figsize=(12,4))
     ax1.plot(epochs, train_losses, label="Train Loss", color="red")
     ax1.plot(epochs, test_losses, label="Test Loss", color="blue")
     ax1.plot(epochs, rotated_test_losses, label="Rotated Test Loss", color="yellow")
     ax2.plot(epochs, ctrain_losses, label="Train Loss", color="red")
     ax2.plot(epochs, ctest_losses, label="Test Loss", color="blue")
     ax2.plot(epochs, crotated_test_losses, label="Rotated Test Loss", color="yellow")
-    ax3.plot(epochs, qtrain_losses, label="Train Loss", color="red")
-    ax3.plot(epochs, qtest_losses, label="Test Loss", color="blue")
-    ax3.plot(epochs, qrotated_test_losses, label="Rotated Test Loss", color="yellow")
+    if group == Group.ORTHOGONAL:
+        ax3.plot(epochs, qtrain_losses, label="Train Loss", color="red")
+        ax3.plot(epochs, qtest_losses, label="Test Loss", color="blue")
+        ax3.plot(epochs, qrotated_test_losses, label="Rotated Test Loss", color="yellow")
+        ax3.set_title("Quotiented")
+        ax3.set_xlabel('Epochs')
+        ax3.tick_params(axis='y', labelleft=True)
+        ax3.legend()
+        ax3.grid(which='major', linestyle='-')
+        ax3.grid(which='minor', linestyle=':', alpha=0.5)
     
     # subplot axis labels
     ax1.set_title("Regular")
     ax1.set_xlabel('Epochs')
     ax2.set_title("Canonicalized")
     ax2.set_xlabel('Epochs')
-    ax3.set_title("Quotiented")
-    ax3.set_xlabel('Epochs')
     ax1.tick_params(axis='y', labelleft=True)
     ax2.tick_params(axis='y', labelleft=True)
-    ax3.tick_params(axis='y', labelleft=True)
     fig.supylabel('MSE Loss', x=0.005)
     # figure title
     fig.suptitle("Train vs Test vs Rotated Test Loss", y=0.98)
@@ -311,13 +340,10 @@ def generate_comparison(d : int = 3,
     # enable legends and grid lines
     ax1.legend()
     ax2.legend()
-    ax3.legend()
     ax1.grid(which='major', linestyle='-')
     ax1.grid(which='minor', linestyle=':', alpha=0.5)
     ax2.grid(which='major', linestyle='-')
     ax2.grid(which='minor', linestyle=':', alpha=0.5)
-    ax3.grid(which='major', linestyle='-')
-    ax3.grid(which='minor', linestyle=':', alpha=0.5)
 
     # grid formatting, shared since sharey=True
     ax1.yaxis.set_major_locator(MaxNLocator(nbins=20))
@@ -331,10 +357,15 @@ def generate_comparison(d : int = 3,
     if save:
         timestamp = datetime.now().strftime("%Y-%m-%d-%H%M%S")
         filename = f"piecewise-canonicalization/{timestamp}_{d}-d_{n}-n_{num_epochs}-epochs_{polynomial}-poly_group-{group.value}"
-        save_losses(losses_tuple=(train_losses,  test_losses,  rotated_test_losses,
-                                  ctrain_losses, ctest_losses, crotated_test_losses,
-                                  qtrain_losses, qtest_losses, qrotated_test_losses),
-                    filename=filename+".pkl")
+        if group == Group.ORTHOGONAL:
+            save_losses(losses_tuple=(train_losses,  test_losses,  rotated_test_losses,
+                                      ctrain_losses, ctest_losses, crotated_test_losses,
+                                      qtrain_losses, qtest_losses, qrotated_test_losses),
+                        filename=filename+".pkl")
+        elif group in [Group.SPECIAL_ORTHOGONAL, Group.SYMMETRIC]:
+            save_losses(losses_tuple=(train_losses,  test_losses,  rotated_test_losses,
+                                      ctrain_losses, ctest_losses, crotated_test_losses),
+                        filename=filename+".pkl")
         plt.savefig(filename+".png")
     if show:
         plt.show()
@@ -365,6 +396,15 @@ if __name__ == "__main__":
     for d in [2,3,5]:
         for n in [d, d+1, 10]:
             print(f"Running for d={d}, n={n}...")
-            generate_comparison(d=d, n=n, num_epochs=250, batch_size=500, mlp_hidden_dims=(128,), polynomial=(0,1,1,), group=Group.SPECIAL_ORTHOGONAL, save=True, show=False)
-            print(f"Done for d={d}, n={n}!")
+            generate_comparison(d=d,
+                                n=n,
+                                num_epochs=500,
+                                batch_size=500,
+                                mlp_hidden_dims=(128,),
+                                polynomial=(0,1,1,),
+                                group=Group.SYMMETRIC,
+                                save=True,
+                                show=False)
             print("\n\n\n\n\n")
+            print(f"Done for d={d}, n={n}!")
+            print()
