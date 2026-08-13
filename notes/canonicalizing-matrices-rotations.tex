@@ -665,20 +665,12 @@ We can actually provide much sharper bounds than this.
     
 % TODO: put some graphs of the bounds
 
-We might also wish to giver an upper bound for the sectional category of the two quotient maps considered above.
-Unfortunately, I could not find a way to do this.
-% TODO: find a piecewise canonicalization
-
-I think it may actually be impossible to find \emph{any} collection of local sections for the entire space $\R^{d \times n}$.
-If we have $A \in \R^{d \times n}$ with $\rank(A) \leq d-1$ (maybe $\rank(A) \leq d-2$?) any open set $U \sub \R^{d \times n}/O(d)$ containing $O(d)A$ will also contain $O(d)L$ for some $L \in \R^{d \times n}_*$ by density, and this seems like it should cause problems.
-% TODO: flesh this out
-
 
 \begin{theorem}\label{thm:no-local-Od-sections}
     Let $q : \R^{d \times n} \to \R^{d \times n}/\SO(d)$ be the quotient map for $n > d$.
     Then $\ssecat(q) = \infty$.
     \begin{proof}
-        \Afsoc that $\ssecat(q) < \infty$, which in particular there is some open set $U \sub \R^{d \times n}/O(d) \cong \S^n_{\leq d}$ with a local section $s : U \to \R^{d \times n}$ of $q$..
+        \Afsoc that $\ssecat(q) < \infty$, which in particular there is some open set $U \sub \R^{d \times n}/O(d) \cong \S^n_{\leq d}$ such that $U \ni 0$ with a local section $s : U \to \R^{d \times n}$ of $q$.
         Then with any norm $\norm{\cdot}$ on $\S^n$, we must have $r > 0$ such that $B(0,r) \cap \S^n_d \sub U$.
         Additionally, note that $r \S^n_d = \S^n_d$, so without loss of generality we may take $U = B(0,1) \cap \S^n_d$.
         Define $\lambda : \S^n_d \to \R$ by
@@ -693,7 +685,6 @@ If we have $A \in \R^{d \times n}$ with $\rank(A) \leq d-1$ (maybe $\rank(A) \le
         which is continuous, and consider the map $\Hat{s} : \S^n_d \to \R^{d \times n}$ given by
         \[
             \Hat{s}(P)
-            := \f{1}{\sqrt{\lambda(P)}} s\bigp{\lambda(P) P}.
             := \f{1}{\sqrt{\lambda(P)}} s\bigp{\lambda(P) P}.
         \]
         Note that this is well-defined since
@@ -715,7 +706,7 @@ If we have $A \in \R^{d \times n}$ with $\rank(A) \leq d-1$ (maybe $\rank(A) \le
             &= QA
         \end{align*}
         and so $q(\Hat{s})(P) = P$.
-        This means that $\hat{S}$ is a global section of $q$, but we saw in \ref{thm:no-Od-canon-for-dxn} that this is impossible.
+        This means that $\Hat{s}$ is a global section of $q$, but we saw in \ref{thm:no-Od-canon-for-dxn} that this is impossible.
         We conclude that there can be no local section of $q$ at $0$, and hence $\ssecat(q) = \infty$.
     \end{proof}
 \end{theorem}

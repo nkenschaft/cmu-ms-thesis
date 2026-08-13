@@ -169,4 +169,53 @@ As per with rotations, we would like to give some lower bounds for the sectional
 By theorem \ref{thm:no-Sigman-canon-for-dxn} we cannot find a continuous canonicalization of $\R^{d \times n}$ with respect to $\Sigma_n$, but theorem \ref{thm:permutation-secat-bounds} tells us that, if we are willing to restrict to $\Conf_n(\R^d)$ we must be able to find a canonicalization with at most $(n-1)(d-1)+1$ open sets on which the canonicalization is continuous.
 Unfortunately, the proof of this fact does not appear to be constructive, so the question remains how to produce such a canonicalization that could be used in practice.
 
+\begin{theorem}\label{thm:no-local-Sigman-sections}
+    Let $q : \R^{d \times n} \to \R^{d \times n}/\Sigma_n$ be the quotient map for $n, d \geq 2$.
+    Then $\ssecat(q) = \infty$.
+    \begin{proof}
+        \Afsoc that $\ssecat(q) < \infty$, which in particular there is some open set $U \sub \R^{d \times n}/\Sigma_n$ such that $U \ni q(0)$ with a local section $s : U \to \R^{d \times n}$ of $q$.
+        Then $\inv{q}[U]$ is open, so with any norm $\norm{\cdot}$ on $\R^{d \times n}$, we must have $r > 0$ such that $B(0,r) \cap \inv{q}[U]$ and $q[B(0,r)] \sub U$.
+        Additionally, note that $r \R^{d \times n}/\Sigma_n = \R^{d \times n} / \Sigma_n$ and scalar multiplication commutes with scaling, so without loss of generality we may take $U = q[B(0,1)] \cap \R^{d \times n}/\Sigma_n$.
+        Define $\norm{\cdot} : \R^{d \times n}/\Sigma_n$ by
+        \[
+            \norm{E} := \norm{A}
+        \]
+        for any $A \in \inv{q}(E)$; this is well-defined since $\norm{A} = \norm{A\sigma}$ for any $\sigma \in \Sigma_n$.
+        Note that $\norm{\cdot}$ here is not a norm since $\R^{d \times n}/\Sigma_n$ does not have a vector space structure, but $\norm{\cdot}$ does have the properties of homogeneity ($\norm{\lambda E} = \abs{\lambda} \norm{E}$) and positive definiteness ($\norm{E} = 0 \iff E = q(0)$).
+        Next define $\lambda : \R^{d \times n}/\Sigma_n \to \R$ by
+        \[
+            \lambda(E)
+            := \f{\tanh(\norm{E})}{\norm{E}}
+        \]
+        and observe that $\lambda$ is continuous.
+        Now consider the map $\Hat{s} : \R^{d \times n}/\Sigma_n \to \R^{d \times n}$ given by
+        \[
+            \Hat{s}(E)
+            := \f{1}{\lambda(E)} s\bigp{\lambda(P) E}.
+        \]
+        Note that this is well-defined since
+        \[
+            \norm{\lambda(E) E}
+            = \f{\tanh{\norm{E}}}{\norm{E}} \norm{E}
+            = \tanh(\norm{E})
+            \in [0,1)
+        \]
+        so $\lambda(E) E \in q[B(0,1)] = U$.
+
+        Now let $E \in \R^{d \times n}$ and let $A \in \inv{q}(E)$.
+        We then have that 
+        \begin{align*}
+            \Hat{s}(P)
+            &= \f{1}{\lambda(E)} s\bigp{\lambda(E) q(A)} \\
+            &= \f{1}{\lambda(E)} s\bigp{q(\lambda(E) A)} \tag{permutation and scaling commute} \\
+            &= \f{1}{\lambda(E)} \bigp{\lambda (E) A} \sigma \sigma \tag{for some $\sigma \in \Sigma_n$} \\
+            &= A\sigma
+        \end{align*}
+        and so $q(\Hat{s})(E) = E$.
+        This means that $\Hat{s}$ is a global section of $q$, but we saw in \ref{thm:no-Sigman-canon-for-dxn} that this is impossible.
+        We conclude that there can be no local section of $q$ at $q(0)$, and hence $\ssecat(q) = \infty$.
+    \end{proof}
+\end{theorem}
+
+
 % TODO: try norm sorting, or some other canonicalization
