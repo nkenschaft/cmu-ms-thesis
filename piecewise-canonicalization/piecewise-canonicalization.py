@@ -393,14 +393,18 @@ if __name__ == "__main__":
     #mlp_hidden_dims = tuple(parser.parse_args().mlp_hidden_dims) if parser.parse_args().mlp_hidden_dims is not None else (d*n, d*n)
     #polynomial = tuple(parser.parse_args().polynomial)
     #group = parser.parse_args().group
-    for d in [2,3,5]:
-        for n in [d, d+1, 10]:
+    # for d in [2,3,5]:
+        # for n in [d, d+1, 10]:
+    for d in [3, 4, 5, 10, 20, 50, 100]:
+        for n in [d, d+1, 10, 20, 50, 100]:#, 1000]:
+            if n < d:
+                continue
             print(f"Running for d={d}, n={n}...")
             generate_comparison(d=d,
                                 n=n,
-                                num_epochs=500,
+                                num_epochs=1000,
                                 batch_size=500,
-                                mlp_hidden_dims=(128,),
+                                mlp_hidden_dims=(1024,),
                                 polynomial=(0,1,1,),
                                 group=Group.SYMMETRIC,
                                 save=True,
